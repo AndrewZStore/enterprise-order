@@ -12,9 +12,6 @@ import locale from 'element-ui/lib/locale/lang/zh-CN'
 
 import '@/icons'
 
-import '@/styles/index.scss' // global css
-
-
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
 
