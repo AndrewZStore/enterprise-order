@@ -9,7 +9,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+  font-family:Microsoft YaHei, Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB,  Arial, sans-serif;
 }
 
 label {
@@ -187,4 +187,11 @@ aside {
 
 .multiselect--active {
   z-index: 1000 !important;
+}
+
+.mianBackground{
+  background: linear-gradient(to right,#7c7c7c,#4b4b4b)
+}
+.mianColor{
+  color: #525252;
 }
