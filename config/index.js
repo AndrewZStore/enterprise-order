@@ -10,7 +10,16 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+         // /api 自定义服务代理名字
+        '/api': {
+            target: "http://139.199.171.89:8900/manager", //代理帮助你请求的具体服务
+            changeOrigin: true, // 开启代理
+            pathRewrite: {  // 格式化path 
+                "^/api": ""
+            }
+        }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
