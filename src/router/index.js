@@ -12,6 +12,10 @@ export default new Router({
     {
     	path: '/login',
     	component: () => import('@/views/login/index')
+    },
+    {
+      path: '/merchant',
+      component: () => import('@/views/merchant/index')
     }
   ]
 })
