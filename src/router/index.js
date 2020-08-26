@@ -20,6 +20,10 @@ export default new Router({
     {
       path: '/home',
       component: () => import('@/views/home/index')
+    },
+    {
+      path: '/my',
+      component: () => import('@/views/my/index')
     }
   ]
 })

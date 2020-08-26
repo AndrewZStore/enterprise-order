@@ -58,6 +58,7 @@
 </template>
 
 <script>
+import { login } from '@/api/user'
 
 export default {
   name: 'Login',
@@ -105,6 +106,10 @@ export default {
         if (valid) {
           this.loading = true
           // 请求接口
+          console.log('here')
+          login(this.loginForm).then(resp => {
+            console.log('login succeed.')
+          })
         } else {
           console.log('error submit!!')
           return false
