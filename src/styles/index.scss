@@ -189,9 +189,14 @@ aside {
   z-index: 1000 !important;
 }
 
-.mianBackground{
+.mianBackground {
   background: linear-gradient(to right,#7c7c7c,#4b4b4b)
 }
-.mianColor{
+.mianColor {
   color: #525252;
+}
+.clearfix {
+  clear: both;
+  content: '';
+  display: block; 
 }

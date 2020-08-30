@@ -8,7 +8,7 @@ import request from "@/utils/request";
  */
 export function getTimeQuantum(data) {
   return request({
-    url: "app/getEatTime",
+    url: "app/getShop",
     method: "post",
     data
   });

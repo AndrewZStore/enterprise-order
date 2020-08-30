@@ -16,6 +16,20 @@ export default new Router({
     {
       path: '/home',
       component: () => import('@/views/home/index')
+    },
+    {
+      path: '/my',
+      component: () => import('@/views/my/index')
+    },
+    {
+      path: '/orderList',
+      component: () => import('@/views/orderList/index'),
+      children: [
+        {
+          path: '/detail',
+          component: () => import('@/views/orderList/detail')
+        }
+      ]
     }
   ]
 })
