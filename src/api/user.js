@@ -1,4 +1,3 @@
-
 import request from "@/utils/request";
  
 /**
@@ -8,7 +7,7 @@ import request from "@/utils/request";
  */
 export function login(data) {
   return request({
-    url: "app/login",
+    url: "/manager/app/login",
     method: "post",
     data
   });
@@ -21,7 +20,7 @@ export function login(data) {
  */
 export function getTimeQuantum(data) {
   return request({
-    url: "app/getEatTime",
+    url: "/manager/app/getEatTime",
     method: "post",
     data
   });

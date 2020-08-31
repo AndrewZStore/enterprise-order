@@ -6,7 +6,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">登 录</h3>
+        <h3 class="title">登&nbsp;录</h3>
       </div>
 
       <div class="logo">
@@ -52,7 +52,7 @@
         </el-form-item>
       </div>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-top:80px;" @click.native.prevent="handleLogin">登录</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-top:80px;padding:15px;" @click.native.prevent="handleLogin">登&nbsp;录</el-button>
     </el-form>
   </div>
 </template>
@@ -105,10 +105,11 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          // 请求接口
-          console.log('here')
-          login(this.loginForm).then(resp => {
-            console.log('login succeed.')
+          this.$store.dispatch('user/login', this.loginForm).then(() => {
+            this.$router.push({ path: this.redirect || '/merchant' })
+            this.loading = false
+          }).catch(() => {
+            this.loading = false
           })
         } else {
           console.log('error submit!!')
@@ -140,10 +141,11 @@ export default {
 }
 
 .logo {
-  padding-top: 20px;
-  position: absolute;
-  left: 50%;
-  margin-left: -40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 80px
 }
 
 .logo img {
@@ -152,8 +154,7 @@ export default {
 }
 
 .el-form {
-  position: relative;
-  width: 520px;
+  width: 95%;
   max-width: 80%;
   margin: 0 auto;
   overflow: hidden;
@@ -161,7 +162,8 @@ export default {
 
 .el-form-item {
   position: relative;
-  margin-top: 30px;
+  margin-top: 80px;
+  margin-left: 10px;
 }
 
 .el-divider {
@@ -191,7 +193,7 @@ export default {
 
 .show-pwd {
   position: absolute;
-  right: 15px;
+  right: 40px;
 }
 
 .el-button {

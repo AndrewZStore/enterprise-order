@@ -15,14 +15,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/zh-CN'
 
 import '@/icons'
-
-
 import '@/styles/index.scss' // global css
-
-import axios from 'axios'
-Vue.prototype.$axios = axios
-axios.defaults.VUE_APP_BASE_API = 'http://139.199.171.89:8900/manager'  //关键代码
-axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 
 // set ElementUI lang to EN

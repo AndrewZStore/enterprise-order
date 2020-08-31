@@ -9,10 +9,10 @@ const service = axios.create({
   withCredentials: true, // 跨域请求时发送Cookie
   timeout: 60000, // 请求超时
   headers: {
-    "Content-Type": "application/json;q=1.0,*/*;q=0.1",
-  },
+    'Content-Type': "application/json;charset=utf-8"
+  }
 });
- 
+
 /**
  * 全局 请求拦截器, 支持添加多个拦截器
  * 例如: 配置token、添加一些默认的参数

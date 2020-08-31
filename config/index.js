@@ -13,7 +13,7 @@ module.exports = {
     proxyTable: {
          // /api 自定义服务代理名字
         '/api': {
-            target: "http://139.199.171.89:8900/manager", //代理帮助你请求的具体服务
+            target: "http://139.199.171.89:8900", //代理帮助你请求的具体服务
             changeOrigin: true, // 开启代理
             pathRewrite: {  // 格式化path 
                 "^/api": ""
@@ -22,7 +22,7 @@ module.exports = {
     },
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
+    // host: 'localhost', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,
     errorOverlay: true,
