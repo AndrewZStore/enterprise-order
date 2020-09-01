@@ -33,6 +33,18 @@ export const constantRoutes = [
     {
       path: '/test',
       component: () => import('@/views/test/index')
+    },
+
+    {
+      path: '/orderList',
+      component: () => import('@/views/orderList/index'),
+      children: [
+        {
+          path: '/detail',
+          component: () => import('@/views/orderList/detail')
+        }
+      ]
+
     }
 ]
 

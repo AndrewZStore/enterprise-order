@@ -189,3 +189,15 @@ aside {
 .multiselect--active {
   z-index: 1000 !important;
 }
+
+.mianBackground {
+  background: linear-gradient(to right,#7c7c7c,#4b4b4b)
+}
+.mianColor {
+  color: #525252;
+}
+.clearfix {
+  clear: both;
+  content: '';
+  display: block; 
+}
