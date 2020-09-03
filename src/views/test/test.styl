@@ -1,0 +1,33 @@
+.cascad-menu
+    display flex
+    position absolute
+    top 200px
+    bottom 200px
+    width 100%
+    border 1px solid red
+    overflow hidden
+    .left-menu
+      flex 0 0 80px
+      width 160px
+      background #f3f5f7
+      .left-item
+        height 108px
+        width 100%
+        &.current
+          width 200%
+          background #fff
+        .text
+          width 100%
+          line-height 108px
+    .right-menu
+      flex 1
+      .right-item
+        height 100%
+        border 1px solid #ccc
+        .title
+          border-bottom 1px solid #ccc
+          height 40px
+        .data-wrapper
+          .data
+            line-height 80px
+            height 80px

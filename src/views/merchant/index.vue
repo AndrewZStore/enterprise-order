@@ -11,44 +11,53 @@
 		  <van-swipe-item>3</van-swipe-item>
 		  <van-swipe-item>4</van-swipe-item>
 		</van-swipe>
-		<div class="content">
-			<van-tabs v-model="activeName">
-				<van-tab title="点餐" name="order">
-					<div id="wrap">
-						<div class="goodMenu" ref="goodMenu">
-							<ul>
-							  <li v-for="(item ,index) in goodMenu" :key="index"
-							   :class="{active: currentIndex === index}"
-							   @click="selectLeft(index)" ref="lItem">{{ item}}</li>
-							</ul>
-						</div>
-						<div class="goodList" ref="goodList">
-							<ul>
-							  <li v-for="(items, index) in goodList" :key="index" ref="rItem">
-							    <p>{{ items.name}}</p>
-
-							    <div v-for="(item, key) in items.data" :key="key">
-							      {{ item}}
-							    </div>
-							  </li>
-							</ul>
-						</div>
-					</div>
-					<!-- <van-card
-						v-for="(item, index) in goodMenu"
-						:price="item.price"
-						:desc="item.desc"
-						:title="item.title"
-						:thumb="item.thumb"
-					>
-						<template #num>
-							<van-stepper v-model="item.num" theme="round" disable-input />
-						</template>
-					</van-card> -->
-				</van-tab>
-				<van-tab title="商家" name="shop"></van-tab>
-			</van-tabs>
-		</div>
+		<van-tabs v-model="activeName">
+			<van-tab title="点餐" name="order">
+				<div class="cascad-menu" ref="cascadMenu">
+				    <scroll
+				      class="left-menu"
+				      :data="menus"
+				      ref="leftMenu">
+				      <div class="left-menu-container">
+				        <ul>
+				          <li
+				            class="left-item"
+				            ref="leftItem"
+				            :class="{'current': currentIndex === index}"
+				            @click="selectLeft(index, $event)"
+				            v-for="(menu, index) in menus"
+				            :key="index">
+				            <p class="text">{{menu.name}}</p>
+				          </li>
+				        </ul>
+				      </div>
+				    </scroll>
+				    <scroll
+				      class="right-menu"
+				      :data="menus" 
+				      ref="rightMenu"
+				      @scroll="scrollHeight"
+				      :listenScroll="true"
+				      :probeType="3">
+				      <div class="right-menu-container">
+				        <ul>
+				          <li class="right-item" ref="rightItem" v-for="(menu, i) in menus" :key="i">
+				            <div class="title">{{menu.name}}</div>
+				            <ul>
+				              <li v-for="(item, j) in menu.data" :key="j">
+				                <div class="data-wrapper">
+				                  <div class="data">{{item.name}}</div>
+				                </div>
+				              </li>
+				            </ul>
+				          </li>
+				        </ul>
+				      </div>
+				    </scroll>
+				  </div>
+			</van-tab>
+			<van-tab title="商家" name="shop"></van-tab>
+		</van-tabs>
 		<van-goods-action>
 			<van-goods-action-icon icon="cart" @click="onClick" />
 			<span>￥1889</span>
@@ -60,90 +69,111 @@
 </template>
 
 <script>
-import BScroll from "better-scroll"
+import BScroll from 'better-scroll'
+import Scroll from './scroll'
 
 export default {
 	name: 'merchant',
 	data() {
 		return {
-			goodMenu: ['菜单1', '菜单2','菜单3', '菜单4', '菜单5', '菜单6', '菜单7', '菜单8'],
-			goodList: [
-				{ name: '菜单1', data: ['1.1', '1.2', '1.3', '1.4', '1.5']},
-				{ name: '菜单2', data: ['1.1', '1.2', '1.3', '1.4', '1.5', '1.6']},
-				{ name: '菜单3', data: ['1.1', '1.2', '1.3', '1.4', '1.5']},
-				{ name: '菜单4', data: ['1.1', '1.2', '1.3', '1.4', '1.5']},
-				{ name: '菜单5', data: ['1.1', '1.2', '1.3', '1.4', '1.5', '1.6', '1.7', '1.8']},
-				{ name: '菜单6', data: ['1.1', '1.2', '1.3', '1.4', '1.5']},
-				{ name: '菜单7', data: ['1.1', '1.2', '1.3', '1.4']},
-				{ name: '菜单8', data: ['1.1', '1.2']},
-			],
-			//获取实时滚动位置
-			scrollY: 0,
-			//获取每一个li的高度
-			heightList: [],
 			shopName: '麻辣小龙虾',
 			activeName: "order",
 			show: false,
-			goodMenua: [
+			rightTops: [],
+			scrollY: 0,
+			leftScrollY: 0,
+			menus: [
 				{
-					num: 0,
-					price: 10,
-					desc: "test",
-					title: "test",
-					thumb: "https://img.yzcdn.cn/vant/ipad.jpeg"
+				  name: '菜单1',
+				  data: [
+				    {
+				      name: '1.1'
+				    },
+				    {
+				      name: '1.2'
+				    },
+				    {
+				      name: '1.3'
+				    },
+				    {
+				      name: '1.4'
+				    },
+				    {
+				      name: '1.5'
+				    },
+				    {
+				      name: '1.6'
+				    }
+				  ]
+				},
+				{
+				  name: '菜单2',
+				  data: [
+				    {
+				      name: '1.1'
+				    },
+				    {
+				      name: '1.2'
+				    },
+				    {
+				      name: '1.3'
+				    },
+				    {
+				      name: '1.4'
+				    },
+				    {
+				      name: '1.5'
+				    },
+				    {
+				      name: '1.6'
+				    },
+				  ]
+				},
+				{
+				  name: '菜单3',
+				  data: [
+				    {
+				      name: '1.1'
+				    },
+				    {
+				      name: '1.2'
+				    },
+				    {
+				      name: '1.3'
+				    },
+				    {
+				      name: '1.4'
+				    },
+				    {
+				      name: '1.5'
+				    },
+				    {
+				      name: '1.6'
+				    }
+				  ]
 				}
 			]
 		}
 	},
+	computed: {
+    currentIndex () {
+			const { scrollY, rightTops } = this
+			let index = rightTops.findIndex((height, index) => {
+				return scrollY >= rightTops[index] && scrollY < rightTops[index + 1]
+			})
+			if (scrollY > rightTops[index] + 50) {
+				console.log(scrollY, rightTops[index])
+				index++;
+			}
+			return index
+		}
+  	},
 	created() {
-        //因为 _scrollInit函数需要操作DOM，因此必须在DOM元素存在文档中才能获取DOM节点
-        //因此在 nextTick回调函数里面调用可以是实现此功能
-        this.$nextTick(() => { 
-            this._scrollInit()
-            this.getHeight()
-        }) 
-    },
-    computed: {
-        currentIndex(){
-            const index = this.heightList.findIndex((item, index) =>{
-                return this.scrollY >= this.heightList[index] && this.scrollY < this.heightList[index + 1]
-            })
-
-        	return index > 0 ? index : 0
-        }
-    },
+		this.$nextTick(() => {
+		  this._calculateHeight()
+		})
+	},
 	methods: {
-		selectLeft (index) {
-	        let rItem = this.$refs.rItem
-	        let el = rItem[index]
-	        this.goodmenu.scrollToElement(el, 1000)
-	    },
-		//初始化 better-scroll
-        _scrollInit() {
-            this.menuList = new BScroll(this.$refs.goodMenu, {
-                click: true
-            })
-
-            this.goodmenu = new BScroll(this.$refs.goodList, {
-                probeType: 3
-            })
-	        this.goodmenu.on('scroll', (pos) =>{
-	            //获取实时滚动的距离 使用scrollY接收         
-	            this.scrollY = Math.abs(Math.round(pos.y))
-	        })
-        },
-        getHeight(){
-            //获取每一个li的高度
-            const lis = this.$refs.rItem
-            //heightList的第一个元素为0
-            let height = 0
-            this.heightList.push(height)
-            //之后的高度即为当前li的高度加上之前面li的高度和
-            lis.forEach(item =>{
-            height += item.clientHeight
-               this.heightList.push(height)
-            })
-        },
 		goback() {
 			// 
 		},
@@ -156,14 +186,41 @@ export default {
 		},
 		onChange(index) {
 			Notify({ type: 'primary', message: index})
+		},
+		selectLeft (index, event) {
+		  	// console.log(index)
+			if (!event._constructed) {
+				return
+			}
+			let rightItem = this.$refs.rightItem
+			let el = rightItem[index]
+			this.$refs.rightMenu.scrollToElement(el, 300)
+		},
+		scrollHeight (pos) {
+		  // console.log(pos);
+		  this.scrollY = Math.abs(Math.round(pos.y))
+		},
+		_calculateHeight() {
+			let lis = this.$refs.rightItem
+			// console.log(lis)
+			let height = 0
+			this.rightTops.push(height)
+			Array.prototype.slice.call(lis).forEach(li => {
+			height += li.clientHeight
+			this.rightTops.push(height)
+			})
+			// console.log(this.rightTops)
 		}
+	},
+	components: {
+		Scroll
 	}
 }
 </script>
 
 <style>
 .merchant-container {
-	overflow: hidden;
+	height: 100%;
 }
 
 .my-swipe .van-swipe-item {
@@ -178,14 +235,54 @@ export default {
 	z-index: 9999;
 }
 
-.goodMenu {
-    float: left;
+
+.cascad-menu {
+	display: flex;
+	position: absolute;
+	top: 200px;
+	bottom: 200px;
+	width: 100%;
+	overflow: hidden;
 }
 
-.goodList {
-    float: left;
-    margin-left: 20px;
-    overflow: auto;
-    height: 1000px;
+.cascad-menu .left-menu {
+	flex:0 0 80px;
+	width: 320px;
+	background:#f3f5f7;
 }
+
+.cascad-menu .left-menu .left-item {
+	height: 108px;
+	width: 100%;
+}
+
+.cascad-menu .left-menu .left-item.current {
+	width:200%;
+	background:#fff;
+}
+
+.cascad-menu .left-menu .left-item .text {
+	width:100%;
+	line-height:108px;
+}
+
+.cascad-menu .right-menu {
+	flex:1;
+}
+
+.cascad-menu .right-menu .right-item {
+	height:100%;
+	border:1px solid #ccc;
+}
+
+.cascad-menu .right-menu .right-item .title {
+	border-bottom:1px solid #ccc;
+	height:40px;
+}
+
+.cascad-menu .right-menu .right-item .data-wrapper .data {
+	line-height:80px;
+	height:80px;
+}
+
 </style>
