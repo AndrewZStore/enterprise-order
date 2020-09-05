@@ -2,15 +2,17 @@
 	<div class="merchant-container">
 		<van-nav-bar left-arrow @click-left="goback">
 			<template #title>
-				<span>{{ shopName }}</span>
+				<span>{{ merchantName }}</span>
 			</template>
 		</van-nav-bar>
-		<van-swipe class="my-swipe" :autoplay="1000" indicator-color="white">
+
+		<van-swipe class="my-swipe" :autoplay="2000" indicator-color="white">
 		  <van-swipe-item>1</van-swipe-item>
 		  <van-swipe-item>2</van-swipe-item>
 		  <van-swipe-item>3</van-swipe-item>
 		  <van-swipe-item>4</van-swipe-item>
 		</van-swipe>
+
 		<van-tabs v-model="activeName">
 			<van-tab title="点餐" name="order">
 				<div class="cascad-menu" ref="cascadMenu">
@@ -27,7 +29,7 @@
 				            @click="selectLeft(index, $event)"
 				            v-for="(menu, index) in menus"
 				            :key="index">
-				            <p class="text">{{menu.name}}</p>
+				            <p class="text">{{ menu.name }}</p>
 				          </li>
 				        </ul>
 				      </div>
@@ -42,11 +44,30 @@
 				      <div class="right-menu-container">
 				        <ul>
 				          <li class="right-item" ref="rightItem" v-for="(menu, i) in menus" :key="i">
-				            <div class="title">{{menu.name}}</div>
+				            <div class="title">{{ menu.name }}</div>
 				            <ul>
 				              <li v-for="(item, j) in menu.data" :key="j">
 				                <div class="data-wrapper">
-				                  <div class="data">{{item.name}}</div>
+				                  <van-card
+				                  	:title="item.name"
+				                  	:thumb="item.img"
+				                  >
+				                  	<template #price>
+				                  		<span style="color:red;">￥99</span>
+				                  	</template>
+				                  	<template #num>
+			                  			<van-button round icon="plus" type="info" v-if="!item.value" @click="plusNum(item)" size="22" style="width:22px;height:22px" />
+				                  		<van-stepper
+				                  			v-else
+				                  			v-model="item.value" 
+				                  			min=0 
+				                  			theme="round" 
+				                  			button-size="22" 
+				                  			:show-input="false"
+				                  			disable-input
+				                  			/>
+				                  	</template>
+				                  </van-card>
 				                </div>
 				              </li>
 				            </ul>
@@ -56,15 +77,16 @@
 				    </scroll>
 				  </div>
 			</van-tab>
-			<van-tab title="商家" name="shop"></van-tab>
+			<van-tab title="商家" name="merchant"></van-tab>
 		</van-tabs>
+
 		<van-goods-action>
 			<van-goods-action-icon icon="cart" @click="onClick" />
 			<span>￥1889</span>
 			<van-goods-action-button type="primary" text="去结算" />
 		</van-goods-action>
 
-		<van-popup v-model="show" round position="bottom" :style="{ height: '30%' }" />
+		<van-popup v-model="popupVisible" round position="bottom" :style="{ height: '30%' }" />
 	</div>
 </template>
 
@@ -74,35 +96,60 @@ import Scroll from './scroll'
 
 export default {
 	name: 'merchant',
+	components: {
+		Scroll
+	},
 	data() {
 		return {
-			shopName: '麻辣小龙虾',
+			// 商家名称
+			merchantName: '麻辣小龙虾',
+			// 当前选项卡名称
 			activeName: "order",
-			show: false,
+			// 弹出框是否显示
+			popupVisible: false,
+
+			// 步进器是否显示
+			stepperVisible: true,
+
+			// 左右菜单联动属性
 			rightTops: [],
 			scrollY: 0,
 			leftScrollY: 0,
+
+			// 菜单列表
 			menus: [
 				{
-				  name: '菜单1',
+				  name: '甜点',
 				  data: [
 				    {
-				      name: '1.1'
+				      name: '1.1',
+				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      value: 0
 				    },
 				    {
-				      name: '1.2'
+				      name: '1.2',
+				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      value: 0
 				    },
 				    {
-				      name: '1.3'
+				      name: '1.3',
+				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      value: 0
 				    },
 				    {
-				      name: '1.4'
+				      name: '1.4',
+				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      value: 0
 				    },
 				    {
-				      name: '1.5'
+				      name: '1.5',
+				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      value: 0
 				    },
 				    {
-				      name: '1.6'
+				      name: '1.6',
+				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      value: 0
 				    }
 				  ]
 				},
@@ -110,22 +157,34 @@ export default {
 				  name: '菜单2',
 				  data: [
 				    {
-				      name: '1.1'
+				      name: '1.1',
+				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      value: 0
 				    },
 				    {
-				      name: '1.2'
+				      name: '1.2',
+				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      value: 0
 				    },
 				    {
-				      name: '1.3'
+				      name: '1.3',
+				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      value: 0
 				    },
 				    {
-				      name: '1.4'
+				      name: '1.4',
+				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      value: 0
 				    },
 				    {
-				      name: '1.5'
+				      name: '1.5',
+				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      value: 0
 				    },
 				    {
-				      name: '1.6'
+				      name: '1.6',
+				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      value: 0
 				    },
 				  ]
 				},
@@ -133,22 +192,34 @@ export default {
 				  name: '菜单3',
 				  data: [
 				    {
-				      name: '1.1'
+				      name: '1.1',
+				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      value: 0
 				    },
 				    {
-				      name: '1.2'
+				      name: '1.2',
+				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      value: 0
 				    },
 				    {
-				      name: '1.3'
+				      name: '1.3',
+				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      value: 0
 				    },
 				    {
-				      name: '1.4'
+				      name: '1.4',
+				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      value: 0
 				    },
 				    {
-				      name: '1.5'
+				      name: '1.5',
+				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      value: 0
 				    },
 				    {
-				      name: '1.6'
+				      name: '1.6',
+				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      value: 0
 				    }
 				  ]
 				}
@@ -156,13 +227,13 @@ export default {
 		}
 	},
 	computed: {
-    currentIndex () {
+    	currentIndex () {
 			const { scrollY, rightTops } = this
 			let index = rightTops.findIndex((height, index) => {
 				return scrollY >= rightTops[index] && scrollY < rightTops[index + 1]
 			})
 			if (scrollY > rightTops[index] + 50) {
-				console.log(scrollY, rightTops[index])
+				// console.log(scrollY, rightTops[index])
 				index++;
 			}
 			return index
@@ -174,19 +245,23 @@ export default {
 		})
 	},
 	methods: {
+		// 返回上级页面
 		goback() {
 			// 
 		},
+		// 菜品加数据
+		plusNum(item) {
+			item.value += 1
+			
+		},
 		onClick() {
-			if (this.show) {
-				this.show = false
+			if (this.popupVisible) {
+				this.popupVisible = false
 			} else {
-				this.show = true
+				this.popupVisible = true
 			}
 		},
-		onChange(index) {
-			Notify({ type: 'primary', message: index})
-		},
+
 		selectLeft (index, event) {
 		  	// console.log(index)
 			if (!event._constructed) {
@@ -211,78 +286,76 @@ export default {
 			})
 			// console.log(this.rightTops)
 		}
-	},
-	components: {
-		Scroll
 	}
 }
 </script>
 
 <style>
-.merchant-container {
-	height: 100%;
-}
+	.merchant-container {
+		height: 100%;
+	}
 
-.my-swipe .van-swipe-item {
-  color: #fff;
-  font-size: 20px;
-  line-height: 150px;
-  text-align: center;
-  background-color: #39a9ed;
-}
+	.my-swipe .van-swipe-item {
+	  color: #fff;
+	  font-size: 20px;
+	  line-height: 150px;
+	  text-align: center;
+	  background-color: #39a9ed;
+	}
 
-.van-goods-action {
-	z-index: 9999;
-}
+	.van-goods-action {
+		z-index: 9999;
+	}
 
 
-.cascad-menu {
-	display: flex;
-	position: absolute;
-	top: 200px;
-	bottom: 200px;
-	width: 100%;
-	overflow: hidden;
-}
+	.cascad-menu {
+		display: flex;
+		height: 1000px;
+		width: 100%;
+		overflow: hidden;
+	}
 
-.cascad-menu .left-menu {
-	flex:0 0 80px;
-	width: 320px;
-	background:#f3f5f7;
-}
+	.cascad-menu .left-menu {
+		flex: 0 0 160px;
+		width: 320px;
+		background: #f3f5f7;
+	}
 
-.cascad-menu .left-menu .left-item {
-	height: 108px;
-	width: 100%;
-}
+	.cascad-menu .left-menu .left-item {
+		height: 108px;
+		width: 100%;
+	}
 
-.cascad-menu .left-menu .left-item.current {
-	width:200%;
-	background:#fff;
-}
+	.cascad-menu .left-menu .left-item.current {
+		width: 200%;
+		background: #fff;
+	}
 
-.cascad-menu .left-menu .left-item .text {
-	width:100%;
-	line-height:108px;
-}
+	.cascad-menu .left-menu .left-item .text {
+		width: 100%;
+		line-height: 108px;
+	}
 
-.cascad-menu .right-menu {
-	flex:1;
-}
+	.cascad-menu .right-menu {
+		flex: 1;
+	}
 
-.cascad-menu .right-menu .right-item {
-	height:100%;
-	border:1px solid #ccc;
-}
+	.cascad-menu .right-menu .right-item {
+		height: 100%;
+		border: 1px solid #ccc;
+	}
 
-.cascad-menu .right-menu .right-item .title {
-	border-bottom:1px solid #ccc;
-	height:40px;
-}
+	.cascad-menu .right-menu .right-item .title {
+		border-bottom: 1px solid #ccc;
+		height: 40px;
+	}
 
-.cascad-menu .right-menu .right-item .data-wrapper .data {
-	line-height:80px;
-	height:80px;
-}
+	.cascad-menu .right-menu .right-item .data-wrapper .data {
+		line-height: 80px;
+		height: 80px;
+	}
 
+	.van-stepper__plus, .van-stepper__minus {
+		background: #1989fa;
+	}
 </style>

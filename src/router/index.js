@@ -29,11 +29,6 @@ export const constantRoutes = [
       path: '/my',
       component: () => import('@/views/my/index')
     },
-    
-    {
-      path: '/test',
-      component: () => import('@/views/test/index')
-    },
 
     {
       path: '/orderList',

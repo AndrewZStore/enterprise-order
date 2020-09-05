@@ -47,130 +47,149 @@
 </template>
 
 <style>
-	.header{
+	.header {
 		height: 350px;
 		background: url(../../assets/mine.jpg) no-repeat center;
 		color: #fff;
 		background-size: 100%; 
 	}
-	.header .van-nav-bar{
+
+	.header .van-nav-bar {
 		height: 100px;
 		line-height:100px;
 		background: transparent;
-		padding: 25px 0 
+		padding: 25px 0;
 	}
-	.header .van-nav-bar__title{
+
+	.header .van-nav-bar__title {
 		font-size: 40px;
 		color: #fff;
-		letter-spacing: 10px
+		letter-spacing: 10px;
 	}
-	[class*=van-hairline]::after{
+
+	[class*=van-hairline]::after {
 		border-bottom:0;
 	}
+
 	.my-account {
-    color: #333;
-    position: relative;
-    display: block;
-    height: 160px;
-    position: relative;
-    padding-right: 20px;
+	    color: #333;
+	    position: relative;
+	    display: block;
+	    height: 160px;
+	    position: relative;
+	    padding-right: 20px;
 		padding-bottom: 20px;
-		margin-top: 50px
+		margin-top: 50px;
 	}
+
 	.my-account .avater {
-    position: absolute;
-    top: 20px;
-    left: 40px;
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border:1px solid #fff;
+	    position: absolute;
+	    top: 20px;
+	    left: 40px;
+	    width: 120px;
+	    height: 120px;
+	    border-radius: 50%;
+	    border:1px solid #fff;
 	}
+
 	.my-account .user-info {
-    z-index: 1;
-    position: relative;
-    height: 100%;
-    padding: 25px 20px;
-    margin-right: 20px;
-    box-sizing: border-box;
-    padding-left: 200px;
-    font-size: 24px;
-    color: #fff;
+	    z-index: 1;
+	    position: relative;
+	    height: 100%;
+	    padding: 25px 20px;
+	    margin-right: 20px;
+	    box-sizing: border-box;
+	    padding-left: 200px;
+	    font-size: 24px;
+	    color: #fff;
 	}
-	.my-account .uname{
+
+	.my-account .uname {
 		font-size: 30px;
 		margin: 5px 0;
 	}
-	.my-account .unum{
+
+	.my-account .unum {
 		font-size:24px;
 	}
-	.my-account .department{
+
+	.my-account .department {
 		display: inline-block;
 		color: #fff;
 		border:1px solid #fff;
 		font-size: 10px;
 		font-style: normal;
-    padding: 4px 8px;
-    border-radius: 6px;
-    margin-left: 20px;
+	    padding: 4px 8px;
+	    border-radius: 6px;
+	    margin-left: 20px;
 	}
+
 	dl.list {
-    margin-top: 20px;
-    margin-bottom: 0;
-    background-color: #fff;
+	    margin-top: 20px;
+	    margin-bottom: 0;
+	    background-color: #fff;
 	}
+
 	dl.list dd {
-    margin: 0;
-    border-bottom: 1px solid #DDD8CE;
-    overflow: hidden;
-    font-size: 35px;
-    font-weight: 400;
-    position: relative;
-    line-height: 40px;
-    padding-left: 90px
+	    margin: 0;
+	    border-bottom: 1px solid #DDD8CE;
+	    overflow: hidden;
+	    font-size: 35px;
+	    font-weight: 400;
+	    position: relative;
+	    line-height: 40px;
+	    padding-left: 90px;
 	}
+
 	dl.list dd>.react {
-    padding: 28px 20px;
+    	padding: 28px 20px;
 	}
+
 	.more-weak {
-    position: relative;
-    padding-right: 30px;
-    width: 100%;
-    box-sizing: border-box;
+	    position: relative;
+	    padding-right: 30px;
+	    width: 100%;
+	    box-sizing: border-box;
 	}
+
 	.more-weak:after {
-    position: absolute;
-    right: 25px;
-    top: 50%;
-    display: block;
-    content: '';
-    width: 30px;
-    height: 30px;
-    border-left: 4px solid #b5b5b5;
-    border-bottom: 4px solid #b5b5b5;
-    -webkit-transform: translateY(-50%) scaleY(0.7) rotateZ(-135deg);
-    -moz-transform: translateY(-50%) scaleY(0.7) rotateZ(-135deg);
-    -ms-transform: translateY(-50%) scaleY(0.7) rotateZ(-135deg);
+	    position: absolute;
+	    right: 25px;
+	    top: 50%;
+	    display: block;
+	    content: '';
+	    width: 30px;
+	    height: 30px;
+	    border-left: 4px solid #b5b5b5;
+	    border-bottom: 4px solid #b5b5b5;
+	    -webkit-transform: translateY(-50%) scaleY(0.7) rotateZ(-135deg);
+	    -moz-transform: translateY(-50%) scaleY(0.7) rotateZ(-135deg);
+	    -ms-transform: translateY(-50%) scaleY(0.7) rotateZ(-135deg);
 	}
-	.more-weak i{
+
+	.more-weak i {
 		position: absolute;
 		width: 50px;
 		height: 50px;
 		left: -65px;
 	}
-	.list-order{
+
+	.list-order {
 		background: url(../../assets/icon-list.png) no-repeat center;
 		background-size: 50px;
 	}
-	.modify-pwd{
+
+	.modify-pwd {
 		background: url(../../assets/icon-pwd.png) no-repeat center;
 		background-size: 50px;
 	}
-	.complain-icon{
+
+	.complain-icon {
 		background: url(../../assets/icon-advise.png) no-repeat center;
 		background-size: 50px;
 	}
-	.exit-icon{
+
+	.exit-icon {
 		background: url(../../assets/icon-exit.png) no-repeat center;
 		background-size: 50px;
 	}
