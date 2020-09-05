@@ -13,7 +13,11 @@
 		  <van-swipe-item>4</van-swipe-item>
 		</van-swipe>
 
-		<van-tabs v-model="activeName">
+		<van-tabs 
+			v-model="activeName" 
+			background="#e7e9ec"
+			line-height="3px"
+			color="#1989fa">
 			<van-tab title="点餐" name="order">
 				<div class="cascad-menu" ref="cascadMenu">
 				    <scroll
@@ -29,7 +33,7 @@
 				            @click="selectLeft(index, $event)"
 				            v-for="(menu, index) in menus"
 				            :key="index">
-				            <p class="text">{{ menu.name }}</p>
+				            <span class="text">{{ menu.name }}</span>
 				          </li>
 				        </ul>
 				      </div>
@@ -44,7 +48,7 @@
 				      <div class="right-menu-container">
 				        <ul>
 				          <li class="right-item" ref="rightItem" v-for="(menu, i) in menus" :key="i">
-				            <div class="title">{{ menu.name }}</div>
+				            <van-divider :style="{ color: 'black', borderColor: 'black', padding: '5px 16px' }">{{ menu.name }}</van-divider>
 				            <ul>
 				              <li v-for="(item, j) in menu.data" :key="j">
 				                <div class="data-wrapper">
@@ -317,36 +321,30 @@ export default {
 
 	.cascad-menu .left-menu {
 		flex: 0 0 160px;
+		text-align: center;
 		width: 320px;
-		background: #f3f5f7;
+		background: #e7e9ec;
 	}
 
 	.cascad-menu .left-menu .left-item {
-		height: 108px;
+		height: 68px;
 		width: 100%;
 	}
 
 	.cascad-menu .left-menu .left-item.current {
-		width: 200%;
 		background: #fff;
 	}
 
 	.cascad-menu .left-menu .left-item .text {
 		width: 100%;
-		line-height: 108px;
+		line-height: 68px;
 	}
 
 	.cascad-menu .right-menu {
 		flex: 1;
 	}
 
-	.cascad-menu .right-menu .right-item {
-		height: 100%;
-		border: 1px solid #ccc;
-	}
-
 	.cascad-menu .right-menu .right-item .title {
-		border-bottom: 1px solid #ccc;
 		height: 40px;
 	}
 
