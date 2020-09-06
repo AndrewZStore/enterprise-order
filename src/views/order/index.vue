@@ -63,34 +63,37 @@
 			</van-row>
 		</div>
 		<div class="footer van-hairline--surround">
-			<van-card
-			  num="2"
-			  price="2.00"
-			  title="商品标题"
-			  thumb="https://img.yzcdn.cn/vant/ipad.jpeg"
-			>
-			</van-card>
-			<van-card
-			  num="2"
-			  price="2.00"
-			  title="商品标题"
-			  thumb="https://img.yzcdn.cn/vant/ipad.jpeg"
-			>
-			</van-card>
-			<van-card
-			  num="2"
-			  price="2.00"
-			  title="商品标题"
-			  thumb="https://img.yzcdn.cn/vant/ipad.jpeg"
-			>
-			</van-card>
+			<ul>
+        <li v-for="(item, j) in items" :key="j">
+          <div class="card">
+          	<van-row>
+	          	<van-col :span="6">
+		            <van-image :src="item.thumb" />
+	  					</van-col>
+	  					<van-col :span="10">
+		            <span class="card-title">{{ item.title }}</span>
+	  					</van-col>
+	  					<van-col :span="2">
+		            <span class="card-num">x{{ item.num }}</span>
+	  					</van-col>
+	  					<van-col :span="3"></van-col>
+	  					<van-col :span="3">
+	  						<div class="card-total-price">
+		  						<span class="currency-symbol">￥</span>
+			            <span class="card-price">{{ item.price }}</span>
+			          </div>
+	  					</van-col>
+	  				</van-row>
+          </div>
+        </li>
+      </ul>
 			<van-row>
 				<van-col :span="12">
 					<span class="total-text"><b>总金额：</b></span>
 				</van-col>
 				<van-col :span="12">
 					<div class="total-value">
-						<span class="total-symbol">￥</span>
+						<span class="currency-symbol">￥</span>
 						<span class="total-num">297</span>
 					</div>
 				</van-col>
@@ -115,6 +118,24 @@ export default {
 			addrs: [
 				{ name: '嘉定区人民街200弄asdfasdfasdfasfasdfsadfasasdfasdf' },
 				{ name: '嘉定区人民街201弄' }
+			],
+			items: [
+				{
+					"num": 2,
+					"thumb": "https://img.yzcdn.cn/vant/cat.jpeg",
+					"price": 12,
+					"title": "香菇肉丝"
+				}, {
+					"num": 2,
+					"thumb": "https://img.yzcdn.cn/vant/cat.jpeg",
+					"price": 12,
+					"title": "香菇肉丝"
+				}, {
+					"num": 2,
+					"thumb": "https://img.yzcdn.cn/vant/cat.jpeg",
+					"price": 12,
+					"title": "香菇肉丝"
+				}
 			]
 		}
 	},
@@ -164,13 +185,16 @@ export default {
 	box-shadow: 0 0 1px 1px #efefef;
 }
 
-.user-info, .footer {
-	padding: 20px 30px;
+.user-info {
+	padding: 20px 20px;
+}
+
+.footer {
+	padding: 20px 20px;
 }
 
 .merchantName {
 	font-size: 42px;
-	margin: 20px 0;
 	letter-spacing: 2px;
 }
 
@@ -199,7 +223,7 @@ div.total-value {
 	text-align: right;
 }
 
-span.total-symbol {
+span.currency-symbol {
 	font-size: 28px;
 }
 
@@ -215,5 +239,25 @@ span.total-num {
 	padding: 50px;
 	margin-top: 10px;
 	border-radius: 10px;
+}
+
+.van-image {
+	width: 130px;
+	height: 130px;
+}
+
+span.card-title, span.card-num {
+	font-size: 30px;
+}
+
+span.card-price {
+	font-size: 40px;
+}
+
+.card .van-row {
+	display: -webkit-flex;
+  display: flex;
+  -webkit-align-items: center;
+  align-items: center;
 }
 </style>
