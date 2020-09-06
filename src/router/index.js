@@ -40,6 +40,11 @@ export const constantRoutes = [
         }
       ]
 
+    },
+
+    {
+      path: '/confirm',
+      component: () => import ('@/views/order/index')
     }
 ]
 

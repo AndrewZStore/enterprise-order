@@ -52,10 +52,13 @@
 				            <ul>
 				              <li v-for="(item, j) in menu.data" :key="j">
 				                <div class="data-wrapper">
-				                  <van-card
-				                  	:title="item.name"
-				                  	:thumb="item.img"
-				                  >
+				                  <van-card style="height:200px">
+				                  	<template #title>
+				                  		<span>{{ item.title }}</span>
+				                  	</template>
+				                  	<template #thumb>
+				                  		<van-image width="100" height="100" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+				                  	</template>
 				                  	<template #price>
 				                  		<span style="color:red;">￥99</span>
 				                  	</template>
