@@ -8,8 +8,8 @@
 		  @click-right="onClickRight"
 		/>
 
-		<van-tabs v-model="active">
-		  <van-tab title="全部">
+		<van-tabs>
+		  <!-- <van-tab title="全部">
 		  	<div class="order-item">
 		  		<div>
 		  			<span class="shopName">店铺名称</span>
@@ -122,86 +122,113 @@
 			    </div>
 			    <span class="lookMore">查看详情</span>
 				</div>
-		  </van-tab>
-		  <van-tab title="已完成">
-		  	<div class="order-item">
-		  		<div>
-		  			<span class="shopName">店铺名称</span>
-		  			<van-tag plain type="success">已完成</van-tag>
-		  		</div>
-		  		<van-divider />
-			    <div class="order">
-			        <div class="left"><div class="img-ctn"><img class="deal-avatar" src=""></div></div>
-			        <div class="right">
-			            <dl>
-			                <dt class="title">
-			                  <div>新辣道鱼火锅2人餐</div>
-			                  <span class="unitCost">20.50</span>
-			                </dt>
-                      <dt class="item">x 1</dt>
-			            </dl>
-			        </div>
-			    </div>
-			    <div class="order">
-			        <div class="left"><div class="img-ctn"><img class="deal-avatar" src=""></div></div>
-			        <div class="right">
-			            <dl>
-			                <dt class="title">
-			                  <div>新辣道鱼火锅2人餐</div>
-			                  <span class="unitCost">20.50</span>
-			                </dt>
-                      <dt class="item">x 1</dt>
-			            </dl>
-			        </div>
-			    </div>
-			    <div class="clearfix">
-			    	<div class="orderTime">下单时间：<span>2020-08-01</span></div>
-			    	<div class="settlement">共2件商品，实付<i>￥40.00</i></div>
-			    </div>
-			    <span class="lookMore">查看详情</span>
+		  </van-tab> -->
+		  <van-tab title="支付成功">
+			  <div class="tab-title" slot="title" @click="orderSuccess">支付成功</div>
+	    	<div class="tab-content" v-for='item in shopList'>
+		  		<div class="order-item">
+			  		<div>
+			  			<span class="shopName">{{item.shopName}}</span>
+			  			<van-tag plain type="success">已完成</van-tag>
+			  		</div>
+				    <div class="order">
+				        <div class="left"><div class="img-ctn"><img class="deal-avatar" src=""></div></div>
+				        <div class="right">
+				            <dl>
+				                <dt class="title">
+				                  <div>{{item.productName}}</div>
+				                  <span class="unitCost">{{item.productPrice}}</span>
+				                </dt>
+	                      <dt class="item">x {{item.productNum}}</dt>
+				            </dl>
+				        </div>
+				    </div>
+				    <div class="clearfix">
+				    	<div class="orderTime">下单时间：<span>2020-08-01</span></div>
+				    	<div class="settlement">共2件商品，实付<i>￥40.00</i></div>
+				    </div>
+				    <span class="lookMore">查看详情</span>
+		    	</div>
 				</div>
 		  </van-tab>
 		  <van-tab title="已取消">
-		  	<div class="order-item">
-		  		<div>
-		  			<span class="shopName">店铺名称</span>
-		  			<van-tag plain type="grey">已取消</van-tag>
-		  		</div>
-		  		<van-divider />
-			    <div class="order">
-			        <div class="left"><div class="img-ctn"><img class="deal-avatar" src=""></div></div>
-			        <div class="right">
-			            <dl>
-			                <dt class="title">
-			                  <div>新辣道鱼火锅2人餐</div>
-			                  <span class="unitCost">20.50</span>
-			                </dt>
-                      <dt class="item">x 1</dt>
-			            </dl>
-			        </div>
-			    </div>
-			    <div class="order">
-			        <div class="left"><div class="img-ctn"><img class="deal-avatar" src=""></div></div>
-			        <div class="right">
-			            <dl>
-			                <dt class="title">
-			                  <div>新辣道鱼火锅2人餐</div>
-			                  <span class="unitCost">20.50</span>
-			                </dt>
-                      <dt class="item">x 1</dt>
-			            </dl>
-			        </div>
-			    </div>
-			    <div class="clearfix">
-			    	<div class="orderTime">下单时间：<span>2020-08-01</span></div>
-			    	<div class="settlement">共2件商品，实付<i>￥40.00</i></div>
-			    </div>
-			    <span class="lookMore">查看详情</span>
-				</div>
+			  <div class="tab-title" slot="title" @click="orderCancel">已取消</div>
+		    	<div class="tab-content" v-for='item in shopList'>
+			  		<div class="order-item">
+				  		<div>
+				  			<span class="shopName">{{item.shopName}}</span>
+				  			<van-tag plain type="grey">已取消</van-tag>
+				  		</div>
+					    <div class="order">
+					        <div class="left"><div class="img-ctn"><img class="deal-avatar" src=""></div></div>
+					        <div class="right">
+					            <dl>
+					                <dt class="title">
+					                  <div>{{item.productName}}</div>
+					                  <span class="unitCost">{{item.productPrice}}</span>
+					                </dt>
+		                      <dt class="item">x {{item.productNum}}</dt>
+					            </dl>
+					        </div>
+					    </div>
+					    <div class="order">
+					        <div class="left"><div class="img-ctn"><img class="deal-avatar" src=""></div></div>
+					        <div class="right">
+					            <dl>
+					                <dt class="title">
+					                  <div>新辣道鱼火锅2人餐</div>
+					                  <span class="unitCost">20.50</span>
+					                </dt>
+		                      <dt class="item">x 1</dt>
+					            </dl>
+					        </div>
+					    </div>
+					    <div class="clearfix">
+					    	<div class="orderTime">下单时间：<span>2020-08-01</span></div>
+					    	<div class="settlement">共2件商品，实付<i>￥40.00</i></div>
+					    </div>
+					    <span class="lookMore">查看详情</span>
+						</div>
+					</div>
 		  </van-tab>
 		</van-tabs>
 	</div>
 </template>
+
+<script>
+import { getOrderList } from '@/api/user'
+
+	export default {
+		data() {
+			return {
+				shopList: [],
+				queryOrder: {
+					userId: '100052331',
+					orderStatu: ''
+				}
+			}
+		},
+		created() {
+			this.orderSuccess()
+		},
+		methods: {
+			getAllOrder(state) {	
+				getOrderList({ userId: this.queryOrder.userId, orderStatu: state }).then(resp => {
+					this.shopList = resp.proList
+					console.log(this.shopList)
+				})
+			},
+			orderSuccess() {
+				this.getAllOrder('02')
+				console.log(1)
+			},
+			orderCancel() {
+				this.getAllOrder('06')
+			}
+		}
+
+	}
+</script>
 
 <style>
 	.van-nav-bar{
