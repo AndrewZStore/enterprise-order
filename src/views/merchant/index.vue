@@ -27,10 +27,12 @@
 		<div class="tabs">
 			<van-tabs 
 				v-model="activeName" 
-				background="#e7e9ec"
 				line-height="3px"
 				color="#1989fa">
-				<van-tab title="点餐" name="order">
+				<van-tab name="order">
+					<template #title>
+						<span class="tab-title">点餐</span>
+					</template>
 					<div class="cascad-menu" ref="cascadMenu">
 					    <scroll
 					      class="left-menu"
@@ -64,29 +66,18 @@
 					            <ul>
 					              <li v-for="(item, j) in menu.data" :key="j">
 					                <div class="data-wrapper">
-					                  <van-card style="height:200px">
-					                  	<template #title>
-					                  		<span>{{ item.title }}</span>
-					                  	</template>
-					                  	<template #thumb>
-					                  		<van-image width="100" height="100" src="https://img.yzcdn.cn/vant/cat.jpeg" />
-					                  	</template>
-					                  	<template #price>
-					                  		<span style="color:red;">￥99</span>
-					                  	</template>
-					                  	<template #num>
-				                  			<van-button round icon="plus" type="info" v-if="!item.value" @click="plusNum(item)" size="22" style="width:22px;height:22px" />
-					                  		<van-stepper
-					                  			v-else
-					                  			v-model="item.value" 
-					                  			min=0 
-					                  			theme="round" 
-					                  			button-size="22" 
-					                  			:show-input="false"
-					                  			disable-input
-					                  			/>
-					                  	</template>
-					                  </van-card>
+								          	<van-row>
+									          	<van-col :span="8">
+										            <van-image :src="item.img" />
+											  			</van-col>
+											  			<van-col :span="16">
+												        <span class="card-title">{{ item.name }}</span>
+												        <div class="card-total-price">
+													  			<span class="currency-symbol">￥</span>
+														        <span class="card-price">{{ item.price }}</span>
+														    </div>
+											  			</van-col>
+											  		</van-row>
 					                </div>
 					              </li>
 					            </ul>
@@ -94,9 +85,13 @@
 					        </ul>
 					      </div>
 					    </scroll>
-					  </div>
+					</div>
 				</van-tab>
-				<van-tab title="商家" name="merchant"></van-tab>
+				<van-tab name="merchant">
+					<template #title>
+						<span class="tab-title">商家</span>
+					</template>
+				</van-tab>
 			</van-tabs>
 		</div>
 
@@ -144,33 +139,38 @@ export default {
 				  name: '甜点',
 				  data: [
 				    {
-				      name: '1.1',
-				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
-				      value: 0
+				      name: '进口澳洲牛排套餐',
+				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
+				      value: 0,
+				      price: 99
 				    },
 				    {
-				      name: '1.2',
-				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
-				      value: 0
+				      name: '进口澳洲牛排套餐',
+				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
+				      value: 0,
+				      price: 100
 				    },
 				    {
-				      name: '1.3',
-				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
-				      value: 0
+				      name: '进口澳洲牛排套餐',
+				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
+				      value: 0,
+				      price: 100
 				    },
 				    {
-				      name: '1.4',
-				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
-				      value: 0
+				      name: '进口澳洲牛排套餐',
+				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
+				      value: 0,
+				      price: 100
 				    },
 				    {
-				      name: '1.5',
-				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
-				      value: 0
+				      name: '进口澳洲牛排套餐',
+				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
+				      value: 0,
+				      price: 100
 				    },
 				    {
 				      name: '1.6',
-				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
 				      value: 0
 				    }
 				  ]
@@ -180,32 +180,32 @@ export default {
 				  data: [
 				    {
 				      name: '1.1',
-				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
 				      value: 0
 				    },
 				    {
 				      name: '1.2',
-				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
 				      value: 0
 				    },
 				    {
 				      name: '1.3',
-				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
 				      value: 0
 				    },
 				    {
 				      name: '1.4',
-				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
 				      value: 0
 				    },
 				    {
 				      name: '1.5',
-				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
 				      value: 0
 				    },
 				    {
 				      name: '1.6',
-				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
 				      value: 0
 				    },
 				  ]
@@ -215,32 +215,32 @@ export default {
 				  data: [
 				    {
 				      name: '1.1',
-				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
 				      value: 0
 				    },
 				    {
 				      name: '1.2',
-				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
 				      value: 0
 				    },
 				    {
 				      name: '1.3',
-				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
 				      value: 0
 				    },
 				    {
 				      name: '1.4',
-				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
 				      value: 0
 				    },
 				    {
 				      name: '1.5',
-				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
 				      value: 0
 				    },
 				    {
 				      name: '1.6',
-				      img: 'https://img.yzcdn.cn/vant/ipad.jpeg',
+				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
 				      value: 0
 				    }
 				  ]
@@ -319,7 +319,6 @@ export default {
 
 	.nav-bar {
     padding-top: 10px;
-    padding-bottom: 20px;
 	}
 
 	.nav-title {
@@ -338,10 +337,15 @@ export default {
 	  background-color: #39a9ed;
 	}
 
-	.van-goods-action {
-		z-index: 9999;
+	.tab-title {
+		font-size: 34px;
+		line-height: 34px;
 	}
 
+	.van-tabs__wrap, .van-tabs__wrap scroll-view, .van-tabs__nav, .van-tab {
+	  height: 70px !important;   
+	  background-color: #f5f5f5;
+	}
 
 	.cascad-menu {
 		display: flex;
@@ -353,38 +357,58 @@ export default {
 	.cascad-menu .left-menu {
 		flex: 0 0 160px;
 		text-align: center;
-		width: 320px;
-		background: #e7e9ec;
+		width: 360px;
+		background-color: #f5f5f5;
 	}
 
 	.cascad-menu .left-menu .left-item {
-		height: 68px;
+		height: 80px;
 		width: 100%;
 	}
 
 	.cascad-menu .left-menu .left-item.current {
-		background: #fff;
+		background-color: #fff;
 	}
 
 	.cascad-menu .left-menu .left-item .text {
 		width: 100%;
-		line-height: 68px;
+		font-size: 30px;
+		line-height: 80px;
 	}
 
 	.cascad-menu .right-menu {
 		flex: 1;
+		padding-left: 20px;
 	}
 
-	.cascad-menu .right-menu .right-item .title {
-		height: 40px;
+	.cascad-menu .right-menu .right-item .data-wrapper {
+		padding: 15px 0;
 	}
 
-	.cascad-menu .right-menu .right-item .data-wrapper .data {
-		line-height: 80px;
-		height: 80px;
+	.cascad-menu .right-menu .right-item .van-image {
+		width: 180px;
+		height: 180px;
+	}
+
+	.cascad-menu .right-menu .right-item .card-title {
+		font-size: 30px;
+	}
+	
+	.cascad-menu .right-menu .right-item .currency-symbol {
+		font-size: 28px;
+		color: #fb5443;
+	}
+
+	.cascad-menu .right-menu .right-item .card-price {
+		font-size: 40px;
+		color: #fb5443;
 	}
 
 	.van-stepper__plus, .van-stepper__minus {
 		background: #1989fa;
+	}
+
+	.van-goods-action {
+		z-index: 9999;
 	}
 </style>
