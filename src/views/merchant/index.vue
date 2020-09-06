@@ -71,11 +71,18 @@
 										            <van-image :src="item.img" />
 											  			</van-col>
 											  			<van-col :span="16">
-												        <span class="card-title">{{ item.name }}</span>
-												        <div class="card-total-price">
-													  			<span class="currency-symbol">￥</span>
-														        <span class="card-price">{{ item.price }}</span>
-														    </div>
+											  				<van-row>
+														     	<span class="card-title">{{ item.name }}</span>
+														    </van-row>
+														    <van-row class="hello">
+														    	<div class="cart-footer">
+														        <div class="card-total-price">
+															  			<span class="currency-symbol">￥</span>
+																        <span class="card-price">{{ item.price }}</span>
+																    </div>
+																  	<div>步进器</div>
+																	</div>
+															  </van-row>
 											  			</van-col>
 											  		</van-row>
 					                </div>
