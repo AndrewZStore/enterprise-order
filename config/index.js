@@ -13,8 +13,7 @@ module.exports = {
     proxyTable: {
          // /api 自定义服务代理名字
         '/api': {
-            // http://139.199.171.89:8900
-            target: "http://192.168.1.6:8081", //代理帮助你请求的具体服务
+            target: "http://139.199.171.89:8900", //代理帮助你请求的具体服务
             changeOrigin: true, // 开启代理
             pathRewrite: {  // 格式化path 
                 "^/api": ""
