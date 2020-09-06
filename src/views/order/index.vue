@@ -6,14 +6,14 @@
 			<van-nav-bar
 				:left-arrow=true
 				:border=false
-				@click-left="onback"
+				@click-left="goback"
 				style="background-color:transparent;"
 			>
 				<template #left>
 					<van-icon name="arrow-left" color="white" size="18px" />
 				</template>
 				<template #title>
-					<span class="title">确认订单</span>
+					<span class="nav-title">确认订单</span>
 				</template>
 			</van-nav-bar>
 		</div>
@@ -141,7 +141,7 @@ export default {
 	},
 	methods: {
 		// 返回
-		onback() {
+		goback() {
 			//
 		},
 		// 地址选择
@@ -171,7 +171,7 @@ export default {
     padding-bottom: 20px;
 }
 
-.title {
+.nav-title {
 	color: white;
 	font-size: 36px;
 }

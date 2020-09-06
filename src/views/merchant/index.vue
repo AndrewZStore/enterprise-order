@@ -1,97 +1,112 @@
 <template>
 	<div class="merchant-container">
-		<van-nav-bar left-arrow @click-left="goback">
-			<template #title>
-				<span>{{ merchantName }}</span>
-			</template>
-		</van-nav-bar>
+		<div class="nav-bar">
+			<van-nav-bar
+				:left-arrow=true
+				@click-left="goback"
+				style="background-color:transparent;"
+				>
+				<template #left>
+					<van-icon name="arrow-left" size="18px" />
+				</template>
+				<template #title>
+					<span class="nav-title">{{ merchantName }}</span>
+				</template>
+			</van-nav-bar>
+		</div>
 
-		<van-swipe class="my-swipe" :autoplay="2000" indicator-color="white">
-		  <van-swipe-item>1</van-swipe-item>
-		  <van-swipe-item>2</van-swipe-item>
-		  <van-swipe-item>3</van-swipe-item>
-		  <van-swipe-item>4</van-swipe-item>
-		</van-swipe>
+		<div class="slide-show">
+			<van-swipe class="my-swipe" :autoplay="2000" indicator-color="white">
+			  <van-swipe-item>1</van-swipe-item>
+			  <van-swipe-item>2</van-swipe-item>
+			  <van-swipe-item>3</van-swipe-item>
+			  <van-swipe-item>4</van-swipe-item>
+			</van-swipe>
+		</div>
 
-		<van-tabs 
-			v-model="activeName" 
-			background="#e7e9ec"
-			line-height="3px"
-			color="#1989fa">
-			<van-tab title="点餐" name="order">
-				<div class="cascad-menu" ref="cascadMenu">
-				    <scroll
-				      class="left-menu"
-				      :data="menus"
-				      ref="leftMenu">
-				      <div class="left-menu-container">
-				        <ul>
-				          <li
-				            class="left-item"
-				            ref="leftItem"
-				            :class="{'current': currentIndex === index}"
-				            @click="selectLeft(index, $event)"
-				            v-for="(menu, index) in menus"
-				            :key="index">
-				            <span class="text">{{ menu.name }}</span>
-				          </li>
-				        </ul>
-				      </div>
-				    </scroll>
-				    <scroll
-				      class="right-menu"
-				      :data="menus" 
-				      ref="rightMenu"
-				      @scroll="scrollHeight"
-				      :listenScroll="true"
-				      :probeType="3">
-				      <div class="right-menu-container">
-				        <ul>
-				          <li class="right-item" ref="rightItem" v-for="(menu, i) in menus" :key="i">
-				            <van-divider :style="{ color: 'black', borderColor: 'black', padding: '5px 16px' }">{{ menu.name }}</van-divider>
-				            <ul>
-				              <li v-for="(item, j) in menu.data" :key="j">
-				                <div class="data-wrapper">
-				                  <van-card style="height:200px">
-				                  	<template #title>
-				                  		<span>{{ item.title }}</span>
-				                  	</template>
-				                  	<template #thumb>
-				                  		<van-image width="100" height="100" src="https://img.yzcdn.cn/vant/cat.jpeg" />
-				                  	</template>
-				                  	<template #price>
-				                  		<span style="color:red;">￥99</span>
-				                  	</template>
-				                  	<template #num>
-			                  			<van-button round icon="plus" type="info" v-if="!item.value" @click="plusNum(item)" size="22" style="width:22px;height:22px" />
-				                  		<van-stepper
-				                  			v-else
-				                  			v-model="item.value" 
-				                  			min=0 
-				                  			theme="round" 
-				                  			button-size="22" 
-				                  			:show-input="false"
-				                  			disable-input
-				                  			/>
-				                  	</template>
-				                  </van-card>
-				                </div>
-				              </li>
-				            </ul>
-				          </li>
-				        </ul>
-				      </div>
-				    </scroll>
-				  </div>
-			</van-tab>
-			<van-tab title="商家" name="merchant"></van-tab>
-		</van-tabs>
+		<div class="tabs">
+			<van-tabs 
+				v-model="activeName" 
+				background="#e7e9ec"
+				line-height="3px"
+				color="#1989fa">
+				<van-tab title="点餐" name="order">
+					<div class="cascad-menu" ref="cascadMenu">
+					    <scroll
+					      class="left-menu"
+					      :data="menus"
+					      ref="leftMenu">
+					      <div class="left-menu-container">
+					        <ul>
+					          <li
+					            class="left-item"
+					            ref="leftItem"
+					            :class="{'current': currentIndex === index}"
+					            @click="selectLeft(index, $event)"
+					            v-for="(menu, index) in menus"
+					            :key="index">
+					            <span class="text">{{ menu.name }}</span>
+					          </li>
+					        </ul>
+					      </div>
+					    </scroll>
+					    <scroll
+					      class="right-menu"
+					      :data="menus" 
+					      ref="rightMenu"
+					      @scroll="scrollHeight"
+					      :listenScroll="true"
+					      :probeType="3">
+					      <div class="right-menu-container">
+					        <ul>
+					          <li class="right-item" ref="rightItem" v-for="(menu, i) in menus" :key="i">
+					            <van-divider :style="{ color: 'black', borderColor: 'black', padding: '5px 16px' }">{{ menu.name }}</van-divider>
+					            <ul>
+					              <li v-for="(item, j) in menu.data" :key="j">
+					                <div class="data-wrapper">
+					                  <van-card style="height:200px">
+					                  	<template #title>
+					                  		<span>{{ item.title }}</span>
+					                  	</template>
+					                  	<template #thumb>
+					                  		<van-image width="100" height="100" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+					                  	</template>
+					                  	<template #price>
+					                  		<span style="color:red;">￥99</span>
+					                  	</template>
+					                  	<template #num>
+				                  			<van-button round icon="plus" type="info" v-if="!item.value" @click="plusNum(item)" size="22" style="width:22px;height:22px" />
+					                  		<van-stepper
+					                  			v-else
+					                  			v-model="item.value" 
+					                  			min=0 
+					                  			theme="round" 
+					                  			button-size="22" 
+					                  			:show-input="false"
+					                  			disable-input
+					                  			/>
+					                  	</template>
+					                  </van-card>
+					                </div>
+					              </li>
+					            </ul>
+					          </li>
+					        </ul>
+					      </div>
+					    </scroll>
+					  </div>
+				</van-tab>
+				<van-tab title="商家" name="merchant"></van-tab>
+			</van-tabs>
+		</div>
 
-		<van-goods-action>
-			<van-goods-action-icon icon="cart" @click="onClick" />
-			<span>￥1889</span>
-			<van-goods-action-button type="primary" text="去结算" />
-		</van-goods-action>
+		<div class="footer">
+			<van-goods-action>
+				<van-goods-action-icon icon="cart" @click="onClick" />
+				<span>￥1889</span>
+				<van-goods-action-button type="primary" text="去结算" />
+			</van-goods-action>
+		</div>
 
 		<van-popup v-model="popupVisible" round position="bottom" :style="{ height: '30%' }" />
 	</div>
@@ -300,6 +315,19 @@ export default {
 <style>
 	.merchant-container {
 		height: 100%;
+	}
+
+	.nav-bar {
+    padding-top: 10px;
+    padding-bottom: 20px;
+	}
+
+	.nav-title {
+		font-size: 36px;
+	}
+
+	.my-swipe {
+		transform: translateZ(0);
 	}
 
 	.my-swipe .van-swipe-item {
