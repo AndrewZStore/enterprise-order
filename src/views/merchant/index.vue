@@ -91,7 +91,21 @@
 			</van-goods-action>
 		</div>
 
-		<van-popup v-model="popupVisible" round position="bottom" :style="{ height: '30%' }">hello</van-popup>
+		<van-popup v-model="popupVisible" round position="bottom">
+			<el-row>
+				<el-col :span="12">
+					<span>已选商品</span>
+				</el-col>
+				<el-col :span="12">
+					<div>
+						<van-icon name="delete" />
+						<span>清空</span>
+					</div>
+				</el-col>
+			</el-row>
+			<card :item=item />
+			<div class="popup-footer"></div>
+		</van-popup>
 	</div>
 </template>
 
@@ -122,6 +136,13 @@ export default {
 			rightTops: [],
 			scrollY: 0,
 			leftScrollY: 0,
+
+			item: {
+				name: '进口澳洲牛排套餐',
+		      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
+		      value: 0,
+		      price: 99
+			},
 
 			// 菜单列表
 			menus: [
@@ -401,5 +422,9 @@ export default {
 
 	.card {
 		margin-top: 30px;
+	}
+
+	.popup-footer {
+		padding-bottom: 130px;
 	}
 </style>
