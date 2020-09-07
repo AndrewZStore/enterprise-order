@@ -74,14 +74,19 @@
 											  				<van-row>
 														     	<span class="card-title">{{ item.name }}</span>
 														    </van-row>
-														    <van-row class="hello">
-														    	<div class="cart-footer">
+														    <van-row>
+														    	<van-col :span="8">
 														        <div class="card-total-price">
 															  			<span class="currency-symbol">￥</span>
 																        <span class="card-price">{{ item.price }}</span>
 																    </div>
-																  	<div>步进器</div>
-																	</div>
+																	</van-col>
+																	<van-col :span="14">
+																  	<div class="stepper">
+																  		<van-button v-if="item.value == 0" @click="addNum(item)" round icon="plus" type="info" size="30" style="width:30px;height:30px;line-height:30px;"></van-button>
+																  		<van-stepper v-else min="0" v-model="item.value" theme="round" button-size="30" input-width="25" disable-input />
+																  	</div>
+																	</van-col>
 															  </van-row>
 											  			</van-col>
 											  		</van-row>
@@ -279,7 +284,7 @@ export default {
 			// 
 		},
 		// 菜品加数据
-		plusNum(item) {
+		addNum(item) {
 			item.value += 1
 			
 		},
@@ -406,13 +411,32 @@ export default {
 		color: #fb5443;
 	}
 
+	.cascad-menu .right-menu .right-item .card-total-price {
+		padding-top: 100px;
+	}
+
 	.cascad-menu .right-menu .right-item .card-price {
 		font-size: 40px;
 		color: #fb5443;
 	}
 
-	.van-stepper__plus, .van-stepper__minus {
-		background: #1989fa;
+	.cascad-menu .right-menu .right-item .stepper {
+		text-align: right;
+		padding-top: 85px;
+	}
+
+	.van-stepper--round .van-stepper__plus {
+	    color: #fff;
+	    background-color: #1989fa;
+	}
+
+	.van-stepper--round .van-stepper__minus {
+		color: #1989fa;
+		border-color: #1989fa;
+	}
+
+	input.van-stepper__input {
+    font-size: 30px;
 	}
 
 	.van-goods-action {
