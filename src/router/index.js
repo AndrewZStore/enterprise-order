@@ -39,12 +39,10 @@ export const constantRoutes = [
           component: () => import('@/views/orderList/detail')
         }
       ]
-
     },
-
     {
       path: '/confirm',
-      component: () => import ('@/views/order/index')
+      component: () => import('@/views/order/index')
     }
 ]
 

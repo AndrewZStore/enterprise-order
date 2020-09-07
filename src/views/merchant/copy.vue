@@ -65,7 +65,32 @@
 					            <van-divider :style="{ color: 'black', borderColor: 'black', padding: '5px 16px' }">{{ menu.name }}</van-divider>
 					            <ul>
 					              <li v-for="(item, j) in menu.data" :key="j">
-					                <card :item=item />
+					                <div class="data-wrapper">
+								          	<van-row>
+									          	<van-col :span="8">
+										            <van-image :src="item.img" />
+											  			</van-col>
+											  			<van-col :span="16">
+											  				<van-row>
+														     	<span class="card-title">{{ item.name }}</span>
+														    </van-row>
+														    <van-row>
+														    	<van-col :span="8">
+														        <div class="card-total-price">
+															  			<span class="currency-symbol">￥</span>
+																        <span class="card-price">{{ item.price }}</span>
+																    </div>
+																	</van-col>
+																	<van-col :span="14">
+																  	<div class="stepper">
+																  		<van-button v-if="item.value == 0" @click="addNum(item)" round icon="plus" type="info" size="30" style="width:30px;height:30px;line-height:30px;"></van-button>
+																  		<van-stepper v-else min="0" v-model="item.value" theme="round" button-size="30" input-width="25" disable-input />
+																  	</div>
+																	</van-col>
+															  </van-row>
+											  			</van-col>
+											  		</van-row>
+					                </div>
 					              </li>
 					            </ul>
 					          </li>
@@ -84,10 +109,9 @@
 
 		<div class="footer">
 			<van-goods-action>
-				<van-goods-action-icon icon="cart" size="30" color="#1989fa" badge="5" @click="onClick" />
-				<span class="total-currency-symbol">￥</span>
-				<span class="total-price">1889</span>
-				<van-button type="info" text="去结算" />
+				<van-goods-action-icon icon="cart" @click="onClick" />
+				<span>￥1889</span>
+				<van-goods-action-button type="primary" text="去结算" />
 			</van-goods-action>
 		</div>
 
@@ -98,13 +122,11 @@
 <script>
 import BScroll from 'better-scroll'
 import Scroll from './scroll'
-import card from './card'
 
 export default {
 	name: 'merchant',
 	components: {
-		Scroll,
-		card
+		Scroll
 	},
 	data() {
 		return {
@@ -261,6 +283,11 @@ export default {
 		goback() {
 			// 
 		},
+		// 菜品加数据
+		addNum(item) {
+			item.value += 1
+			
+		},
 		onClick() {
 			if (this.popupVisible) {
 				this.popupVisible = false
@@ -278,12 +305,10 @@ export default {
 			let el = rightItem[index]
 			this.$refs.rightMenu.scrollToElement(el, 300)
 		},
-
 		scrollHeight (pos) {
 		  // console.log(pos);
 		  this.scrollY = Math.abs(Math.round(pos.y))
 		},
-
 		_calculateHeight() {
 			let lis = this.$refs.rightItem
 			// console.log(lis)
@@ -368,34 +393,53 @@ export default {
 		padding-left: 20px;
 	}
 
-	.van-goods-action {
-		width: 100%;
-		height: 100px;
-		z-index: 9999;
+	.cascad-menu .right-menu .right-item .data-wrapper {
+		padding: 15px 0;
 	}
 
-	.van-goods-action-icon {
-		padding-left: 160px;
-		padding-right: 50px;
-		margin-top: 20px;
+	.cascad-menu .right-menu .right-item .van-image {
+		width: 180px;
+		height: 180px;
 	}
 
-	.van-icon.van-icon-cart.van-goods-action-icon__icon {
-    font-size: 60px;
+	.cascad-menu .right-menu .right-item .card-title {
+		font-size: 30px;
 	}
-
-	.total-currency-symbol {
+	
+	.cascad-menu .right-menu .right-item .currency-symbol {
 		font-size: 28px;
+		color: #fb5443;
 	}
 
-	.total-price {
+	.cascad-menu .right-menu .right-item .card-total-price {
+		padding-top: 100px;
+	}
+
+	.cascad-menu .right-menu .right-item .card-price {
 		font-size: 40px;
+		color: #fb5443;
 	}
 
-	.van-goods-action .van-button {
-		width: 240px;
-		height: 100px;
-		font-size: 32px;
-		margin: 0 0 0 auto;
+	.cascad-menu .right-menu .right-item .stepper {
+		text-align: right;
+		padding-top: 85px;
+	}
+
+	.van-stepper--round .van-stepper__plus {
+	    color: #fff;
+	    background-color: #1989fa;
+	}
+
+	.van-stepper--round .van-stepper__minus {
+		color: #1989fa;
+		border-color: #1989fa;
+	}
+
+	input.van-stepper__input {
+    font-size: 30px;
+	}
+
+	.van-goods-action {
+		z-index: 9999;
 	}
 </style>
