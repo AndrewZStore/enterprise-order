@@ -91,7 +91,7 @@
 			</van-goods-action>
 		</div>
 
-		<van-popup v-model="popupVisible" round position="bottom" :style="{ height: '30%' }" />
+		<van-popup v-model="popupVisible" round position="bottom" :style="{ height: '30%' }">hello</van-popup>
 	</div>
 </template>
 
@@ -370,7 +370,7 @@ export default {
 
 	.van-goods-action {
 		width: 100%;
-		height: 100px;
+		height: 105px;
 		z-index: 9999;
 	}
 
@@ -394,8 +394,12 @@ export default {
 
 	.van-goods-action .van-button {
 		width: 240px;
-		height: 100px;
+		height: 100%;
 		font-size: 32px;
 		margin: 0 0 0 auto;
+	}
+
+	.card {
+		margin-top: 30px;
 	}
 </style>

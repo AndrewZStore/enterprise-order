@@ -10,7 +10,7 @@
       </div>
 
       <div class="logo">
-        <img src="@/assets/logo.jpg" width="80" height="80">
+        <img src="@/assets/logo.jpg" width="75px" height="75px">
       </div>
 
       <div class="input-form">
@@ -140,6 +140,7 @@ export default {
   margin-top: 50px;
   text-align: center;
   color: white;
+  font-size: 34px;
 }
 
 .logo {
@@ -200,5 +201,6 @@ export default {
 
 .el-button {
   background-color: #565656;
+  font-size: 32px;
 }
 </style>
