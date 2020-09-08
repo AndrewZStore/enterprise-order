@@ -27,13 +27,15 @@
 				</van-col>
 				<van-col span="16">
 					<span class="info info-value van-ellipsis" style="color:#57a6fc;" @click="addrSelectVisible = true">{{ addressNow }}<van-icon name="arrow" /></span>
-					<van-action-sheet
-						v-model="addrSelectVisible"
-						:actions="addrs"
-						title="选择收货地址"
-						close-on-click-action
-						@select="addrSelecter"
-					>
+					<van-action-sheet v-model="addrSelectVisible" title="选择收货地址">
+						<div class="action-sheet-content">
+							<van-radio-group v-model="addressSeclect" v-for="(item, i) in addrs">
+							  <van-radio icon-size="15px" :name="item.name">{{ item.name }}</van-radio>
+							</van-radio-group>
+						</div>
+						<div class="action-sheet-button">
+							<van-button type="info" @click="selectSubmit">确定</van-button>
+						</div>
 					</van-action-sheet>
 				</van-col>
 			</van-row>
@@ -64,29 +66,29 @@
 		</div>
 		<div class="footer van-hairline--surround">
 			<ul>
-        <li v-for="(item, j) in items" :key="j">
-          <div class="card">
-          	<van-row>
-	          	<van-col :span="6">
-		            <van-image :src="item.thumb" />
-	  			</van-col>
-	  			<van-col :span="10">
-		            <span class="card-title">{{ item.title }}</span>
-	  			</van-col>
-	  			<van-col :span="2">
-		            <span class="card-num">x{{ item.num }}</span>
-	  			</van-col>
-	  			<van-col :span="3"></van-col>
-	  			<van-col :span="3">
-		  			<div class="card-total-price">
-			  			<span class="currency-symbol">￥</span>
-				        <span class="card-price">{{ item.price }}</span>
-				    </div>
-	  			</van-col>
-	  		</van-row>
-          </div>
-        </li>
-      </ul>
+		        <li v-for="(item, j) in items" :key="j">
+		          <div class="card">
+		          	<van-row>
+			          	<van-col :span="6">
+				            <van-image :src="item.thumb" />
+			  			</van-col>
+			  			<van-col :span="10">
+				            <span class="card-title">{{ item.title }}</span>
+			  			</van-col>
+			  			<van-col :span="2">
+				            <span class="card-num">x{{ item.num }}</span>
+			  			</van-col>
+			  			<van-col :span="3"></van-col>
+			  			<van-col :span="3">
+				  			<div class="card-total-price">
+					  			<span class="currency-symbol">￥</span>
+						        <span class="card-price">{{ item.price }}</span>
+						    </div>
+			  			</van-col>
+			  		</van-row>
+		          </div>
+		        </li>
+		    </ul>
 			<van-row>
 				<van-col :span="12">
 					<span class="total-text"><b>总金额：</b></span>
@@ -115,9 +117,11 @@ export default {
 			phone: '13457854512',
 			addrSelectVisible: false,
 			addressNow: '地址选择',
+			addressSeclect: '',
 			addrs: [
-				{ name: '嘉定区人民街200弄asdfasdfasdfasfasdfsadfasasdfasdf' },
-				{ name: '嘉定区人民街201弄' }
+				{ name: '嘉定区人民街200弄' },
+				{ name: '嘉定区人民街201弄' },
+				{ name: '嘉定区人民街202弄' }
 			],
 			items: [
 				{
@@ -147,6 +151,13 @@ export default {
 		// 地址选择
 		addrSelecter(item) {
 			this.addressNow = item.name
+		},
+		selectSubmit() {
+			if (this.addressSeclect) {
+				this.addressNow = this.addressSeclect
+			}
+
+			this.addrSelectVisible = false
 		}
 	}
 }
@@ -232,12 +243,11 @@ span.total-num {
 }
 
 .submit {
-	width: 100%;
+	width: 700px;
+    height: 100px;
 	font-size: 32px;
 	color: white;
 	background-color: #49b5e9;
-	padding: 50px;
-	margin-top: 10px;
 	border-radius: 10px;
 }
 
@@ -256,8 +266,39 @@ span.card-price {
 
 .card .van-row {
 	display: -webkit-flex;
-  display: flex;
-  -webkit-align-items: center;
-  align-items: center;
+	display: flex;
+	-webkit-align-items: center;
+	align-items: center;
+}
+
+.van-action-sheet__header {
+	padding-top: 40px;
+	padding-bottom: 30px;
+    font-size: 36px;
+}
+
+.action-sheet-content span.van-radio__label {
+    font-size: 30px;
+    padding-left: 10px;
+}
+
+.action-sheet-content .van-radio {
+    padding: 0 30px 30px 30px;
+}
+
+.action-sheet-button {
+	margin: 0 auto;
+    width: 94%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.action-sheet-button button.van-button.van-button--info.van-button--normal {
+    width: 700px;
+    height: 100px;
+    font-size: 32px;
+    color: white;
+	background-color: #48b1e1;
+    border-radius: 10px;
 }
 </style>

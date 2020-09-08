@@ -17,7 +17,7 @@
 				</van-col>
 				<van-col :span="16">
 				  	<div class="stepper">
-				  		<van-button v-if="item.value == 0" @click="addNum(item)" round icon="plus" type="info" size="30" style="width:30px;height:30px;line-height:30px;"></van-button>
+				  		<van-button v-if="item.value == 0" @click="addNum(item)" round icon="plus" type="info" size="30"></van-button>
 				  		<van-stepper v-else min="0" v-model="item.value" theme="round" button-size="30" input-width="25" disable-input />
 				  	</div>
 				</van-col>
@@ -70,6 +70,11 @@
 	.card-small .stepper {
 		text-align: right;
 		padding-top: 32px;
+	}
+
+	button.van-button.van-button--info.van-button--30.van-button--round {
+	    width: 60px;
+	    height: 60px;
 	}
 
 	.card-small .van-stepper--round .van-stepper__plus {
