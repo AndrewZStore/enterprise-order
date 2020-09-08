@@ -94,16 +94,24 @@
 		<van-popup v-model="popupVisible" round position="bottom">
 			<el-row>
 				<el-col :span="12">
-					<span>已选商品</span>
+					<div class="popup-title popup-title-left">
+						<span>已选商品</span>
+					</div>
 				</el-col>
 				<el-col :span="12">
-					<div>
+					<div class="popup-title popup-title-right">
 						<van-icon name="delete" />
 						<span>清空</span>
 					</div>
 				</el-col>
 			</el-row>
-			<card :item=item />
+			<div class="had-menus">
+				<ul>
+					<li>
+						<cardsmall :item=item />
+					</li>
+				</ul>
+			</div>
 			<div class="popup-footer"></div>
 		</van-popup>
 	</div>
@@ -113,12 +121,14 @@
 import BScroll from 'better-scroll'
 import Scroll from './scroll'
 import card from './card'
+import cardsmall from './card-small'
 
 export default {
 	name: 'merchant',
 	components: {
 		Scroll,
-		card
+		card,
+		cardsmall
 	},
 	data() {
 		return {
@@ -265,7 +275,7 @@ export default {
 			let index = rightTops.findIndex((height, index) => {
 				return scrollY >= rightTops[index] && scrollY < rightTops[index + 1]
 			})
-			if (scrollY > rightTops[index] + 50) {
+			if (scrollY > rightTops[index + 1] - 50) {
 				// console.log(scrollY, rightTops[index])
 				index++;
 			}
@@ -357,7 +367,7 @@ export default {
 
 	.cascad-menu {
 		display: flex;
-		height: 1000px;
+		height: 950px;
 		width: 100%;
 		overflow: hidden;
 	}
@@ -386,7 +396,6 @@ export default {
 
 	.cascad-menu .right-menu {
 		flex: 1;
-		padding-left: 20px;
 	}
 
 	.van-goods-action {
@@ -421,10 +430,32 @@ export default {
 	}
 
 	.card {
-		margin-top: 30px;
+		padding: 0 20px 30px 20px;
+	}
+
+	.popup-title {
+		padding: 40px;
+	}
+
+	.popup-title-left {
+		font-size: 30px;
+	}
+
+	i.van-icon.van-icon-delete {
+    	vertical-align: middle;
+	}
+
+	.popup-title-right {
+		font-size: 28px;
+		color: #808080;
+		text-align: right;
 	}
 
 	.popup-footer {
 		padding-bottom: 130px;
+	}
+
+	.had-menus {
+		padding: 40px;
 	}
 </style>

@@ -1,10 +1,10 @@
 <template>
-	<div class="card">
+	<div class="card-small">
   	<van-row>
-    	<van-col :span="9">
+    	<van-col :span="5">
         <van-image :src="item.img" />
 			</van-col>
-			<van-col :span="15">
+			<van-col :span="19">
 				<van-row>
 		     	<span class="card-title">{{ item.name }}</span>
 		    </van-row>
@@ -29,7 +29,7 @@
 
 <script>
 	export default {
-		name: "card",
+		name: "card-small",
 		props: ["item"],
 		data() {
 			return {
@@ -44,45 +44,45 @@
 </script>
 
 <style>
-	.van-image {
-		width: 180px;
-		height: 180px;
+	.card-small .van-image {
+		width: 125px;
+		height: 125px;
 	}
 
-	.card-title {
+	.card-small .card-title {
 		font-size: 30px;
 	}
 	
-	.currency-symbol {
+	.card-small .currency-symbol {
 		font-size: 28px;
 		color: #fb5443;
 	}
 
-	.card-total-price {
-		padding-top: 100px;
+	.card-small .card-total-price {
+		padding-top: 50px;
 	}
 
-	.card-price {
+	.card-small .card-price {
 		font-size: 40px;
 		color: #fb5443;
 	}
 
-	.stepper {
+	.card-small .stepper {
 		text-align: right;
-		padding-top: 85px;
+		padding-top: 32px;
 	}
 
-	.van-stepper--round .van-stepper__plus {
+	.card-small .van-stepper--round .van-stepper__plus {
 	    color: #fff;
 	    background-color: #1989fa;
 	}
 
-	.van-stepper--round .van-stepper__minus {
+	.card-small .van-stepper--round .van-stepper__minus {
 		color: #1989fa;
 		border-color: #1989fa;
 	}
 
-	input.van-stepper__input {
+	.card-small input.van-stepper__input {
     	font-size: 30px;
 	}
 </style>
