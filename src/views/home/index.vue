@@ -1,43 +1,37 @@
 <template>
 	<div>
 		<!-- 头部 -->
-		<div class="homeHeader mianBackground">
- 			<van-nav-bar title="标题" class='homeTitle mianBackground' right-arrow>
-			  <template #right>
-			    <van-field
-			    	class='selectTime'
-		            v-model="selectDate"
-		            placeholder="选择时间" right-arrow readonly="readonly"
-		            @click="showPopup"
-		        />
-			  </template>
-			</van-nav-bar>
+		<div class="fixed">
+			<div class="homeHeader mianBackground">
+	 			<van-nav-bar title="标题" class='homeTitle mianBackground' right-arrow>
+				  <template #right>
+				    <van-field
+				    	class='selectTime'
+			            v-model="selectDate"
+			            placeholder="选择时间" right-arrow readonly="readonly"
+			            @click="showPopup"
+			        />
+				  </template>
+				</van-nav-bar>
 
-			<van-row class='orderMealTime'>
-			  <van-col span="6" @click='breakfastTime'>早餐<br>
-			  	<span class="orderTime">Breakfact</span>
-			  </van-col>
-			  <van-col span="6" @click='lunchTime'>午餐<br>
-			  	<span class="orderTime">Lunch</span>
-			  </van-col>
-			  <van-col span="6" @click='AfternoonTea'>下午茶<br>
-			  	<span class="orderTime">Afternoon tea</span>
-			  </van-col>
-			  <van-col span="6" @click='dinnerTime'>晚餐<br>
-			  	<span class="orderTime">Dinner</span>
-			  </van-col>
-			</van-row>
+				<van-row class='orderMealTime'>
+				  <van-col span="6" @click='breakfastTime'>早餐<br>
+				  	<span class="orderTime">Breakfact</span>
+				  </van-col>
+				  <van-col span="6" @click='lunchTime'>午餐<br>
+				  	<span class="orderTime">Lunch</span>
+				  </van-col>
+				  <van-col span="6" @click='AfternoonTea'>下午茶<br>
+				  	<span class="orderTime">Afternoon tea</span>
+				  </van-col>
+				  <van-col span="6" @click='dinnerTime'>晚餐<br>
+				  	<span class="orderTime">Dinner</span>
+				  </van-col>
+				</van-row>
+			</div>
+			<swipeSlider :imgData='imgList'></swipeSlider>
 		</div>
 
-		<!-- 轮播 -->
-		<div class="swipeBox">
-			<van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-		  <van-swipe-item>1</van-swipe-item>
-		  <van-swipe-item>2</van-swipe-item>
-		  <van-swipe-item>3</van-swipe-item>
-		  <van-swipe-item>4</van-swipe-item>
-		</van-swipe>
-		</div>
 
 		<!-- 店铺列表 -->
 		<van-list class='storeList'>
@@ -53,7 +47,7 @@
 								<van-icon name="arrow" />
 							</div>
 							<div class="title text-block">
-								<van-icon class="store" name="shop-o" size='25px'/>{{item.address}}
+								<van-icon class="store" name="shop-o" size='20px'/>{{item.address}}
 							</div>
 							<div class="price">
 								<span class="strong">麻辣翠香买三斤送半斤，让你吃够</span>
@@ -77,33 +71,37 @@
 			/>
 		</van-popup>
 
+		<menus></menus>
+
 	</div>
 
 </template>
 
 <script>
-import { getTimeQuantum } from '@/api/user'
-
-let listState = {"list":[{"address":"张江1","shopName":"农家土菜馆","shopImg":"","shopId":"100052157"},
-{"address":"张江2","shopName":"农家土菜馆","shopImg":"","shopId":"100052157"},
-{"address":"张江3","shopName":"农家土菜馆","shopImg":"","shopId":"100052157"}]};
-
-  export {
-    listState, 
-  }
+import menus from '@/views/home/footer'
+import swipeSlider from '@/views/carousel/carousel'
+import { getMealTime, getImgList } from '@/api/user'
 
 	export default {
+		components: {
+    		swipeSlider,
+    		menus
+		},
 		data() {
 			return {
 				show: false,
 				storeImg: './../icons/svg/',
 				dataList: {},
-				queryInfo: {
+				queryAllShop: {
+					companyId: '100052155',
+				},
+				queryMealTime: {
 					companyId: '100052155',
 					systemId: '109',
-					selectDate: '2020-08-05',
-					Breakfast: 'A',
+					selectDate: '2020-08-07',
+					eatType: 'A',
 				},
+				imgList: [],
 				selectDate: '',
 				minDate: new Date(2020, 0, 1),
 		        maxDate: new Date(2105, 10, 1),
@@ -113,16 +111,23 @@ let listState = {"list":[{"address":"张江1","shopName":"农家土菜馆","shop
 		created() {
 			this.breakfastTime()
 			this.getTime()
+			this.showCarousel()
 		},
-		methods:{
+		methods: {
+			// 时间选择弹窗
 			showPopup() {
 				this.show = true
 			},
+			// 获取轮播图片
+			showCarousel() {
+				getImgList().then(resp => {
+					this.imgList = resp.imgList
+				})
+			},
+			// 餐段查询
 			eatTime(eatType1) {
-				getTimeQuantum({ orgId:this.queryInfo.companyId, sysId:this.queryInfo.systemId, selectDate:this.queryInfo.selectDate, eatType: eatType1 }).then(resp => {
-					resp = listState;
+				getMealTime({ orgId:this.queryMealTime.companyId, sysId:this.queryMealTime.systemId, selectDate:this.queryMealTime.selectDate, eatType: eatType1 }).then(resp => {
 					this.dataList = resp.list
-					
 				})
 			},
 			breakfastTime() {
@@ -145,45 +150,52 @@ let listState = {"list":[{"address":"张江1","shopName":"农家土菜馆","shop
 		        const d = date.getDate()
 		        const dt = new Date(y, m, d)
 		        const dt2 = new Date();
-				const weekDay = ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
-				const week = weekDay[dt2.getDay()];
-				return week
-		      } else if (type === 'month') {
-		        return `${value}月`
-		      } else if (type === 'day') {
-		        return `${value}日`
-		      }
-		      return value
-		    },
-		    // 默认显示当前时间
-		    getTime () {
-		      let date = new Date()
-		      let y = date.getFullYear()
-		      let m = date.getMonth() + 1
-		      let d = date.getDate()
-		      // let s = date.getSeconds()
-		      if (m >= 1 && m <= 9) { m = `0${m}` }
-		      if (d >= 1 && d <= 9) { d = `0${d}` }
-		      let time = `${y}-${m}-${d}`
-		      this.selectDate = time
-		  },
-		    // 确认选择之后的时间
-		    confirmPicker (val) {
-		      let year = val.getFullYear()
-		      let month = val.getMonth() + 1
-		      let day = val.getDate()
-		      // let second = val.getSeconds()
-		      if (month >= 1 && month <= 9) { month = `0${month}` }
-		      if (day >= 1 && day <= 9) { day = `0${day}` }
-		      this.selectDate = `${year}-${month}-${day} `
-		      console.log(this.selectDate)
-		      this.show = false
-		    },
+						const weekDay = ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+						const week = weekDay[dt2.getDay()];
+						return week
+				      } else if (type === 'month') {
+				        return `${value}月`
+				      } else if (type === 'day') {
+				        return `${value}日`
+				      }
+				      return value
+	    },
+	    // 默认显示当前时间
+	    getTime () {
+	      let date = new Date()
+	      let y = date.getFullYear()
+	      let m = date.getMonth() + 1
+	      let d = date.getDate()
+	      // let s = date.getSeconds()
+	      if (m >= 1 && m <= 9) { m = `0${m}` }
+	      if (d >= 1 && d <= 9) { d = `0${d}` }
+	      let time = `${y}-${m}-${d}`
+	      this.selectDate = time
+			},
+	    // 确认选择之后的时间
+	    confirmPicker (val) {
+	      let year = val.getFullYear()
+	      let month = val.getMonth() + 1
+	      let day = val.getDate()
+	      // let second = val.getSeconds()
+	      if (month >= 1 && month <= 9) { month = `0${month}` }
+	      if (day >= 1 && day <= 9) { day = `0${day}` }
+	      this.selectDate = `${year}-${month}-${day} `
+	      console.log(this.selectDate)
+	      this.show = false
+	    },
 		}
 	}
 </script>
 
 <style>
+	.fixed {
+		position: fixed;
+		top: 0;
+		z-index: 9;
+		width: 100%;
+		background-color: #fff;
+	}
 	.van-nav-bar{
 		height: 100px;
 		line-height: 100px;
@@ -229,7 +241,7 @@ let listState = {"list":[{"address":"张江1","shopName":"农家土菜馆","shop
 		right: 0px;
 		width: 45px;
 		height: 55px;
-		top: 10px;
+		top: 5px;
 		left: auto;
 		border-bottom: 0;
 		font-size: 28px;
@@ -249,20 +261,8 @@ let listState = {"list":[{"address":"张江1","shopName":"农家土菜馆","shop
 	.orderMealTime .orderTime {
 		font-size: 18px
 	}
-	.my-swipe .van-swipe-item {
-    color: #fff;
-    font-size: 20px;
-    line-height: 240px;
-    text-align: center;
-    background-color: #39a9ed;
-  }
-  .swipeBox {
-  	width: 95%;
-  	margin: -100px auto 20px;
-  	border-radius: 10px;
-  	overflow: hidden;
-  }
   .storeList {
+  	margin-top: 460px;
   	border-top: 4px solid #f5f5f5;
   	padding-bottom: 20px;
   }
@@ -310,22 +310,18 @@ let listState = {"list":[{"address":"张江1","shopName":"农家土菜馆","shop
 	.dealcard .dealcard-brand .van-icon {
 	position: absolute;
 	right: 0;
-    line-height: 40px;
+    line-height: 30px;
     color: #333;
 	}
 	.dealcard .title {
-    font-size: 20px;
-    height: 60px;
-    line-height: 30px;
+    font-size: 30px;
+    height: 40px;
+    line-height: 40px;
     margin-bottom: 16px;
     color: #999;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
     overflow: hidden;
     position: relative;
-    padding-left: 40px;
+    padding-left: 45px;
 	}
 	.store {
 		position: absolute;
@@ -334,7 +330,7 @@ let listState = {"list":[{"address":"张江1","shopName":"农家土菜馆","shop
 	.dealcard .price {
     position: absolute;
     width: 100%;
-    bottom: 10px;
+    bottom: 0;
 	}
 	.strong {
 		color: #ffa45b;

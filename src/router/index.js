@@ -31,18 +31,18 @@ export const constantRoutes = [
     },
 
     {
-      path: '/orderList',
-      component: () => import('@/views/orderList/index'),
-      children: [
-        {
-          path: '/detail',
-          component: () => import('@/views/orderList/detail')
-        }
-      ]
-    },
-    {
       path: '/confirm',
       component: () => import('@/views/order/index')
+    },
+    
+    {
+      path: '/orderList',
+      component: () => import('@/views/orderList/index')
+    },
+    
+    {
+      path: '/orderList/detail',
+      component: () => import('@/views/orderList/detail')
     }
 ]
 
