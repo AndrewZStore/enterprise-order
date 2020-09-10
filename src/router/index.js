@@ -17,11 +17,13 @@ export const constantRoutes = [
 
     {
       path: '/merchant',
+      meta: { requireAuth: true },
       component: () => import('@/views/merchant/index')
     },
 
     {
       path: '/home',
+      meta: { requireAuth: true },
       component: () => import('@/views/home/index')
     },
 

@@ -1,4 +1,6 @@
 import { login } from '@/api/user'
+import { Notify } from 'vant'
+import { setToken } from '@/utils/auth'
 
 
 const state = {
@@ -17,9 +19,18 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ userName: username.trim(), password: password }).then(response => {
-        console.log(response.token)
-        commit('SET_TOKEN', response.token)
-        resolve()
+        if (response.token) {
+          commit('SET_TOKEN', response.token)
+          setToken(response.token)
+          resolve()
+        } else {
+          Notify({ 
+            type: 'danger', 
+            message: '登录失败',
+            duration: 10000,
+          })
+          reject("登录错误")
+        }
       }).catch(error => {
         reject(error)
       })

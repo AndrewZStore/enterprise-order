@@ -11,7 +11,7 @@
       </div>
       <div class="login-form">
         <van-field
-          v-model="username"
+          v-model="loginForm.username"
           placeholder="请输入账号"
           clearable
           :border="false"
@@ -23,7 +23,7 @@
         </van-field>
         <van-divider />
         <van-field
-          v-model="password"
+          v-model="loginForm.password"
           type="password"
           :border="false"
           placeholder="请输入密码"
@@ -36,13 +36,11 @@
         <van-divider />
       </div>
       <div class="login-button">
-        <van-button block type="info" native-type="submit">
-          提交
+        <van-button :loading="loading" loading-type="spinner" block type="info" native-type="submit" @click="handleLogin">
+          登&nbsp;录
         </van-button>
       </div>
     </van-form>
-
-    <!-- <el-button :loading="loading" type="primary" style="width:100%;margin-top:80px;padding:15px;" @click.native.prevent="handleLogin">登&nbsp;录</el-button> -->
   </div>
 </template>
 
@@ -53,8 +51,11 @@ export default {
   name: 'Login',
   data() {
     return {
-      username: '',
-      password: '',
+      loginForm: {
+        username: '',
+        password: ''
+      },
+      loading: false,
       redirect: undefined
     }
   },
@@ -68,21 +69,13 @@ export default {
   },
   methods: {
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            console.log('hehh')
-            this.$router.push({ path: this.redirect || '/home' })
-            this.loading = false
-          }).catch(err => {
-            console.log(err)
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
+      this.loading = true
+      this.$store.dispatch('user/login', this.loginForm).then(() => {
+        this.loading = false
+        this.$router.push({ path: this.redirect || '/home' })
+      }).catch(err => {
+        console.log(err)
+        this.loading = false
       })
     }
   }
@@ -102,6 +95,10 @@ export default {
   position: absolute;
 }
 
+.login-background .van-image {
+  width: 100%;
+}
+
 .login-title {
   margin-top: 0;
   padding-top: 40px;
@@ -115,22 +112,25 @@ export default {
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 60px
+  margin-top: 60px;
+  position: absolute;
+  z-index: 999;
 }
 
 .login-logo img.van-image__img {
   width: 150px;
   height: 150px;
   border-radius: 50%;
-  box-shadow: 0 0 1px 1px #efefef;
+  box-shadow: 0 1px 2px 1px #efefef;
 }
 
 .login-form {
   width: 650px;
   height: 450px;
-  margin: 0 auto;
+  margin: 160px auto;
   background-color: white;
-  border-radius: 25px;
+  border-radius: 15px;
+  padding-top: 50px;
 }
 
 .login-form .svg-icon {
@@ -140,7 +140,7 @@ export default {
 
 .login-form .van-field {
   position: relative;
-  padding: 100px 30px 0 30px;
+  padding: 80px 30px 0 30px;
   border-radius: 15px;
 }
 
@@ -166,6 +166,5 @@ export default {
   background-color: #494b4d;
   font-size: 32px;
   border-radius: 15px;
-  margin-top: 110px;
 }
 </style>

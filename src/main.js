@@ -16,6 +16,7 @@ import locale from 'element-ui/lib/locale/lang/zh-CN'
 
 import '@/icons'
 import '@/styles/index.scss' // global css
+import './permission'
 
 
 // set ElementUI lang to EN
