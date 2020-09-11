@@ -336,7 +336,7 @@ export default {
 	}
 
 	.nav-bar {
-    padding-top: 10px;
+    	padding-top: 10px;
 	}
 
 	.nav-title {

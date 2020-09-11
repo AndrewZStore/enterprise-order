@@ -24,6 +24,13 @@ import './permission'
 // 引进vant
 Vue.use(Vant)
 
+// 图片懒加载配置
+import { Lazyload } from "vant"
+
+Vue.use(Lazyload, {
+	lazyComponent: true
+})
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

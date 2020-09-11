@@ -73,7 +73,6 @@
 		<menus></menus>
 
 	</div>
-
 </template>
 
 <script>
@@ -197,15 +196,15 @@ import { getMealTime, getImgList } from '@/api/user'
 		width: 100%;
 		background-color: #fff;
 	}
-	.van-nav-bar{
+	.homeHeader .van-nav-bar{
 		height: 100px;
 		line-height: 100px;
 	}
-	.van-nav-bar__left i.van-icon, .van-nav-bar__text{
+	.homeHeader .van-nav-bar__left i.van-icon, .van-nav-bar__text{
 		color: #fff;
 		font-size: 30px;
 	}
-	.van-nav-bar__title{
+	.homeHeader .van-nav-bar__title{
 		color: #fff;
 		font-size: 40px;
 	}
