@@ -19,7 +19,7 @@ export function login(data) {
  * @returns {AxiosPromise}
  */
 
-// 餐段查询
+// 查询门店列表
 export function getMealTime(data) {
   return request({
     url: "/manager/app/getShop",
@@ -45,3 +45,44 @@ export function getOrderList(data) {
     data
   })
 }
+
+// 查询企业餐段时间
+export function getEatTime(data) {
+  return request({
+    url: "/manager/app/getEatTime",
+    method: 'post',
+    data
+  })
+}
+
+
+// 查询门店菜单
+export function getMenu(data) {
+  return request({
+    url: '/manager/app/getMenu',
+    method: 'post',
+    data
+  })
+}
+
+
+// 提交订单
+export function submitOrder(data) {
+  return request({
+    url: '/manager/app/submit',
+    method: 'post',
+    data
+  })
+}
+
+// 查询地址
+export function getAddress(data) {
+  return request({
+    url: '/manager/app/getAddress',
+    method: 'post',
+    data
+  })
+}
+
+
+

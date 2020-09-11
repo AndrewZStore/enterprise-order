@@ -32,7 +32,6 @@
 			<swipeSlider :imgData='imgList'></swipeSlider>
 		</div>
 
-
 		<!-- 店铺列表 -->
 		<van-list class='storeList'>
 		  <van-cell v-for='item in dataList'>
@@ -120,7 +119,9 @@ import { getMealTime, getImgList } from '@/api/user'
 			},
 			// 获取轮播图片
 			showCarousel() {
-				getImgList().then(resp => {
+				// getImgList接口必须传空数据，不然报错
+				const data = {}
+				getImgList(data).then(resp => {
 					this.imgList = resp.imgList
 				})
 			},
