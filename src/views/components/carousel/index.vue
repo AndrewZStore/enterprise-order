@@ -3,7 +3,7 @@
 	<div class="swipeBox">
 		<van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
 		  <van-swipe-item v-for='(item, index) in imgData' :key='index'>
-        <van-image lazy-load :src="item.imgUrl">
+        <van-image lazy-load fit="fill" width="100%" height="100%" :src="item.imgUrl">
           <template v-slot:loading>
             <van-loading type="spinner" size="20" />
           </template>

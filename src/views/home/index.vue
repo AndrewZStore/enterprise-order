@@ -57,16 +57,21 @@
 		</div>
 
 		<!-- 店铺列表 -->
-		<van-list class='storeList'>
+		<van-list class='shopList'>
 		  <van-cell v-for='item in dataList'>
-		  	<router-link :to="{path: '/merchant'}" class="react">
+		  	<router-link :to="{path: '/merchant'}">
 					<div class="dealcard">
 						<div class="dealcard-img imgbox">
-							<img src="">
+							<van-image fit="fill" width="100%" height="100%" :src="item.shopImg">
+								<template v-slot:loading>
+							    <van-loading type="spinner" size="20" />
+							  </template>
+								<template v-slot:error>加载失败</template>
+							</van-image>
 						</div>
 						<div class="dealcard-block-right">
 							<div class="dealcard-brand single-line">
-								{{item.shopName}}
+								{{ item.shopName }}
 								<van-icon name="arrow" />
 							</div>
 							<div class="title text-block">
@@ -81,18 +86,6 @@
 		  </van-cell>
 		</van-list>
 
-		<van-popup v-model="show" position="bottom">
-			<van-datetime-picker
-			  v-model="currentDate"
-			  type="date"
-			  :columns-order="['month', 'day', 'year']"
-			  title="送餐时间"
-			  :min-date="minDate"
-			  :max-date="maxDate"
-			  :formatter="formatter"
-			  @confirm="confirmPicker"
-			/>
-		</van-popup>
 		<footerNav :activePage="'order'" />
 	</div>
 </template>
@@ -246,7 +239,7 @@ export default {
 		transform: translateZ(0);
 	}
 
-  .storeList {
+  .shopList {
   	border-top: 4px solid #f5f5f5;
   	height: 800px;
   	overflow-y: scroll;
@@ -255,51 +248,44 @@ export default {
 
   .van-cell {
   	border-bottom: 1px solid #f5f5f5;
-    overflow: hidden;
-    font-size: inherit;
-    font-weight: 400;
-    position: relative;
-    padding: 20px 1rem;
+    padding: 20px 20px;
   }
-  .react {
-  	padding-left: 0;
-  }
-  .dealcard {
-  	position: relative;
-    box-sizing: border-box;
-  }
+
   .dealcard-img {
   	position: absolute;
     width: 180px;
     height: 160px;
     text-align: center;
     overflow: hidden;
-    background: #999;
     border-radius: 10px;
   }
+
   .dealcard .dealcard-block-right {
     margin-left: 200px;
     position: relative;
     height: 164px;
 	}
+
 	.dealcard .dealcard-brand {
     padding: 10px 20px 0 0;
     margin-bottom: 10px;
-    font-size: 26px;
+    font-size: 32px;
     font-weight: 400;
     color: #333;
     line-height: 40px;
     position: relative;
-	overflow: hidden;
-	text-overflow:ellipsis;
-	white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
+
 	.dealcard .dealcard-brand .van-icon {
-	position: absolute;
-	right: 0;
+		position: absolute;
+		right: 0;
     line-height: 30px;
     color: #333;
 	}
+
 	.dealcard .title {
     font-size: 30px;
     height: 40px;

@@ -376,7 +376,7 @@ export default {
 		line-height: 34px;
 	}
 
-	.merchant-container .van-tabs__wrap, .van-tabs__wrap scroll-view, .van-tabs__nav, .van-tab {
+	.merchant-container .van-tabs__wrap, .merchant-container .van-tabs__wrap scroll-view, .merchant-container .van-tabs__nav, .merchant-container .van-tab {
 	  height: 70px !important;   
 	  background-color: #f5f5f5;
 	}
