@@ -187,6 +187,13 @@ export default {
 </script>
 
 <style>
+	.fixed .swipeBox {
+		width: 95%;
+		height: 200px;
+		margin: 0 auto;
+		margin-top: -100px;
+	}
+	
 	.fixed {
 		position: fixed;
 		top: 0;
@@ -194,21 +201,26 @@ export default {
 		width: 100%;
 		background-color: #fff;
 	}
+
 	.homeHeader .van-nav-bar{
 		height: 100px;
 		line-height: 100px;
 	}
+
 	.homeHeader .van-nav-bar__left i.van-icon, .van-nav-bar__text{
 		color: #fff;
 		font-size: 30px;
 	}
+
 	.homeHeader .van-nav-bar__title{
 		color: #fff;
 		font-size: 40px;
 	}
+
 	.homeHeader {
 		padding-bottom:130px;
 	}
+
 	.homeTitle {
 		height: 55px;
 		line-height: 55px;
