@@ -15,14 +15,15 @@
 			</van-nav-bar>
 		</div>
 
-		<div class="slide-show">
+		<!-- <div class="slide-show">
 			<van-swipe class="my-swipe" :autoplay="2000" indicator-color="white">
 			  <van-swipe-item>1</van-swipe-item>
 			  <van-swipe-item>2</van-swipe-item>
 			  <van-swipe-item>3</van-swipe-item>
 			  <van-swipe-item>4</van-swipe-item>
 			</van-swipe>
-		</div>
+		</div> -->
+		<swipeSlider :imgData='imgList'></swipeSlider>
 
 		<div class="tabs">
 			<van-tabs 
@@ -122,6 +123,7 @@ import BScroll from 'better-scroll'
 import Scroll from './scroll'
 import card from './card'
 import cardsmall from './card-small'
+
 
 export default {
 	name: 'merchant',

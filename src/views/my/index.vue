@@ -41,10 +41,21 @@
 			    </div>
 		    </a>
 	    </dd>
-	</dl>
-
+		</dl>
+		<footerNav :activePage="'me'" />
 	</div>
 </template>
+
+<script>
+import footerNav from '@/views/components/FooterNav/index'
+
+export default {
+	name: "me",
+	components: {
+		footerNav
+	}
+}
+</script>
 
 <style>
 	.header {

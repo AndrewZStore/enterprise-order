@@ -69,123 +69,121 @@
 			  @confirm="confirmPicker"
 			/>
 		</van-popup>
-
-		<menus></menus>
-
+		<footerNav :activePage="'order'" />
 	</div>
 </template>
 
 <script>
-import menus from '@/views/home/footer'
-import swipeSlider from '@/views/carousel/carousel'
+import footerNav from '@/views/components/FooterNav/index'
+import swipeSlider from '@/views/components/carousel/index'
 import { getMealTime, getImgList } from '@/api/user'
 
-	export default {
-		components: {
-    		swipeSlider,
-    		menus
-		},
-		data() {
-			return {
-				show: false,
-				storeImg: './../icons/svg/',
-				dataList: {},
-				queryAllShop: {
-					companyId: '100052155',
-				},
-				queryMealTime: {
-					companyId: '100052155',
-					systemId: '109',
-					selectDate: '2020-08-07',
-					eatType: 'A',
-				},
-				imgList: [],
-				selectDate: '',
-				minDate: new Date(2020, 0, 1),
-		        maxDate: new Date(2105, 10, 1),
-		        currentDate: new Date(),
-			}
-		},
-		created() {
-			this.breakfastTime()
-			this.getTime()
-			this.showCarousel()
-		},
-		methods: {
-			// 时间选择弹窗
-			showPopup() {
-				this.show = true
+export default {
+	components: {
+		swipeSlider,
+		footerNav
+	},
+	data() {
+		return {
+			show: false,
+			storeImg: './../icons/svg/',
+			dataList: {},
+			queryAllShop: {
+				companyId: '100052155',
 			},
-			// 获取轮播图片
-			showCarousel() {
-				// getImgList接口必须传空数据，不然报错
-				const data = {}
-				getImgList(data).then(resp => {
-					this.imgList = resp.imgList
-				})
+			queryMealTime: {
+				companyId: '100052155',
+				systemId: '109',
+				selectDate: '2020-08-07',
+				eatType: 'A',
 			},
-			// 餐段查询
-			eatTime(eatType1) {
-				getMealTime({ orgId:this.queryMealTime.companyId, sysId:this.queryMealTime.systemId, selectDate:this.queryMealTime.selectDate, eatType: eatType1 }).then(resp => {
-					this.dataList = resp.list
-				})
-			},
-			breakfastTime() {
-				this.eatTime('A');
-			},
-			lunchTime() {
-				this.eatTime('B');
-			},
-			AfternoonTea() {
-				this.eatTime('D');
-			},
-			dinnerTime() {
-				this.eatTime('C');
-			},
-			formatter (type, value) {
-		      if (type === 'year') {
-		        const date = new Date()
-		        const y = date.getFullYear()
-		        const m = date.getMonth() + 1
-		        const d = date.getDate()
-		        const dt = new Date(y, m, d)
-		        const dt2 = new Date();
-						const weekDay = ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
-						const week = weekDay[dt2.getDay()];
-						return week
-				      } else if (type === 'month') {
-				        return `${value}月`
-				      } else if (type === 'day') {
-				        return `${value}日`
-				      }
-				      return value
-	    },
-	    // 默认显示当前时间
-	    getTime () {
-	      let date = new Date()
-	      let y = date.getFullYear()
-	      let m = date.getMonth() + 1
-	      let d = date.getDate()
-	      // let s = date.getSeconds()
-	      if (m >= 1 && m <= 9) { m = `0${m}` }
-	      if (d >= 1 && d <= 9) { d = `0${d}` }
-	      let time = `${y}-${m}-${d}`
-	      this.selectDate = time
-			},
-	    // 确认选择之后的时间
-	    confirmPicker (val) {
-	      let year = val.getFullYear()
-	      let month = val.getMonth() + 1
-	      let day = val.getDate()
-	      // let second = val.getSeconds()
-	      if (month >= 1 && month <= 9) { month = `0${month}` }
-	      if (day >= 1 && day <= 9) { day = `0${day}` }
-	      this.selectDate = `${year}-${month}-${day} `
-	      console.log(this.selectDate)
-	      this.show = false
-	    },
+			imgList: [],
+			selectDate: '',
+			minDate: new Date(2020, 0, 1),
+	        maxDate: new Date(2105, 10, 1),
+	        currentDate: new Date(),
 		}
+	},
+	created() {
+		this.breakfastTime()
+		this.getTime()
+		this.showCarousel()
+	},
+	methods: {
+		// 时间选择弹窗
+		showPopup() {
+			this.show = true
+		},
+		// 获取轮播图片
+		showCarousel() {
+			// getImgList接口必须传空数据，不然报错
+			const data = {}
+			getImgList(data).then(resp => {
+				this.imgList = resp.imgList
+			})
+		},
+		// 餐段查询
+		eatTime(eatType1) {
+			getMealTime({ orgId:this.queryMealTime.companyId, sysId:this.queryMealTime.systemId, selectDate:this.queryMealTime.selectDate, eatType: eatType1 }).then(resp => {
+				this.dataList = resp.list
+			})
+		},
+		breakfastTime() {
+			this.eatTime('A');
+		},
+		lunchTime() {
+			this.eatTime('B');
+		},
+		AfternoonTea() {
+			this.eatTime('D');
+		},
+		dinnerTime() {
+			this.eatTime('C');
+		},
+		formatter (type, value) {
+	      if (type === 'year') {
+	        const date = new Date()
+	        const y = date.getFullYear()
+	        const m = date.getMonth() + 1
+	        const d = date.getDate()
+	        const dt = new Date(y, m, d)
+	        const dt2 = new Date();
+					const weekDay = ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+					const week = weekDay[dt2.getDay()];
+					return week
+			      } else if (type === 'month') {
+			        return `${value}月`
+			      } else if (type === 'day') {
+			        return `${value}日`
+			      }
+			      return value
+    },
+    // 默认显示当前时间
+    getTime () {
+      let date = new Date()
+      let y = date.getFullYear()
+      let m = date.getMonth() + 1
+      let d = date.getDate()
+      // let s = date.getSeconds()
+      if (m >= 1 && m <= 9) { m = `0${m}` }
+      if (d >= 1 && d <= 9) { d = `0${d}` }
+      let time = `${y}-${m}-${d}`
+      this.selectDate = time
+		},
+    // 确认选择之后的时间
+    confirmPicker (val) {
+      let year = val.getFullYear()
+      let month = val.getMonth() + 1
+      let day = val.getDate()
+      // let second = val.getSeconds()
+      if (month >= 1 && month <= 9) { month = `0${month}` }
+      if (day >= 1 && day <= 9) { day = `0${day}` }
+      this.selectDate = `${year}-${month}-${day} `
+      console.log(this.selectDate)
+      this.show = false
+    },
 	}
+}
 </script>
 
 <style>

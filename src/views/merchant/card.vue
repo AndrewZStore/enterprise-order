@@ -44,16 +44,16 @@
 </script>
 
 <style>
-	.van-image {
+	.card .van-image {
 		width: 180px;
 		height: 180px;
 	}
 
-	.card-title {
+	.card .card-title {
 		font-size: 30px;
 	}
 	
-	.currency-symbol {
+	.card .currency-symbol {
 		font-size: 28px;
 		color: #fb5443;
 	}

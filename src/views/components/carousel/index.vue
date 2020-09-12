@@ -1,5 +1,5 @@
 <template>
-			<!-- 轮播 -->
+	<!-- 轮播 -->
 	<div class="swipeBox">
 		<van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
 		  <van-swipe-item v-for='(item, index) in imgData' :key='index'>
