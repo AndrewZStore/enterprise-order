@@ -16,14 +16,6 @@
 			</van-nav-bar>
 		</div>
 
-		<!-- <div class="slide-show">
-			<van-swipe class="my-swipe" :autoplay="2000" indicator-color="white">
-			  <van-swipe-item>1</van-swipe-item>
-			  <van-swipe-item>2</van-swipe-item>
-			  <van-swipe-item>3</van-swipe-item>
-			  <van-swipe-item>4</van-swipe-item>
-			</van-swipe>
-		</div> -->
 		<swipeSlider :imgData='imgList'></swipeSlider>
 
 		<div class="tabs">
@@ -124,13 +116,17 @@ import BScroll from 'better-scroll'
 import Scroll from './scroll'
 import card from './card'
 import cardsmall from './card-small'
+import swipeSlider from '@/views/components/carousel/index'
+import { getImgList } from '@/api/user'
+
 
 export default {
 	name: 'merchant',
 	components: {
 		Scroll,
 		card,
-		cardsmall
+		cardsmall,
+		swipeSlider
 	},
 	data() {
 		return {
@@ -148,6 +144,9 @@ export default {
 			rightTops: [],
 			scrollY: 0,
 			leftScrollY: 0,
+
+			// 轮播图
+			imgList: [],
 
 			item: {
 				name: '进口澳洲牛排套餐',
@@ -288,11 +287,17 @@ export default {
 		this.$nextTick(() => {
 		  this._calculateHeight()
 		})
+
+		// getImgList接口必须传空数据，不然报错
+		const data = {}
+		getImgList(data).then(resp => {
+			this.imgList = resp.imgList
+		})
 	},
 	methods: {
 		// 返回上级页面
 		goback() {
-			// 
+			this.$router.go(-1)
 		},
 		onClick() {
 			if (this.popupVisible) {
@@ -333,6 +338,18 @@ export default {
 </script>
 
 <style>
+	.merchant-container .swipeBox {
+		width: 100%;
+		height: 200px;
+		margin: 0 auto;
+		margin-bottom: 10px;
+		transform: translateZ(0);
+	}
+
+	.my-swipe {
+		transform: translateZ(0);
+	}
+
 	.merchant-container {
 		height: 100%;
 	}
@@ -342,15 +359,11 @@ export default {
     	padding-bottom: 10px;
 	}
 
-	.nav-title {
+	.merchant-container .nav-title {
 		font-size: 36px;
 	}
 
-	.my-swipe {
-		transform: translateZ(0);
-	}
-
-	.my-swipe .van-swipe-item {
+	.merchant-container .my-swipe .van-swipe-item {
 	  color: #fff;
 	  font-size: 20px;
 	  line-height: 150px;
@@ -358,17 +371,17 @@ export default {
 	  background-color: #39a9ed;
 	}
 
-	.tab-title {
+	.merchant-container .tab-title {
 		font-size: 34px;
 		line-height: 34px;
 	}
 
-	.van-tabs__wrap, .van-tabs__wrap scroll-view, .van-tabs__nav, .van-tab {
+	.merchant-container .van-tabs__wrap, .van-tabs__wrap scroll-view, .van-tabs__nav, .van-tab {
 	  height: 70px !important;   
 	  background-color: #f5f5f5;
 	}
 
-	.cascad-menu {
+	.merchant-container .cascad-menu {
 		display: flex;
 		height: 950px;
 		width: 100%;

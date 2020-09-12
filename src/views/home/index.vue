@@ -1,33 +1,57 @@
 <template>
-	<div>
+	<div class="home-container">
 		<!-- 头部 -->
 		<div class="fixed">
 			<div class="homeHeader mianBackground">
-	 			<van-nav-bar title="点餐" class='homeTitle mianBackground' right-arrow>
+	 			<van-nav-bar 
+	 				title="点餐" 
+	 				class='homeTitle mianBackground' 
+	 				@click-right="onSelectDate"
+	 				:border="false">
 				  <template #right>
-				    <van-field
-				    	class='selectTime'
-			            v-model="selectDate"
-			            placeholder="选择时间" right-arrow readonly="readonly"
-			            @click="showPopup"
-			        />
+				  	<span>{{ selectDate }}</span>
+				    <van-icon name="arrow" color="#fff" />
 				  </template>
 				</van-nav-bar>
 
-				<van-row class='orderMealTime'>
-				  <van-col span="6" @click='breakfastTime'>早餐<br>
-				  	<span class="orderTime">Breakfact</span>
-				  </van-col>
-				  <van-col span="6" @click='lunchTime'>午餐<br>
-				  	<span class="orderTime">Lunch</span>
-				  </van-col>
-				  <van-col span="6" @click='AfternoonTea'>下午茶<br>
-				  	<span class="orderTime">Afternoon tea</span>
-				  </van-col>
-				  <van-col span="6" @click='dinnerTime'>晚餐<br>
-				  	<span class="orderTime">Dinner</span>
-				  </van-col>
-				</van-row>
+				<van-tabs 
+					v-model="activeName"
+					@click="onChangeTab"
+					line-height="3px"
+					:ellipsis="false"
+					title-inactive-color="white"
+					title-active-color="white"
+					background="linear-gradient(to right, #7c7c7c, #4b4b4b)"
+					color="#fff">
+				  <van-tab name="A">
+				  	<template #title>
+							<span class="tab-title-ch">早餐</span>
+							<br>
+				  		<span class="tab-title-en">Breakfact</span>
+				  	</template>
+				  </van-tab>
+				  <van-tab name="B">
+				  	<template #title>
+				  		<span class="tab-title-ch">午餐</span>
+				  		<br>
+				  		<span class="tab-title-en">Breakfact</span>
+				  	</template>
+				  </van-tab>
+				  <van-tab name="D">
+				  	<template #title>
+				  		<span class="tab-title-ch">下午茶</span>
+				  		<br>
+				  		<span class="tab-title-en">Afternoon tea</span>
+				  	</template>
+				  </van-tab>
+				  <van-tab name="C">
+				  	<template #title>
+				  		<span class="tab-title-ch">晚餐</span>
+				  		<br>
+				  		<span class="tab-title-en">Dinner</span>
+				  	</template>
+				  </van-tab>
+				</van-tabs>
 			</div>
 			<swipeSlider :imgData='imgList'></swipeSlider>
 		</div>
@@ -35,7 +59,7 @@
 		<!-- 店铺列表 -->
 		<van-list class='storeList'>
 		  <van-cell v-for='item in dataList'>
-		  	<a href="" class="react">
+		  	<router-link :to="{path: '/merchant'}" class="react">
 					<div class="dealcard">
 						<div class="dealcard-img imgbox">
 							<img src="">
@@ -53,7 +77,7 @@
 							</div>
 						</div>
 					</div>
-				</a>
+				</router-link>
 		  </van-cell>
 		</van-list>
 
@@ -86,196 +110,149 @@ export default {
 	data() {
 		return {
 			show: false,
-			storeImg: './../icons/svg/',
-			dataList: {},
-			queryAllShop: {
-				companyId: '100052155',
-			},
-			queryMealTime: {
-				companyId: '100052155',
-				systemId: '109',
-				selectDate: '2020-09-12',
-				eatType: 'A',
-			},
+			// 当前选项卡名称
+			activeName: "A",
+			// 数据列表
+			dataList: [],
+			// 轮播图列表
 			imgList: [],
-			selectDate: '',
+			selectDate: '选择时间',
 			minDate: new Date(2020, 0, 1),
 	        maxDate: new Date(2105, 10, 1),
 	        currentDate: new Date(),
 		}
 	},
 	created() {
-		this.breakfastTime()
-		this.getTime()
-		this.showCarousel()
+		this.selectDate = this.CurentDate()
+
+		// 获得轮播图照片
+		// getImgList接口必须传空数据，不然报错
+		const data = {}
+		getImgList(data).then(resp => {
+			this.imgList = resp.imgList
+		})
+
+		// 根据当前时间跳转对应选项卡
+		// 早餐 00:01-10:00
+		// 午餐 10:01-14:00
+		// 下午茶 14:01-16:00
+		// 晚餐 16:01-24:00
+		var dateNow = new Date()
+		var hourNow = dateNow.getHours()
+		if (hourNow > 16) {
+			this.activeName = "C"
+		} else if (hourNow > 14) {
+			this.activeName = "D"
+		} else if (hourNow > 10) {
+			this.activeName = "B"
+		}
+		this.onChangeTab(this.activeName)
 	},
 	methods: {
-		// 时间选择弹窗
-		showPopup() {
-			this.show = true
+		// 选择时间
+		onSelectDate() {
+			console.log('hello')
 		},
-		// 获取轮播图片
-		showCarousel() {
-			// getImgList接口必须传空数据，不然报错
-			const data = {}
-			getImgList(data).then(resp => {
-				this.imgList = resp.imgList
+		// 切换选项卡 
+		onChangeTab(name) {
+			const params = { 
+				orgId: this.$store.getters.orgId, 
+				sysId: this.$store.getters.systemId, 
+				selectDate: "2020-09-12", 
+				eatType: name 
+			}
+			getShop(params).then(resp => {
+				this.dataList = [{'address': '张江', 'shopName': '农家土菜馆', 'shopImg': '', 'shopId': '100052157'}, {'address': '紫薇路', 'shopName': '福瑞轩', 'shopImg': '', 'shopId': '100054052'}, {'address': '上海市南京路', 'shopName': '上海饭店', 'shopImg': '', 'shopId': '100077563'}, {'address': '北京市朝阳区区', 'shopName': '北京饭店', 'shopImg': '', 'shopId': '100077564'}, {'address': '浙江杭州市', 'shopName': '浙江饭店', 'shopImg': '', 'shopId': '100077565'}, {'address': '杭州市', 'shopName': '杭州饭店', 'shopImg': '', 'shopId': '100077566'}]
+				// this.dataList = resp.list
 			})
 		},
-		// 餐段查询
-		eatTime(eatType1) {
-			getShop({ orgId:this.queryMealTime.companyId, sysId:this.queryMealTime.systemId, selectDate:this.queryMealTime.selectDate, eatType: eatType1 }).then(resp => {
-				this.dataList = resp.list
-			})
-		},
-		breakfastTime() {
-			this.eatTime('A');
-		},
-		lunchTime() {
-			this.eatTime('B');
-		},
-		AfternoonTea() {
-			this.eatTime('D');
-		},
-		dinnerTime() {
-			this.eatTime('C');
-		},
-		formatter (type, value) {
-	      if (type === 'year') {
-	        const date = new Date()
-	        const y = date.getFullYear()
-	        const m = date.getMonth() + 1
-	        const d = date.getDate()
-	        const dt = new Date(y, m, d)
-	        const dt2 = new Date();
-					const weekDay = ["星期天", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
-					const week = weekDay[dt2.getDay()];
-					return week
-			      } else if (type === 'month') {
-			        return `${value}月`
-			      } else if (type === 'day') {
-			        return `${value}日`
-			      }
-			      return value
-    },
-    // 默认显示当前时间
-    getTime () {
-      let date = new Date()
-      let y = date.getFullYear()
-      let m = date.getMonth() + 1
-      let d = date.getDate()
-      // let s = date.getSeconds()
-      if (m >= 1 && m <= 9) { m = `0${m}` }
-      if (d >= 1 && d <= 9) { d = `0${d}` }
-      let time = `${y}-${m}-${d}`
-      this.selectDate = time
-		},
-    // 确认选择之后的时间
-    confirmPicker (val) {
-      let year = val.getFullYear()
-      let month = val.getMonth() + 1
-      let day = val.getDate()
-      // let second = val.getSeconds()
-      if (month >= 1 && month <= 9) { month = `0${month}` }
-      if (day >= 1 && day <= 9) { day = `0${day}` }
-      this.selectDate = `${year}-${month}-${day} `
-      console.log(this.selectDate)
-      this.show = false
-    },
-	}
+		// 当前日期
+    CurentDate() { 
+      var now = new Date()
+      
+      var year = now.getFullYear()
+      var month = now.getMonth() + 1
+      var day = now.getDate()
+      
+      var clock = year + "-"
+      
+      if(month < 10) {
+        clock += "0"
+      }
+      
+      clock += month + "-"
+      
+      if (day < 10) {
+        clock += "0"
+      }
+          
+      clock += day + " "
+      
+      return(clock)
+    }
+  }
 }
 </script>
 
 <style>
-	.fixed .swipeBox {
-		width: 95%;
-		height: 200px;
-		margin: 0 auto;
-		margin-top: -100px;
-	}
-	
-	.fixed {
-		position: fixed;
-		top: 0;
-		z-index: 9;
+	.home-container {
 		width: 100%;
-		background-color: #fff;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	.fixed {
+		width: 100%;
+		margin-bottom: 20px;
+	}
+
+	.homeHeader {
+		padding-bottom: 130px;
 	}
 
 	.homeHeader .van-nav-bar{
 		height: 100px;
-		line-height: 100px;
 	}
 
-	.homeHeader .van-nav-bar__left i.van-icon, .van-nav-bar__text{
+	.homeHeader .van-nav-bar__title.van-ellipsis{
 		color: #fff;
-		font-size: 30px;
+		font-size: 34px;
 	}
 
-	.homeHeader .van-nav-bar__title{
+	.homeHeader .van-nav-bar__right {
+		font-size: 24px;
 		color: #fff;
-		font-size: 40px;
 	}
 
-	.homeHeader {
-		padding-bottom:130px;
+	.homeHeader .van-tabs--line .van-tabs__wrap {
+    height: 100px;
 	}
 
-	.homeTitle {
-		height: 55px;
-		line-height: 55px;
-		padding: 36px 0;
-	}
-	[class*=van-hairline]::after {
-		border-bottom: 0
-	}
-	.homeTitle .van-nav-bar__title {
+	.tab-title-ch {
 		font-size: 28px;
-		color: #fff;
+		line-height: 40px;
 	}
-	.homeTitle .van-nav-bar__right .van-nav-bar__text {
-		color: #fff;
+
+	.tab-title-en {
 		font-size: 20px;
+		line-height: 40px;
 	}
-	.van-nav-bar__right .selectTime{
-		background: transparent;
-		border-bottom: none;
-		text-align: right;
-		width: 190px;
-		position: relative;
-	}
-	.van-nav-bar__right .selectTime:after {
-		display: inline-block;
-		background: url(../../assets/arrow.svg) no-repeat center;
-		position: absolute;
-		right: 0px;
-		width: 45px;
-		height: 55px;
-		top: 5px;
-		left: auto;
-		border-bottom: 0;
-		font-size: 28px;
-		color: #fff;
-		background-size: 100%;
-	}
-	.van-nav-bar__right .selectTime .van-field__control {
-		color: #fff;
 
+	.fixed .swipeBox {
+		width: 95%;
+		height: 200px;
+		margin: 0 auto;
+		margin-top: -110px;
+		transform: translateZ(0);
 	}
-	.orderMealTime {
-		text-align: center;
-		font-size: 22px;
-		color: #fff;
-		margin-top: 40px
-	}
-	.orderMealTime .orderTime {
-		font-size: 18px
-	}
+
   .storeList {
-  	margin-top: 460px;
   	border-top: 4px solid #f5f5f5;
-  	padding-bottom: 20px;
+  	height: 800px;
+  	overflow-y: scroll;
   }
+
+
   .van-cell {
   	border-bottom: 1px solid #f5f5f5;
     overflow: hidden;

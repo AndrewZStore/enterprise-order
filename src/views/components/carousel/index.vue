@@ -26,11 +26,17 @@
   	width: 100%;
     height: 100%;
   	border-radius: 15px;
+    transform: translateZ(0);
   }
 
   .my-swipe.van-swipe {
     width: 100%;
     height: 100%;
     border-radius: 15px;
+  }
+
+  .my-swipe {
+    transform: translateZ(0);
+    z-index: 100;
   }
 </style>

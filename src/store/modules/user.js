@@ -4,12 +4,42 @@ import { setToken } from '@/utils/auth'
 
 
 const state = {
-  token: ''
+  token: "",
+  // 公司id
+  orgId: "",
+  // 系统编码
+  sysId: "",
+  // 用户id
+  userId: "",
+  // 用户名称
+  userName: "",
+  // 用户部门
+  deptName: "",
+  // 用户手机
+  userPhone: ""
 }
 
 const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
+  },
+  SET_ORGID: (state, orgId) => {
+    state.orgId = orgId
+  },
+  SET_SYSID: (state, sysId) => {
+    state.sysId = sysId
+  },
+  SET_USERID: (state, userId) => {
+    state.userId = userId
+  },
+  SET_USERNAME: (state, userName) => {
+    state.userName = userName
+  },
+  SET_DEPTNAME: (state, deptName) => {
+    state.deptName = deptName
+  },
+  SET_USERPHONE: (state, userPhone) => {
+    state.userPhone = userPhone
   }
 }
 
@@ -19,8 +49,17 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ userName: username.trim(), password: password }).then(response => {
-        if (response.token) {
+        const { sysId, userName, userId, orgId, token, deptName } = response
+        console.log(sysId, userName, userId, orgId, deptName, token)
+        if (token) {
           commit('SET_TOKEN', response.token)
+          commit('SET_ORGID', orgId)
+          commit('SET_SYSID', sysId)
+          commit('SET_USERID', userId)
+          commit('SET_USERNAME', userName)
+          commit('SET_DEPTNAME', deptName)
+          commit('SET_USERPHONE', username)
+
           setToken(response.token)
           resolve()
         } else {
