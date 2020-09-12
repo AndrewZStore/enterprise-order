@@ -6,9 +6,9 @@
 			<div class="my-account">
         <img class="avater" src=" ">
         <div class="user-info more">
-            <p class="uname">魏御宸<i class="department">技术部</i></p>
-            <p class="unum">15291602844</p>
-        </div>
+          <p class="uname">魏御宸<i class="department">技术部</i></p>
+          <p class="unum">15291602844</p>
+      	</div>
 			</div>
 		</div>	
 

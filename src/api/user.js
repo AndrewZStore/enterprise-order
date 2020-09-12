@@ -20,7 +20,7 @@ export function login(data) {
  */
 
 // 查询门店列表
-export function getMealTime(data) {
+export function getShop(data) {
   return request({
     url: "/manager/app/getShop",
     method: "post",

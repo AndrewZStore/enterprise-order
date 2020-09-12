@@ -3,7 +3,7 @@
 		<!-- 头部 -->
 		<div class="fixed">
 			<div class="homeHeader mianBackground">
-	 			<van-nav-bar title="标题" class='homeTitle mianBackground' right-arrow>
+	 			<van-nav-bar title="点餐" class='homeTitle mianBackground' right-arrow>
 				  <template #right>
 				    <van-field
 				    	class='selectTime'
@@ -35,7 +35,7 @@
 		<!-- 店铺列表 -->
 		<van-list class='storeList'>
 		  <van-cell v-for='item in dataList'>
-		  	<a href="" class="react ">
+		  	<a href="" class="react">
 					<div class="dealcard">
 						<div class="dealcard-img imgbox">
 							<img src="">
@@ -76,7 +76,7 @@
 <script>
 import footerNav from '@/views/components/FooterNav/index'
 import swipeSlider from '@/views/components/carousel/index'
-import { getMealTime, getImgList } from '@/api/user'
+import { getShop, getImgList } from '@/api/user'
 
 export default {
 	components: {
@@ -94,7 +94,7 @@ export default {
 			queryMealTime: {
 				companyId: '100052155',
 				systemId: '109',
-				selectDate: '2020-08-07',
+				selectDate: '2020-09-12',
 				eatType: 'A',
 			},
 			imgList: [],
@@ -124,7 +124,7 @@ export default {
 		},
 		// 餐段查询
 		eatTime(eatType1) {
-			getMealTime({ orgId:this.queryMealTime.companyId, sysId:this.queryMealTime.systemId, selectDate:this.queryMealTime.selectDate, eatType: eatType1 }).then(resp => {
+			getShop({ orgId:this.queryMealTime.companyId, sysId:this.queryMealTime.systemId, selectDate:this.queryMealTime.selectDate, eatType: eatType1 }).then(resp => {
 				this.dataList = resp.list
 			})
 		},

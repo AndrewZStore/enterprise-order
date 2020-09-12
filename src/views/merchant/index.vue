@@ -2,6 +2,7 @@
 	<div class="merchant-container">
 		<div class="nav-bar">
 			<van-nav-bar
+				:border="false"
 				:left-arrow=true
 				@click-left="goback"
 				style="background-color:transparent;"
@@ -123,7 +124,6 @@ import BScroll from 'better-scroll'
 import Scroll from './scroll'
 import card from './card'
 import cardsmall from './card-small'
-
 
 export default {
 	name: 'merchant',
@@ -337,8 +337,9 @@ export default {
 		height: 100%;
 	}
 
-	.nav-bar {
+	.merchant-container .nav-bar {
     	padding-top: 10px;
+    	padding-bottom: 10px;
 	}
 
 	.nav-title {

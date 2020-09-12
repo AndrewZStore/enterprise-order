@@ -22,20 +22,9 @@
 </script>
 
 <style>
-  .my-swipe .van-swipe-item {
-    color: #fff;
-    font-size: 20px;
-    line-height: 240px;
-    text-align: center;
-    background-color: #39a9ed;
-    width: 100%;
-    overflow: hidden;
-  }
   .swipeBox {
-  	width: 95%;
-  	margin: -100px auto 20px;
+  	width: 100%;
+    height: 100%;
   	border-radius: 10px;
-  	overflow: hidden;
-  	height: 250px;
   }
 </style>
