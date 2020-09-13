@@ -72,7 +72,7 @@
 		padding-top: 32px;
 	}
 
-	button.van-button.van-button--info.van-button--30.van-button--round {
+	.card-small button.van-button.van-button--info.van-button--30.van-button--round {
 	    width: 60px;
 	    height: 60px;
 	}

@@ -80,31 +80,34 @@
 			<van-goods-action>
 				<van-goods-action-icon icon="cart" size="30" color="#1989fa" :badge="hadSelectNum > 0 ? hadSelectNum : ''" @click="onClick" />
 				<span class="total-currency-symbol">￥</span>
-				<span class="total-price">1889</span>
+				<span class="total-price">{{ totalPrice }}</span>
 				<van-button type="info" @click="onSubmit" text="去结算" />
 			</van-goods-action>
 		</div>
 
 		<van-popup v-model="popupVisible" round position="bottom">
-			<el-row>
-				<el-col :span="12">
+			<van-row>
+				<van-col :span="12">
 					<div class="popup-title popup-title-left">
 						<span>已选商品</span>
 					</div>
-				</el-col>
-				<el-col :span="12">
+				</van-col>
+				<van-col :span="12">
 					<div class="popup-title popup-title-right">
 						<van-icon name="delete" />
 						<span>清空</span>
 					</div>
-				</el-col>
-			</el-row>
-			<div class="had-menus">
+				</van-col>
+			</van-row>
+			<div class="had-menus" v-if="shoppingCardList.length>0">
 				<ul>
-					<li>
+					<li v-for="(item, j) in shoppingCardList" :key="j" class="shopping-card">
 						<cardsmall :item=item />
 					</li>
 				</ul>
+			</div>
+			<div class="empty-shopping" v-else>
+				<span>购物车空空如也</span>
 			</div>
 			<div class="popup-footer"></div>
 		</van-popup>
@@ -140,9 +143,6 @@ export default {
 			activeName: "order",
 			// 弹出框是否显示
 			popupVisible: false,
-
-			// 购物车已经选择的数量
-			hadSelectNum: 0,
 
 			// 左右菜单联动属性
 			rightTops: [],
@@ -276,7 +276,8 @@ export default {
 		}
 	},
 	computed: {
-    	currentIndex () {
+		// 左边菜单当前索引
+    	currentIndex() {
 			const { scrollY, rightTops } = this
 			let index = rightTops.findIndex((height, index) => {
 				return scrollY >= rightTops[index] && scrollY < rightTops[index + 1]
@@ -286,6 +287,48 @@ export default {
 				index++;
 			}
 			return index
+		},
+		// 总价格
+		totalPrice() {
+			var totalPrice = 0
+			this.menus.forEach(e => {
+				if (e.canPinlList) {
+					e.canPinlList.forEach(ee => {
+						if (ee.price && ee.value) {
+							totalPrice += ee.price * ee.value
+						}
+					})
+				}
+			})
+			return totalPrice
+		},
+		// 已添加购物车总数
+		hadSelectNum() {
+			var totalNum = 0
+			this.menus.forEach(e => {
+				if (e.canPinlList) {
+					e.canPinlList.forEach(ee => {
+						if (ee.value) {
+							totalNum += ee.value
+						}
+					})
+				}
+			})
+			return totalNum
+		},
+		// 购物车列表
+		shoppingCardList() {
+			var cardList = []
+			this.menus.forEach(e => {
+				if (e.canPinlList) {
+					e.canPinlList.forEach(ee => {
+						if (ee.value) {
+							cardList.push(ee)
+						}
+					})
+				}
+			})
+			return cardList
 		}
   	},
 	created() {
@@ -318,13 +361,16 @@ export default {
 
 		// 去结算
 		onSubmit() {
-			this.$router.push({ name: 'orderSubmit', params: { shopName: this.shopName } })
+			this.$store.dispatch('shop/setShoppingCart', this.shoppingCardList).then(() => {
+				this.$router.push({ name: 'orderSubmit', params: { shopName: this.shopName } })
+			})
 		},
 
 		// 获取菜单数据
 		fetchDate() {
 			getMenu(this.queryInfo).then(resp => {
-				resp.forEach(e => {
+				const data = resp
+				data.forEach(e => {
 					if (e.canPinlList) {
 						e.canPinlList.forEach(ee => {
 							ee.value = 0
@@ -416,90 +462,103 @@ export default {
 		overflow: hidden;
 	}
 
-	.cascad-menu .left-menu {
+	.merchant-container .cascad-menu .left-menu {
 		flex: 0 0 160px;
 		text-align: center;
 		width: 360px;
 		background-color: #f5f5f5;
 	}
 
-	.cascad-menu .left-menu .left-item {
+	.merchant-container .cascad-menu .left-menu .left-item {
 		height: 80px;
 		width: 100%;
 	}
 
-	.cascad-menu .left-menu .left-item.current {
+	.merchant-container .cascad-menu .left-menu .left-item.current {
 		background-color: #fff;
 	}
 
-	.cascad-menu .left-menu .left-item .text {
+	.merchant-container .cascad-menu .left-menu .left-item .text {
 		width: 100%;
 		font-size: 30px;
 		line-height: 80px;
 	}
 
-	.cascad-menu .right-menu {
+	.merchant-container .cascad-menu .right-menu {
 		flex: 1;
 	}
 
-	.van-goods-action {
+	.merchant-container .van-goods-action {
 		width: 100%;
 		height: 105px;
 		z-index: 9999;
 	}
 
-	.van-goods-action-icon {
+	.merchant-container .van-goods-action-icon {
 		padding-left: 160px;
 		padding-right: 50px;
 		margin-top: 20px;
 	}
 
-	.van-icon.van-icon-cart.van-goods-action-icon__icon {
+	.merchant-container .van-icon.van-icon-cart.van-goods-action-icon__icon {
     font-size: 60px;
 	}
 
-	.total-currency-symbol {
+	.merchant-container .total-currency-symbol {
 		font-size: 28px;
+		margin-top: 5px;
 	}
 
-	.total-price {
+	.merchant-container .total-price {
 		font-size: 40px;
+		margin-top: 5px;
 	}
 
-	.van-goods-action .van-button {
+	.merchant-container .van-goods-action .van-button {
 		width: 240px;
 		height: 100%;
 		font-size: 32px;
 		margin: 0 0 0 auto;
 	}
 
-	.card {
+	.merchant-container .card {
 		padding: 0 20px 30px 20px;
 	}
 
-	.popup-title {
+	.merchant-container .popup-title {
 		padding: 40px;
 	}
 
-	.popup-title-left {
+	.merchant-container .popup-title-left {
 		font-size: 30px;
 	}
 
-	i.van-icon.van-icon-delete {
+	.merchant-container i.van-icon.van-icon-delete {
     	vertical-align: middle;
 	}
 
-	.popup-title-right {
+	.merchant-container .popup-title-right {
 		font-size: 28px;
 		color: #808080;
 		text-align: right;
 	}
 
-	.popup-footer {
+	.merchant-container .popup-footer {
 		padding-bottom: 130px;
 	}
 
-	.had-menus {
+	.merchant-container .had-menus {
 		padding: 40px;
+	}
+
+	.merchant-container .had-menus .shopping-card {
+		margin-top: 10px;
+	}
+
+	.merchant-container .empty-shopping {
+	    font-size: 30px;
+	    text-align: center;
+	    padding: 80px;
+	    color: #808080;
 	}
 </style>

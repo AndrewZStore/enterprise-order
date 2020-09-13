@@ -71,10 +71,6 @@ module.exports = {
         options: {
           symbolId: 'icon-[name]'
         }
-      },
-      {
-        test: /\.scss$/,
-        loader: 'sass-loader!vue-style-loader!css-loader'
       }
     ]
   },

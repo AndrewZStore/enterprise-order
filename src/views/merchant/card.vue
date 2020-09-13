@@ -36,14 +36,16 @@
 	export default {
 		name: "card",
 		props: ["item"],
+
 		data() {
 			return {
+				
 			}
 		},
 		methods: {
 			addNum(item) {
 				item.value += 1
-			},
+			}
 		}
 	}
 </script>

@@ -34,7 +34,7 @@
 							</van-radio-group>
 						</div>
 						<div class="action-sheet-button">
-							<van-button type="info" @click="selectSubmit">确定</van-button>
+							<van-button type="info" @click="addrSelectSubmit">确定</van-button>
 						</div>
 					</van-action-sheet>
 				</van-col>
@@ -70,13 +70,13 @@
 		          <div class="confirm-card">
 		          	<van-row>
 			          	<van-col :span="6">
-				            <van-image :src="item.thumb" />
+				            <van-image :src="item.img" />
 			  			</van-col>
 			  			<van-col :span="10">
-				            <span class="card-title">{{ item.title }}</span>
+				            <span class="card-title">{{ item.name }}</span>
 			  			</van-col>
 			  			<van-col :span="2">
-				            <span class="card-num">x{{ item.num }}</span>
+				            <span class="card-num">x{{ item.value }}</span>
 			  			</van-col>
 			  			<van-col :span="3"></van-col>
 			  			<van-col :span="3">
@@ -96,27 +96,25 @@
 				<van-col :span="12">
 					<div class="total-value">
 						<span class="currency-symbol">￥</span>
-						<span class="total-num">297</span>
+						<span class="total-num">{{ totalPrice }}</span>
 					</div>
 				</van-col>
 			</van-row>
 		</div>
 		<div class="submit-button">
-			<van-button class="submit">提交订单</van-button>
+			<van-button @click="onSubmit" class="submit">提交订单</van-button>
 		</div>
 	</div>
 </template>
 
 <script>
-import { getAddress } from '@/api/user'
+import { getAddress, submitOrder } from '@/api/user'
+import { Notify } from 'vant'
 
 export default {
 	name: 'confirmOrder',
 	data() {
 		return {
-			merchantName: '麻辣小龙虾（普陀店）',
-			contact: '张先生',
-			phone: '13457854512',
 			// 控制地址选择面板是否显示
 			addrSelectVisible: false,
 			// 当前地址
@@ -130,7 +128,11 @@ export default {
 				{ name: '嘉定区人民街201弄' },
 				{ name: '嘉定区人民街202弄' }
 			],
-			items: [
+			// 商品总价
+			totalPrice: 0,
+			// 下单商品列表
+			items: [],
+			itemsTest: [
 				{
 					"num": 2,
 					"thumb": "https://img.yzcdn.cn/vant/cat.jpeg",
@@ -150,6 +152,12 @@ export default {
 			]
 		}
 	},
+	created() {
+		this.items = this.$store.getters.shoppingCart
+		this.items.forEach(e => {
+			this.totalPrice += e.price * e.value
+		})
+	},
 	methods: {
 		// 返回
 		goback() {
@@ -165,7 +173,16 @@ export default {
 			}
 			this.addrSelectVisible = true
 		},
-		selectSubmit() {
+		// 提交订单
+		onSubmit() {
+			if (this.addressNow == '地址选择') {
+				Notify('请选择送货地址')
+			} else {
+				
+			}
+		},
+		// 地址选择确定
+		addrSelectSubmit() {
 			if (this.addressSeclect) {
 				this.addressNow = this.addressSeclect
 			}
@@ -262,6 +279,7 @@ export default {
 	color: white;
 	background-color: #49b5e9;
 	border-radius: 10px;
+	margin-top: 20px;
 }
 
 .confirm-container .van-image {

@@ -11,7 +11,9 @@ const mutations = {
 }
 
 const actions = {
-  
+  setShoppingCart({ commit }, shoppingCartList) {
+    commit('SET_SHOPPINGCART', shoppingCartList)
+  }
 }
 
 export default {
