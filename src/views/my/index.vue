@@ -1,24 +1,24 @@
 <template>
-	<div>
+	<div class="me-container">
 		<!-- header -->
 		<div class="header">
 			<van-nav-bar title="我的"/>
 			<div class="my-account">
         <img class="avater" src=" ">
         <div class="user-info more">
-          <p class="uname">魏御宸<i class="department">技术部</i></p>
-          <p class="unum">15291602844</p>
+          <p class="uname">{{ $store.getters.userName }}<i class="department">{{ $store.getters.deptName }}</i></p>
+          <p class="unum">{{ $store.getters.userPhone }}</p>
       	</div>
 			</div>
 		</div>	
 
 		<dl class="list">
 	    <dd>
-		    <a class="react">
+		    <router-link :to="{path: '/orderList'}" class="react">
 			    <div class="more-weak">
 		        <i class="list-order"></i>个人账单
 			    </div>
-		    </a>
+		    </router-link>
 	    </dd>
 	    <dd>
 		    <a class="react">
@@ -58,24 +58,25 @@ export default {
 </script>
 
 <style>
-	.header {
+	.me-container .header {
 		height: 350px;
 		background: url(../../assets/mine.jpg) no-repeat center;
 		color: #fff;
 		background-size: 100%; 
 	}
 
-	.header .van-nav-bar {
+	.me-container .header .van-nav-bar {
 		height: 100px;
 		line-height:100px;
 		background: transparent;
 		padding: 25px 0;
 	}
 
-	.header .van-nav-bar__title {
+	.me-container .header .van-nav-bar__title {
 		font-size: 40px;
 		color: #fff;
 		letter-spacing: 10px;
+		margin-top: 20px;
 	}
 
 	[class*=van-hairline]::after {

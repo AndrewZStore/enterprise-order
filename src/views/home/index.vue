@@ -59,7 +59,7 @@
 		<!-- 店铺列表 -->
 		<van-list class='shopList'>
 		  <van-cell v-for='item in dataList'>
-		  	<router-link :to="{path: '/merchant'}">
+		  	<router-link :to="{ name: 'merchant', params: { shopName: item.shopName, shopId: item.shopId, eatType: activeName }}">
 					<div class="dealcard">
 						<div class="dealcard-img imgbox">
 							<van-image fit="fill" width="100%" height="100%" :src="item.shopImg">
@@ -241,7 +241,7 @@ export default {
 
   .shopList {
   	border-top: 4px solid #f5f5f5;
-  	height: 800px;
+  	height: calc(100vh - 560px);
   	overflow-y: scroll;
   }
 
@@ -282,7 +282,7 @@ export default {
 	.dealcard .dealcard-brand .van-icon {
 		position: absolute;
 		right: 0;
-    line-height: 30px;
+    line-height: 40px;
     color: #333;
 	}
 

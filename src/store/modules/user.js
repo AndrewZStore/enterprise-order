@@ -50,7 +50,6 @@ const actions = {
     return new Promise((resolve, reject) => {
       login({ userName: username.trim(), password: password }).then(response => {
         const { sysId, userName, userId, orgId, token, deptName } = response
-        console.log(sysId, userName, userId, orgId, deptName, token)
         if (token) {
           commit('SET_TOKEN', response.token)
           commit('SET_ORGID', orgId)

@@ -19,18 +19,18 @@
 		</div>
 		<div class="user-info">
 			<div class="merchantName">
-				<span><b>{{ merchantName }}</b></span>
+				<span><b>{{ $route.params.shopName }}</b></span>
 			</div>
 			<van-row>
 				<van-col span="8">
 					<span class="info">订单配送至</span>
 				</van-col>
 				<van-col span="16">
-					<span class="info info-value van-ellipsis" style="color:#57a6fc;" @click="addrSelectVisible = true">{{ addressNow }}<van-icon name="arrow" /></span>
+					<span class="info info-value van-ellipsis" style="color:#57a6fc;" @click="addrSelect">{{ addressNow }}<van-icon name="arrow" /></span>
 					<van-action-sheet v-model="addrSelectVisible" title="选择收货地址">
 						<div class="action-sheet-content">
 							<van-radio-group v-model="addressSeclect" v-for="(item, i) in addrs">
-							  <van-radio icon-size="15px" :name="item.name">{{ item.name }}</van-radio>
+							  <van-radio icon-size="15px" :name="item.address">{{ item.address }}</van-radio>
 							</van-radio-group>
 						</div>
 						<div class="action-sheet-button">
@@ -41,10 +41,10 @@
 			</van-row>
 			<van-row>
 				<van-col span="12">
-					<span class="info">{{ contact }}</span>
+					<span class="info">{{ $store.getters.userName }}</span>
 				</van-col>
 				<van-col span="12">
-					<span class="info info-value">{{ phone }}</span>
+					<span class="info info-value">{{ $store.getters.userPhone }}</span>
 				</van-col>
 			</van-row>
 			<van-row>
@@ -108,6 +108,8 @@
 </template>
 
 <script>
+import { getAddress } from '@/api/user'
+
 export default {
 	name: 'confirmOrder',
 	data() {
@@ -115,10 +117,15 @@ export default {
 			merchantName: '麻辣小龙虾（普陀店）',
 			contact: '张先生',
 			phone: '13457854512',
+			// 控制地址选择面板是否显示
 			addrSelectVisible: false,
+			// 当前地址
 			addressNow: '地址选择',
+			// 地址选择
 			addressSeclect: '',
-			addrs: [
+			// 地址列表
+			addrs: [],
+			addrsTest: [
 				{ name: '嘉定区人民街200弄' },
 				{ name: '嘉定区人民街201弄' },
 				{ name: '嘉定区人民街202弄' }
@@ -146,11 +153,17 @@ export default {
 	methods: {
 		// 返回
 		goback() {
-			//
+			this.$router.go(-1)
 		},
 		// 地址选择
-		addrSelecter(item) {
-			this.addressNow = item.name
+		addrSelect() {
+			if (this.addrs.length == 0) {
+				const params = { orgId: '100052155' }
+				getAddress(params).then(resp => {
+					this.addrs = resp.addressList
+				})
+			}
+			this.addrSelectVisible = true
 		},
 		selectSubmit() {
 			if (this.addressSeclect) {
@@ -177,17 +190,17 @@ export default {
 	z-index: -1;
 }
 
-.nav-bar {
+.confirm-container .nav-bar {
     padding-top: 30px;
     padding-bottom: 20px;
 }
 
-.nav-title {
+.confirm-container .nav-title {
 	color: white;
 	font-size: 36px;
 }
 
-.user-info, .footer, .submit-button {
+.confirm-container .user-info, .footer, .submit-button {
 	margin: 0 auto;
 	width: 94%;
 	background-color: white;
@@ -196,53 +209,53 @@ export default {
 	box-shadow: 0 0 1px 1px #efefef;
 }
 
-.user-info {
+.confirm-container .user-info {
 	padding: 20px 20px;
 }
 
-.footer {
+.confirm-container .footer {
 	padding: 20px 20px;
 }
 
-.merchantName {
+.confirm-container .merchantName {
 	font-size: 42px;
 	letter-spacing: 2px;
 }
 
-.van-row {
+.confirm-container .van-row {
 	margin: 30px 0;
 }
 
-span.info {
+.confirm-container span.info {
 	font-size: 30px;
 	letter-spacing: 1px;
 	color: #333333;
 }
 
-span.info-value {
+.confirm-container span.info-value {
 	display: block;
 	text-align: right;
 }
 
-span.total-text {
+.confirm-container span.total-text {
 	font-size: 48px;
 }
 
-div.total-value {
+.confirm-container div.total-value {
 	color: #fb5443;
 	display: block;
 	text-align: right;
 }
 
-span.currency-symbol {
+.confirm-container span.currency-symbol {
 	font-size: 28px;
 }
 
-span.total-num {
+.confirm-container span.total-num {
 	font-size: 48px;
 }
 
-.submit {
+.confirm-container .submit {
 	width: 700px;
     height: 100px;
 	font-size: 32px;
@@ -251,7 +264,7 @@ span.total-num {
 	border-radius: 10px;
 }
 
-.van-image {
+.confirm-container .van-image {
 	width: 130px;
 	height: 130px;
 }

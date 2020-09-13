@@ -46,6 +46,16 @@ export function getOrderList(data) {
   })
 }
 
+// 查询订单详情
+export function getOrderDetail(data) {
+  return request({
+    url: "/manager/app/getOrderDetail",
+    method: "post",
+    data
+  })
+}
+
+
 // 查询企业餐段时间
 export function getEatTime(data) {
   return request({

@@ -198,36 +198,38 @@
 <script>
 import { getOrderList } from '@/api/user'
 
-	export default {
-		data() {
-			return {
-				shopList: [],
-				queryOrder: {
-					userId: '100052331',
-					orderStatu: ''
-				}
-			}
-		},
-		created() {
-			this.orderSuccess()
-		},
-		methods: {
-			getAllOrder(state) {	
-				getOrderList({ userId: this.queryOrder.userId, orderStatu: state }).then(resp => {
-					this.shopList = resp.proList
-					console.log(this.shopList)
-				})
-			},
-			orderSuccess() {
-				this.getAllOrder('02')
-				console.log(1)
-			},
-			orderCancel() {
-				this.getAllOrder('06')
+export default {
+	data() {
+		return {
+			shopList: [],
+			queryOrder: {
+				userId: '100052331',
+				orderStatu: ''
 			}
 		}
-
+	},
+	created() {
+		this.orderSuccess()
+	},
+	methods: {
+		onClickLeft() {
+			this.$router.go(-1)
+		},
+		getAllOrder(state) {	
+			getOrderList({ userId: this.queryOrder.userId, orderStatu: state }).then(resp => {
+				this.shopList = resp.proList
+				console.log(this.shopList)
+			})
+		},
+		orderSuccess() {
+			this.getAllOrder('02')
+			console.log(1)
+		},
+		orderCancel() {
+			this.getAllOrder('06')
+		}
 	}
+}
 </script>
 
 <style>

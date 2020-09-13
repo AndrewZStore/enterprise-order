@@ -2,7 +2,12 @@
 	<div class="card">
   	<van-row>
     	<van-col :span="9">
-        <van-image :src="item.img" />
+        <van-image lazy-load fit="fill" :src="item.img">
+        	<template v-slot:loading>
+            <van-loading type="spinner" size="20" />
+          </template>
+          <template v-slot:error>加载失败</template>
+        </van-image>
 			</van-col>
 			<van-col :span="15">
 				<van-row>

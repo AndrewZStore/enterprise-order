@@ -16,35 +16,46 @@ export const constantRoutes = [
     },
 
     {
-      path: '/merchant',
-      meta: { requireAuth: true },
+      path: '/merchant/:shopId',
+      name: 'merchant',
+      meta: { requireAuth: true, keepAlive: true },
       component: () => import('@/views/merchant/index')
     },
 
     {
       path: '/home',
-      meta: { requireAuth: true },
+      name: 'home',
+      meta: { requireAuth: true, keepAlive: true },
       component: () => import('@/views/home/index')
     },
 
     {
       path: '/my',
+      name: 'my',
+      meta: { requireAuth: true, keepAlive: true },
       component: () => import('@/views/my/index')
     },
 
     {
-      path: '/confirm',
+      path: '/order-submit',
+      name: 'orderSubmit',
+      meta: { requireAuth: true, keepAlive: true },
       component: () => import('@/views/order/index')
     },
     
     {
-      path: '/orderList',
-      component: () => import('@/views/orderList/index')
-    },
-    
-    {
-      path: '/orderList/detail',
-      component: () => import('@/views/orderList/detail')
+      path: '/order-list',
+      name: 'orderList',
+      meta: { requireAuth: true, keepAlive: true },
+      component: () => import('@/views/orderList/index'),
+      children: [
+        {
+          path: 'detail',
+          name: 'orderDetail',
+          meta: { requireAuth: true, keepAlive: true },
+          component: () => import('@/views/orderList/detail')
+        }
+      ]
     }
 ]
 

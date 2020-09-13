@@ -11,7 +11,7 @@
 					<van-icon name="arrow-left" size="18px" />
 				</template>
 				<template #title>
-					<span class="nav-title">{{ merchantName }}</span>
+					<span class="nav-title">{{ shopName }}</span>
 				</template>
 			</van-nav-bar>
 		</div>
@@ -41,7 +41,7 @@
 					            @click="selectLeft(index, $event)"
 					            v-for="(menu, index) in menus"
 					            :key="index">
-					            <span class="text">{{ menu.name }}</span>
+					            <span class="text">{{ menu.typeName }}</span>
 					          </li>
 					        </ul>
 					      </div>
@@ -56,9 +56,9 @@
 					      <div class="right-menu-container">
 					        <ul>
 					          <li class="right-item" ref="rightItem" v-for="(menu, i) in menus" :key="i">
-					            <van-divider :style="{ color: 'black', borderColor: 'black', padding: '5px 16px' }">{{ menu.name }}</van-divider>
+					            <van-divider :style="{ color: 'black', borderColor: 'black', padding: '5px 16px' }">{{ menu.typeName }}</van-divider>
 					            <ul>
-					              <li v-for="(item, j) in menu.data" :key="j">
+					              <li v-for="(item, j) in menu.canPinlList" :key="j">
 					                <card :item=item />
 					              </li>
 					            </ul>
@@ -78,10 +78,10 @@
 
 		<div class="footer">
 			<van-goods-action>
-				<van-goods-action-icon icon="cart" size="30" color="#1989fa" badge="5" @click="onClick" />
+				<van-goods-action-icon icon="cart" size="30" color="#1989fa" :badge="hadSelectNum > 0 ? hadSelectNum : ''" @click="onClick" />
 				<span class="total-currency-symbol">￥</span>
 				<span class="total-price">1889</span>
-				<van-button type="info" text="去结算" />
+				<van-button type="info" @click="onSubmit" text="去结算" />
 			</van-goods-action>
 		</div>
 
@@ -117,7 +117,7 @@ import Scroll from './scroll'
 import card from './card'
 import cardsmall from './card-small'
 import swipeSlider from '@/views/components/carousel/index'
-import { getImgList } from '@/api/user'
+import { getImgList, getMenu } from '@/api/user'
 
 
 export default {
@@ -130,36 +130,42 @@ export default {
 	},
 	data() {
 		return {
-			// 商家名称
-			merchantName: '麻辣小龙虾',
+			shopName: "",
+			// 获取菜单查询
+			queryInfo: {
+				shopId: this.$route.params.shopId,
+				eatType: this.$route.params.eatType,
+				orgId: this.$store.getters.orgId
+			},
 			// 当前选项卡名称
 			activeName: "order",
 			// 弹出框是否显示
 			popupVisible: false,
 
-			// 步进器是否显示
-			stepperVisible: true,
+			// 购物车已经选择的数量
+			hadSelectNum: 0,
 
 			// 左右菜单联动属性
 			rightTops: [],
 			scrollY: 0,
-			leftScrollY: 0,
 
 			// 轮播图
 			imgList: [],
 
 			item: {
 				name: '进口澳洲牛排套餐',
-		      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
-		      value: 0,
-		      price: 99
+	      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
+	      value: 0,
+	      price: 99
 			},
 
+			menus: [],
+
 			// 菜单列表
-			menus: [
+			menusTest: [
 				{
-				  name: '甜点',
-				  data: [
+				  typeName: '甜点',
+				  canPinlList: [
 				    {
 				      name: '进口澳洲牛排套餐',
 				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
@@ -198,8 +204,8 @@ export default {
 				  ]
 				},
 				{
-				  name: '菜单2',
-				  data: [
+				  typeName: '菜单2',
+				  canPinlList: [
 				    {
 				      name: '1.1',
 				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
@@ -233,8 +239,8 @@ export default {
 				  ]
 				},
 				{
-				  name: '菜单3',
-				  data: [
+				  typeName: '菜单3',
+				  canPinlList: [
 				    {
 				      name: '1.1',
 				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
@@ -284,6 +290,7 @@ export default {
 		}
   	},
 	created() {
+		this.shopName = this.$route.params.shopName
 		this.$nextTick(() => {
 		  this._calculateHeight()
 		})
@@ -293,18 +300,41 @@ export default {
 		getImgList(data).then(resp => {
 			this.imgList = resp.imgList
 		})
+
+		this.fetchDate()
 	},
 	methods: {
 		// 返回上级页面
 		goback() {
 			this.$router.go(-1)
 		},
+		// 点击购物车
 		onClick() {
 			if (this.popupVisible) {
 				this.popupVisible = false
 			} else {
 				this.popupVisible = true
 			}
+		},
+
+		// 去结算
+		onSubmit() {
+			this.$router.push({ name: 'orderSubmit', params: { shopName: this.shopName } })
+		},
+
+		// 获取菜单数据
+		fetchDate() {
+			getMenu(this.queryInfo).then(resp => {
+				resp.forEach(e => {
+					if (e.canPinlList) {
+						e.canPinlList.forEach(ee => {
+							ee.value = 0
+						})
+					}
+				})
+
+				this.menus = resp
+			})
 		},
 
 		selectLeft (index, event) {
