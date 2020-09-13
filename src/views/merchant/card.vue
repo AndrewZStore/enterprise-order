@@ -72,22 +72,22 @@
 		color: #fb5443;
 	}
 
-	.stepper {
+	.card .stepper {
 		text-align: right;
 		padding-top: 85px;
 	}
 
-	.van-stepper--round .van-stepper__plus {
+	.card .van-stepper--round .van-stepper__plus {
 	    color: #fff;
 	    background-color: #1989fa;
 	}
 
-	.van-stepper--round .van-stepper__minus {
+	.card .van-stepper--round .van-stepper__minus {
 		color: #1989fa;
 		border-color: #1989fa;
 	}
 
-	input.van-stepper__input {
+	.card input.van-stepper__input {
     	font-size: 30px;
 	}
 </style>

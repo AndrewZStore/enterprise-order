@@ -67,7 +67,7 @@
 		<div class="footer van-hairline--surround">
 			<ul>
 		        <li v-for="(item, j) in items" :key="j">
-		          <div class="card">
+		          <div class="confirm-card">
 		          	<van-row>
 			          	<van-col :span="6">
 				            <van-image :src="item.thumb" />
@@ -269,15 +269,15 @@ export default {
 	height: 130px;
 }
 
-span.card-title, span.card-num {
+.confirm-card span.card-title, span.card-num {
 	font-size: 30px;
 }
 
-span.card-price {
+.confirm-card span.card-price {
 	font-size: 40px;
 }
 
-.card .van-row {
+.confirm-card .van-row {
 	display: -webkit-flex;
 	display: flex;
 	-webkit-align-items: center;

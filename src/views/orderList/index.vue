@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="order-list-container">
 		<van-nav-bar
 		  title="订单"
 		  right-text="导出"
@@ -233,16 +233,16 @@ export default {
 </script>
 
 <style>
-	.van-nav-bar{
+	.order-list-container .van-nav-bar{
 		height: 100px;
 		line-height: 100px;
 		background: #4b4b4b;
 	}
-	.van-nav-bar__left i.van-icon, .van-nav-bar__text{
+	.order-list-container .van-nav-bar__left i.van-icon, .van-nav-bar__text{
 		color: #fff;
 		font-size: 30px;
 	}
-	.van-nav-bar__title{
+	.order-list-container .van-nav-bar__title{
 		color: #fff;
 		font-size: 40px;
 	}
@@ -250,7 +250,7 @@ export default {
 	body{
 		background-color: #f5f5f5;
 	}
-	.van-tabs--line .van-tabs__wrap{
+	.van-tabs--line .van-tabs__wrap {
 		height: 90px;
 		line-height: 90px;
 		font-size: 30px;

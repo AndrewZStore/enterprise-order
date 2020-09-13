@@ -119,7 +119,6 @@ import cardsmall from './card-small'
 import swipeSlider from '@/views/components/carousel/index'
 import { getImgList, getMenu } from '@/api/user'
 
-
 export default {
 	name: 'merchant',
 	components: {
@@ -159,10 +158,10 @@ export default {
 	      price: 99
 			},
 
-			menus: [],
+			menusTest: [],
 
 			// 菜单列表
-			menusTest: [
+			menus: [
 				{
 				  typeName: '甜点',
 				  canPinlList: [
@@ -333,7 +332,7 @@ export default {
 					}
 				})
 
-				this.menus = resp
+				this.menusTest = resp
 			})
 		},
 
@@ -376,17 +375,15 @@ export default {
 		transform: translateZ(0);
 	}
 
-	.my-swipe {
-		transform: translateZ(0);
-	}
-
 	.merchant-container {
 		height: 100%;
 	}
 
 	.merchant-container .nav-bar {
-    	padding-top: 10px;
-    	padding-bottom: 10px;
+    	padding-top: 20px;
+    	padding-bottom: 20px;
+    	transform: translateZ(0);
+		-webkit-transform: translateZ(0);
 	}
 
 	.merchant-container .nav-title {
@@ -415,6 +412,7 @@ export default {
 		display: flex;
 		height: 950px;
 		width: 100%;
+		height: calc(100vh - 460px);
 		overflow: hidden;
 	}
 

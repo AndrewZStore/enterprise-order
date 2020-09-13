@@ -14,7 +14,7 @@
 
 		<dl class="list">
 	    <dd>
-		    <router-link :to="{path: '/orderList'}" class="react">
+		    <router-link :to="{ name: 'orderList' }" class="react">
 			    <div class="more-weak">
 		        <i class="list-order"></i>个人账单
 			    </div>

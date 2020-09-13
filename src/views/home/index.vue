@@ -6,10 +6,10 @@
 	 			<van-nav-bar 
 	 				title="点餐" 
 	 				class='homeTitle mianBackground' 
-	 				@click-right="onSelectDate"
+	 				@click-right="popupVisible = true"
 	 				:border="false">
 				  <template #right>
-				  	<span>{{ selectDate }}</span>
+				  	<span>{{ hadSelectDate }}</span>
 				    <van-icon name="arrow" color="#fff" />
 				  </template>
 				</van-nav-bar>
@@ -87,6 +87,27 @@
 		</van-list>
 
 		<footerNav :activePage="'order'" />
+
+		<van-popup v-model="popupVisible" round position="bottom">
+			<van-row class="home-popup-title popup-title-header">
+				<span>送餐时间</span>
+			</van-row>
+			<van-row class="home-popup-title popup-title-tip">
+				<span>选择时间请已目的城市时间为准</span>
+			</van-row>
+			<van-row>
+				<van-picker
+				  title="送餐时间"
+				  :show-toolbar="false"
+				  :columns="columns"
+				  @change="onChange"
+				/>
+			</van-row>
+			<van-row class="home-popup-footer">
+				<van-button type="info" text="确定" class="submit" @click="onSubmit" />
+				<van-button text="取消" class="cancel" @click="onCancel" />
+			</van-row>
+		</van-popup>
 	</div>
 </template>
 
@@ -102,22 +123,27 @@ export default {
 	},
 	data() {
 		return {
-			show: false,
+			// 时间选择器数组
+			columns: [],
+			// 时间选择器数组对应的格式化日期
+			columnValues: [],
+			// 时间选择器选中时间
+			selectDate: '',
+			// 已经选择时间
+			hadSelectDate: '选择时间',
+			// 控制弹出框显示
+			popupVisible: false,
 			// 当前选项卡名称
 			activeName: "A",
 			// 数据列表
 			dataList: [],
 			// 轮播图列表
-			imgList: [],
-			selectDate: '选择时间',
-			minDate: new Date(2020, 0, 1),
-	        maxDate: new Date(2105, 10, 1),
-	        currentDate: new Date(),
+			imgList: []
 		}
 	},
 	created() {
-		this.selectDate = this.CurentDate()
-
+		this.generateDateArray()
+		
 		// 获得轮播图照片
 		// getImgList接口必须传空数据，不然报错
 		const data = {}
@@ -142,10 +168,6 @@ export default {
 		this.onChangeTab(this.activeName)
 	},
 	methods: {
-		// 选择时间
-		onSelectDate() {
-			console.log('hello')
-		},
 		// 切换选项卡 
 		onChangeTab(name) {
 			const params = { 
@@ -159,29 +181,52 @@ export default {
 				// this.dataList = resp.list
 			})
 		},
-		// 当前日期
-    CurentDate() { 
-      var now = new Date()
-      
-      var year = now.getFullYear()
-      var month = now.getMonth() + 1
-      var day = now.getDate()
-      
-      var clock = year + "-"
-      
-      if(month < 10) {
-        clock += "0"
-      }
-      
-      clock += month + "-"
-      
-      if (day < 10) {
-        clock += "0"
-      }
-          
-      clock += day + " "
-      
-      return(clock)
+		// 生成选择器日期数组
+    generateDateArray() {
+    	var showDay = 15
+			var tmpArr = new Array("星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六")
+
+      for (var i=0; i<showDay; i++) {
+      	var today = new Date()
+
+      	var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * i
+      	today.setTime(targetday_milliseconds)
+
+	      var year = today.getFullYear()
+	      
+	      var month = today.getMonth() + 1
+	      if(month < 10) {
+	        month = "0" + month
+	      }
+
+	      var day = today.getDate()
+	      if (day < 10) {
+		      day = "0" + day
+		    }
+
+      	var date = month + '月' + day + '日' + '    ' + tmpArr[today.getDay()]
+      	var value = year + '-' + month + '-' + day
+      	this.columns.push(date)
+      	this.columnValues.push(value)
+    	}
+
+    	// 初始值
+			this.selectDate = this.columnValues[0]
+			this.hadSelectDate = this.columnValues[0]
+    },
+    // 时间选择器 改变
+    onChange(picker, value, index) {
+    	this.selectDate = this.columnValues[index]
+    	console.log(this.selectDate)
+    },
+    // 时间选择器 选择
+    onSubmit() {
+    	this.hadSelectDate = this.selectDate
+    	this.popupVisible = false
+    },
+    // 时间选择器 取消
+    onCancel() {
+    	this.popupVisible = false
     }
   }
 }
@@ -205,6 +250,8 @@ export default {
 
 	.homeHeader .van-nav-bar{
 		height: 100px;
+		transform: translateZ(0);
+		-webkit-transform: translateZ(0);
 	}
 
 	.homeHeader .van-nav-bar__title.van-ellipsis{
@@ -236,7 +283,6 @@ export default {
 		height: 200px;
 		margin: 0 auto;
 		margin-top: -110px;
-		transform: translateZ(0);
 	}
 
   .shopList {
@@ -316,5 +362,50 @@ export default {
 		text-overflow:ellipsis;
 		white-space: nowrap;
 		max-width: 100%
+	}
+
+	.home-popup-title {
+	    text-align: center;
+	}
+
+	.popup-title-header {
+		padding-top: 40px;
+		font-size: 36px;
+	}
+
+	.popup-title-tip {
+		padding-top: 10px;
+		padding-bottom: 40px;
+		font-size: 26px;
+		color: #9d9d9d;
+	}
+
+	.home-popup-footer {
+    text-align: center;
+    padding-top: 40px;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+	}
+
+	.home-popup-footer .van-button {
+		width: 290px;
+		height: 70px;
+		border-radius: 10px;
+		margin-bottom: 20px;
+	}
+
+	.home-popup-footer .submit {
+		font-size: 32px;
+		margin-right: 40px;
+	}
+
+	.home-popup-footer .cancel {
+		color: #48b1e1;
+		font-size: 32px;
+		border-color: #48b1e1;
+	}
+
+	.home-container .van-ellipsis {
+    font-size: 36px;
 	}
 </style>
