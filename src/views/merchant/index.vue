@@ -333,6 +333,9 @@ export default {
 		}
   	},
 	created() {
+		// 添加到缓存视图
+		this.$store.dispatch('cacheViews/addCachedView', this.$route)
+
 		this.shopName = this.$route.params.shopName
 		this.$nextTick(() => {
 		  this._calculateHeight()

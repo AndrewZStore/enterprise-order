@@ -78,8 +78,8 @@
 			  			<van-col :span="2">
 				            <span class="card-num">x{{ item.value }}</span>
 			  			</van-col>
-			  			<van-col :span="3"></van-col>
-			  			<van-col :span="3">
+			  			<van-col :span="2"></van-col>
+			  			<van-col :span="4">
 				  			<div class="card-total-price">
 					  			<span class="currency-symbol">￥</span>
 						        <span class="card-price">{{ item.price }}</span>
