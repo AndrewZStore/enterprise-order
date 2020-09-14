@@ -128,7 +128,7 @@
 	    	<div class="tab-content" v-for='item in shopList'>
 		  		<div class="order-item">
 			  		<div>
-			  			<span class="shopName">{{item.shopName}}</span>
+			  			<span class="shopName">{{ item.shopName }}</span>
 			  			<van-tag plain type="success">已完成</van-tag>
 			  		</div>
 				    <div class="order">
@@ -250,20 +250,20 @@ export default {
 	body{
 		background-color: #f5f5f5;
 	}
-	.van-tabs--line .van-tabs__wrap {
+	.order-list-container .van-tabs--line .van-tabs__wrap {
 		height: 90px;
 		line-height: 90px;
 		font-size: 30px;
 	}
-	.van-tabs__line{
+	.order-list-container .van-tabs__line{
 		background-color: #4b4b4b;
 	}
-	.van-tabs__content{
+	.order-list-container .van-tabs__content{
 		width: 95%;
 		margin: 0 auto;
 		margin-top: 20px;
 	}
-	.order-item {
+	.order-list-container .order-item {
     box-sizing: border-box;
     padding: 15px 20px 85px;
     position: relative;
@@ -272,32 +272,32 @@ export default {
     background-color: #fff;
     border-radius: 10px;
 	}
-	.order-item .order {
+	.order-list-container .order-item .order {
     width: 100%;
     position: relative;
     margin: 10px 0;
 	}
-	.order-item .left {
+	.order-list-container .order-item .left {
     position: absolute;
     left: 0;
     top: 0;
     width: 84px;
 	}
-	.order-item .left .img-ctn {
+	.order-list-container .order-item .left .img-ctn {
     background: #f4f4f4;
     width: 85px;
     height: 85px
 	}
-	.order-item .left .img-ctn img {
+	.order-list-container .order-item .left .img-ctn img {
     width: 85px;
     height: 85px;
     border-radius: 8px;
 	}
-	.order-item .right {
+	.order-list-container .order-item .right {
     box-sizing: border-box;
     margin-left: 98px;
 	}
-	.order-item .right dl dt.title {
+	.order-list-container .order-item .right dl dt.title {
     color: #333;
     height: 55px;
     line-height: 55px;
@@ -309,7 +309,7 @@ export default {
     display: -ms-flexbox;
     display: flex;
 	}
-	.order-item .right dl dt.title div:first-child {
+	.order-list-container .order-item .right dl dt.title div:first-child {
     box-sizing: border-box;
     padding-right: .2rem;
     font-size: 30px;
@@ -319,47 +319,47 @@ export default {
     -webkit-flex: 1;
     width: 75%;
 	}
-	.order-item .right dl .item {
+	.order-list-container .order-item .right dl .item {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 25px;
 	}
-	.shopName {
+	.order-list-container .shopName {
 		width: 80%;
 		display: inline-block;
 		font-size: 30px;
 	}
-	.van-tag--plain {
+	.order-list-container .van-tag--plain {
 		padding-top: 10px;
 		float: right;
 		font-size: 30px;
 	}
-	.van-tag--plain::before {
+	.order-list-container .van-tag--plain::before {
 		border: none;
 	}
-	.van-tag--grey {
+	.order-list-container .van-tag--grey {
 		color: #666666;
 	}
-	.clearfix {
+	.order-list-container .clearfix {
 		margin: 20px 0;
 		color: #999;
 		line-height: 38px;
 	}
-	.orderTime {
+	.order-list-container .orderTime {
 		float: left;
 		font-size: 18px;
 	}
-	.settlement {
+	.order-list-container .settlement {
 		float: right;
 		font-size: 28px;
 	}
-	.settlement i{
+	.order-list-container .settlement i{
 		font-size: 32px;
 		font-style: normal;
 		color: #000;
 	}
-	.lookMore {
+	.order-list-container .lookMore {
 		border-radius: 20px;
 		border: 1px solid #4b4b4b;
 		padding: 15px 30px;

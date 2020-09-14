@@ -121,6 +121,7 @@ import card from './card'
 import cardsmall from './card-small'
 import swipeSlider from '@/views/components/carousel/index'
 import { getImgList, getMenu } from '@/api/user'
+import { Notify } from 'vant'
 
 export default {
 	name: 'merchant',
@@ -361,9 +362,13 @@ export default {
 
 		// 去结算
 		onSubmit() {
-			this.$store.dispatch('shop/setShoppingCart', this.shoppingCardList).then(() => {
-				this.$router.push({ name: 'orderSubmit', params: { shopName: this.shopName } })
-			})
+			if (this.shoppingCardList.length > 0) {
+				this.$store.dispatch('shop/setShoppingCart', this.shoppingCardList).then(() => {
+					this.$router.push({ name: 'orderSubmit', params: { shopName: this.shopName } })
+				})
+			} else {
+				Notify('请添加购物车')
+			}
 		},
 
 		// 获取菜单数据
