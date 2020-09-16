@@ -22,8 +22,8 @@
 				</van-col>
 				<van-col :span="16">
 				  	<div class="stepper">
-				  		<van-button v-if="item.value == 0" @click="addNum(item)" round icon="plus" type="info" size="30" style="width:30px;height:30px;line-height:30px;"></van-button>
-				  		<van-stepper v-else min="0" v-model="item.value" theme="round" button-size="30" input-width="25" disable-input @change="onChange" />
+				  		<van-button v-if="item.num == 0" @click="addNum(item)" round icon="plus" type="info" size="30" style="width:30px;height:30px;line-height:30px;"></van-button>
+				  		<van-stepper v-else min="0" v-model="item.num" theme="round" button-size="30" input-width="25" disable-input @change="onChange" />
 				  	</div>
 				</van-col>
 			  </van-row>
@@ -44,7 +44,7 @@
 		},
 		methods: {
 			addNum(item) {
-				item.value += 1
+				item.num += 1
 			},
 			onChange() {
 				console.log('hh')

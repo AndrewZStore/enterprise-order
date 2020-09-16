@@ -155,7 +155,7 @@ export default {
 			item: {
 				name: '进口澳洲牛排套餐',
 	      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
-	      value: 0,
+	      num: 0,
 	      price: 99
 			},
 
@@ -169,37 +169,37 @@ export default {
 				    {
 				      name: '进口澳洲牛排套餐',
 				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
-				      value: 0,
+				      num: 0,
 				      price: 99
 				    },
 				    {
 				      name: '进口澳洲牛排套餐',
 				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
-				      value: 0,
+				      num: 0,
 				      price: 100
 				    },
 				    {
 				      name: '进口澳洲牛排套餐',
 				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
-				      value: 0,
+				      num: 0,
 				      price: 100
 				    },
 				    {
 				      name: '进口澳洲牛排套餐',
 				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
-				      value: 0,
+				      num: 0,
 				      price: 100
 				    },
 				    {
 				      name: '进口澳洲牛排套餐',
 				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
-				      value: 0,
+				      num: 0,
 				      price: 100
 				    },
 				    {
 				      name: '1.6',
 				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
-				      value: 0
+				      num: 0
 				    }
 				  ]
 				},
@@ -209,32 +209,32 @@ export default {
 				    {
 				      name: '1.1',
 				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
-				      value: 0
+				      num: 0
 				    },
 				    {
 				      name: '1.2',
 				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
-				      value: 0
+				      num: 0
 				    },
 				    {
 				      name: '1.3',
 				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
-				      value: 0
+				      num: 0
 				    },
 				    {
 				      name: '1.4',
 				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
-				      value: 0
+				      num: 0
 				    },
 				    {
 				      name: '1.5',
 				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
-				      value: 0
+				      num: 0
 				    },
 				    {
 				      name: '1.6',
 				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
-				      value: 0
+				      num: 0
 				    },
 				  ]
 				},
@@ -244,32 +244,32 @@ export default {
 				    {
 				      name: '1.1',
 				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
-				      value: 0
+				      num: 0
 				    },
 				    {
 				      name: '1.2',
 				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
-				      value: 0
+				      num: 0
 				    },
 				    {
 				      name: '1.3',
 				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
-				      value: 0
+				      num: 0
 				    },
 				    {
 				      name: '1.4',
 				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
-				      value: 0
+				      num: 0
 				    },
 				    {
 				      name: '1.5',
 				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
-				      value: 0
+				      num: 0
 				    },
 				    {
 				      name: '1.6',
 				      img: 'https://img.yzcdn.cn/vant/cat.jpeg',
-				      value: 0
+				      num: 0
 				    }
 				  ]
 				}
@@ -295,8 +295,8 @@ export default {
 			this.menus.forEach(e => {
 				if (e.canPinlList) {
 					e.canPinlList.forEach(ee => {
-						if (ee.price && ee.value) {
-							totalPrice += ee.price * ee.value
+						if (ee.price && ee.num) {
+							totalPrice += ee.price * ee.num
 						}
 					})
 				}
@@ -309,8 +309,8 @@ export default {
 			this.menus.forEach(e => {
 				if (e.canPinlList) {
 					e.canPinlList.forEach(ee => {
-						if (ee.value) {
-							totalNum += ee.value
+						if (ee.num) {
+							totalNum += ee.num
 						}
 					})
 				}
@@ -323,7 +323,7 @@ export default {
 			this.menus.forEach(e => {
 				if (e.canPinlList) {
 					e.canPinlList.forEach(ee => {
-						if (ee.value) {
+						if (ee.num) {
 							cardList.push(ee)
 						}
 					})
@@ -335,6 +335,7 @@ export default {
 	created() {
 		// 添加到缓存视图
 		this.$store.dispatch('cacheViews/addCachedView', this.$route)
+		this.$store.dispatch('order/updateShopId', this.$route.params.shopId)
 
 		this.shopName = this.$route.params.shopName
 		this.$nextTick(() => {
@@ -366,8 +367,10 @@ export default {
 		// 去结算
 		onSubmit() {
 			if (this.shoppingCardList.length > 0) {
-				this.$store.dispatch('shop/setShoppingCart', this.shoppingCardList).then(() => {
+				this.$store.dispatch('order/setShoppingCart', this.shoppingCardList).then(() => {
 					this.$router.push({ name: 'orderSubmit', params: { shopName: this.shopName } })
+				}).catch(err => {
+					Notify(err)
 				})
 			} else {
 				Notify('请添加购物车')
@@ -381,7 +384,7 @@ export default {
 				data.forEach(e => {
 					if (e.canPinlList) {
 						e.canPinlList.forEach(ee => {
-							ee.value = 0
+							ee.num = 0
 						})
 					}
 				})

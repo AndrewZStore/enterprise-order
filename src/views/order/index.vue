@@ -52,7 +52,7 @@
 					<span class="info">配送时间：</span>
 				</van-col>
 				<van-col span="12">
-					<span class="info info-value">2020-08-01 晚餐</span>
+					<span class="info info-value">{{ this.$store.getters.orderDate }}&nbsp;{{ eatTypeCn }}</span>
 				</van-col>
 			</van-row>
 			<van-row>
@@ -76,7 +76,7 @@
 				            <span class="card-title">{{ item.name }}</span>
 			  			</van-col>
 			  			<van-col :span="2">
-				            <span class="card-num">x{{ item.value }}</span>
+				            <span class="card-num">x{{ item.num }}</span>
 			  			</van-col>
 			  			<van-col :span="2"></van-col>
 			  			<van-col :span="4">
@@ -110,6 +110,7 @@
 <script>
 import { getAddress, submitOrder } from '@/api/user'
 import { Notify } from 'vant'
+import { Toast } from 'vant'
 
 export default {
 	name: 'confirmOrder',
@@ -119,8 +120,10 @@ export default {
 			addrSelectVisible: false,
 			// 当前地址
 			addressNow: '地址选择',
-			// 地址选择
+			// 地址选择器选择地址
 			addressSeclect: '',
+			// 当前订餐类型
+			eatTypeCn: '',
 			// 地址列表
 			addrs: [],
 			addrsTest: [
@@ -155,8 +158,20 @@ export default {
 	created() {
 		this.items = this.$store.getters.shoppingCart
 		this.items.forEach(e => {
-			this.totalPrice += e.price * e.value
+			this.totalPrice += e.price * e.num
 		})
+
+		const eatType = this.$store.getters.currentEatType
+		console.log(eatType)
+		if (eatType == 'A') {
+			this.eatTypeCn = '早餐'
+		} else if (eatType == 'B') {
+			this.eatTypeCn = '午餐'
+		} else if (eatType == 'C') {
+			this.eatTypeCn = '晚餐'
+		} else if (eatType == 'D') {
+			this.eatTypeCn = '下午茶'
+		}
 	},
 	methods: {
 		// 返回
@@ -176,9 +191,45 @@ export default {
 		// 提交订单
 		onSubmit() {
 			if (this.addressNow == '地址选择') {
-				Notify('请选择送货地址')
+				// Notify('请选择送货地址')
+				Toast.fail({
+					message: '请选择送货地址',
+					duration: 3000
+				})
 			} else {
-				
+				const params = {
+					shopId: this.$store.getters.shopId,
+					eatType: this.$store.getters.currentEatType,
+					orgId: this.$store.getters.orgId,
+					userId: this.$store.getters.userId,
+					address: this.addressNow,
+					openid: '',
+					totalPrice: this.totalPrice,
+					productJSON: this.$store.getters.shoppingCart
+				}
+				submitOrder(params).then(resp => {
+					const toast = Toast.loading({
+					  duration: 0, // 持续展示 toast
+					  forbidClick: true,
+					  message: '提交成功',
+					});
+
+					let second = 3;
+					const timer = setInterval(() => {
+					  if (second) {
+					    toast.message = `返回首页 ${second} 秒`
+					  } else {
+					    clearInterval(timer)
+					    // 手动清除 Toast
+					    Toast.clear()
+					    this.$router.push({name: 'home'})
+					  }
+					  second--
+					}, 1000)
+				}).catch(err => {
+					Notify('提交失败，请重新提交')
+					this.$router.push({name: 'home'})
+				})
 			}
 		},
 		// 地址选择确定
@@ -331,5 +382,15 @@ export default {
     color: white;
 	background-color: #48b1e1;
     border-radius: 10px;
+}
+
+.van-toast {
+	width: 220px;
+	min-height: 200px;
+	font-size: 30px;
+}
+
+.van-toast__icon {
+    font-size: 60px;
 }
 </style>

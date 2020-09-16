@@ -15,7 +15,7 @@
 				</van-nav-bar>
 
 				<van-tabs 
-					v-model="activeName"
+					v-model="eatType"
 					@click="onChangeTab"
 					line-height="3px"
 					:ellipsis="false"
@@ -59,7 +59,7 @@
 		<!-- 店铺列表 -->
 		<van-list class='shopList'>
 		  <van-cell v-for='item in dataList'>
-		  	<router-link :to="{ name: 'merchant', params: { shopName: item.shopName, shopId: item.shopId, eatType: activeName }}">
+		  	<router-link :to="{ name: 'merchant', params: { shopName: item.shopName, shopId: item.shopId, eatType: eatType }}">
 					<div class="dealcard">
 						<div class="dealcard-img imgbox">
 							<van-image fit="fill" width="100%" height="100%" :src="item.shopImg">
@@ -117,6 +117,7 @@ import swipeSlider from '@/views/components/carousel/index'
 import { getShop, getImgList } from '@/api/user'
 
 export default {
+	name: 'home',
 	components: {
 		swipeSlider,
 		footerNav
@@ -134,7 +135,7 @@ export default {
 			// 控制弹出框显示
 			popupVisible: false,
 			// 当前选项卡名称
-			activeName: "A",
+			eatType: "",
 			// 数据列表
 			dataList: [],
 			// 轮播图列表
@@ -142,6 +143,8 @@ export default {
 		}
 	},
 	created() {
+		// 将当前视图添加到缓存
+		this.$store.dispatch('cacheViews/addCachedView', this.$route)
 		this.generateDateArray()
 		
 		// 获得轮播图照片
@@ -159,13 +162,24 @@ export default {
 		var dateNow = new Date()
 		var hourNow = dateNow.getHours()
 		if (hourNow > 16) {
-			this.activeName = "C"
+			this.eatType = "C"
 		} else if (hourNow > 14) {
-			this.activeName = "D"
+			this.eatType = "D"
 		} else if (hourNow > 10) {
-			this.activeName = "B"
+			this.eatType = "B"
+		} else {
+			this.eatType = "A"
 		}
-		this.onChangeTab(this.activeName)
+
+		this.onChangeTab(this.eatType)
+	},
+	watch: {
+		eatType(val) {
+			this.$store.dispatch('order/updateCurrentEatType', this.eatType)
+		},
+		hadSelectDate(val) {
+			this.$store.dispatch('order/updateOrderDate', this.hadSelectDate)
+		}
 	},
 	methods: {
 		// 切换选项卡 
@@ -217,7 +231,6 @@ export default {
     // 时间选择器 改变
     onChange(picker, value, index) {
     	this.selectDate = this.columnValues[index]
-    	console.log(this.selectDate)
     },
     // 时间选择器 选择
     onSubmit() {
