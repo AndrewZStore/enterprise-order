@@ -3,35 +3,33 @@
 		<van-nav-bar
 		  title="订单详情"
 		  left-arrow
-		  @click-left="onClickLeft"
+		  @click-left="goback"
 		/>
 
 		<div>
 			<div class="order-menu-block">
 				<div class="shopinfo">
-					<div class="name"><span class="name-txt">蜀地源冒菜（老虹井路)</span></div>
-					<div class="cutTime">结单时间： <i>2020-08-01 15:00</i></div>
+					<div class="name"><span class="name-txt">{{ orderDetail.shopName }}</span></div>
 				</div>
-				<div class="dishitem"><span class="proImg"><img src=""></span><span class="name">★★厦门泡面★★</span><span class="count">1份</span><span class="price">¥5.98</span></div>
-				<div class="dishitem"><span class="proImg"><img src=""></span><span class="name">★★厦门门泡面泡面厦门泡面★★</span><span class="count">1份</span><span class="price">¥5.98</span></div>
-				<div class="dishitem"><span class="proImg"><img src=""></span><span class="name">★★厦门泡面★★</span><span class="count">1份</span><span class="price">¥5.98</span></div>
-				<div class="dishitem"><span class="proImg"><img src=""></span><span class="name">★★厦门泡面★★</span><span class="count">1份</span><span class="price">¥5.98</span></div>
-				<div class="deliveryfee">
-					<div><span class="title">企业补贴</span><span class="price">¥38</span></div>
-					<div><span class="title">自付金额</span><span class="price">¥38</span></div>
-				</div>
-				<div class="actual"><span class="label">实付：</span><span class="price">¥17.76</span></div>
+				<div class="dishitem" v-for="item in orderDetail.productList">
+          <span class="proImg">
+            <img src="">
+          </span>
+          <span class="name">★★{{ item.productName }}★★</span>
+          <span class="count">{{ item.productNum }}份</span>
+          <span class="price">¥{{ item.productPrice }}</span>
+        </div>
+				<div class="actual"><span class="label">总计：</span><span class="price">¥{{ orderDetail.totalPrice }}</span></div>
 			</div>
 		</div>
 
 		<div>
 			<div class="delivery-block mb-10">
-				<div class="deliverytime"><span class="label">下单人</span><span class="time-desc">张小姐</span></div>
-				<div class="deliverytime"><span class="label">订单号</span><span class="time-desc">1234567890</span></div>
-				<div class="deliverytime"><span class="label">下单时间</span><span class="time-desc">2020-08-01 12:00</span></div>
-				<div class="deliverytime"><span class="label">送餐时间</span><span class="time-desc">2020-08-01 12:00</span></div>
-				<div class="deliverytime"><span class="label">支付方式</span><span class="time-desc">企业支付</span></div>
-				<div class="deliverytime"><span class="label">收货地址</span><span class="time-desc">东莞市交管局如果换热管呵呵</span></div>
+				<div class="deliverytime"><span class="label">下单人</span><span class="time-desc">{{ orderDetail.userName }}</span></div>
+				<div class="deliverytime"><span class="label">订单号</span><span class="time-desc">{{ orderDetail.orderId }}</span></div>
+				<div class="deliverytime"><span class="label">下单时间</span><span class="time-desc">{{ orderDetail.orderTime }}</span></div>
+				<div class="deliverytime"><span class="label">支付方式</span><span class="time-desc">{{ orderDetail.payType }}</span></div>
+				<div class="deliverytime"><span class="label">收货地址</span><span class="time-desc">{{ orderDetail.address }}</span></div>
 			</div>
 		</div>
 
@@ -39,9 +37,33 @@
 </template>
 
 <script>
-	export default {
-		name: 'orderDetail'
-	}
+import { getOrderDetail } from '@/api/user'
+
+export default {
+	name: 'orderDetail',
+  data() {
+    return {
+      orderId: this.$route.params.orderId,
+      orderDetail: {}
+    }
+  },
+  created() {
+    this.getOrder()
+  },
+  methods: {
+    // 返回上一级
+    goback() {
+        this.$router.go(-1)
+    },
+    getOrder() {
+      getOrderDetail({ orderId: 100052331 }).then(resp => {
+        console.log(resp)
+        this.orderDetail = resp
+      })
+      this.orderDetail = {"orderTime":"2020-04-14 21:57:39.0","payType":"企业支付","address":"企业支付","orderId":"100052355","totalPrice":"20","shopName":"农家土菜馆","userName":"测试","productList":[{"productNum":1,"productName":"小炒肉","productPrice":"20"}]}
+    }
+  }
+}
 </script>
 
 <style>
@@ -82,11 +104,10 @@
 		background-color: #333;
 	}
 	.shopinfo .name {
-    border-right: 1px solid #f1f0f0;
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
-    width: 280px;
+    width: 480px;
     overflow:hidden;
     text-overflow:ellipsis;
     white-space: nowrap;

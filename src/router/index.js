@@ -47,15 +47,13 @@ export const constantRoutes = [
       path: '/order-list',
       name: 'orderList',
       meta: { requireAuth: true },
-      component: () => import('@/views/orderList/index'),
-      children: [
-        {
-          path: 'detail',
-          name: 'orderDetail',
-          meta: { requireAuth: true },
-          component: () => import('@/views/orderList/detail')
-        }
-      ]
+      component: () => import('@/views/orderList/index')
+    },
+    {
+      path: '/order-detail',
+      name: 'orderDetail',
+      meta: { requireAuth: true },
+      component: () => import('@/views/orderList/detail')
     }
 ]
 

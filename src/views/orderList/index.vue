@@ -4,127 +4,13 @@
 		  title="订单"
 		  right-text="导出"
 		  left-arrow
-		  @click-left="onClickLeft"
-		  @click-right="onClickRight"
+		  @click-left="goback"
+		  @click-right="exportExcel"
 		/>
 
-		<van-tabs>
-		  <!-- <van-tab title="全部">
-		  	<div class="order-item">
-		  		<div>
-		  			<span class="shopName">店铺名称</span>
-		  			<van-tag plain type="success">已完成</van-tag>
-		  		</div>
-		  		<van-divider />
-			    <div class="order">
-			        <div class="left"><div class="img-ctn"><img class="deal-avatar" src=""></div></div>
-			        <div class="right">
-			            <dl>
-			                <dt class="title">
-			                  <div>新辣道鱼火锅2人餐</div>
-			                  <span class="unitCost">20.50</span>
-			                </dt>
-                      <dt class="item">x 1</dt>
-			            </dl>
-			        </div>
-			    </div>
-			    <div class="order">
-			        <div class="left"><div class="img-ctn"><img class="deal-avatar" src=""></div></div>
-			        <div class="right">
-			            <dl>
-			                <dt class="title">
-			                  <div>新辣道鱼火锅2人餐</div>
-			                  <span class="unitCost">20.50</span>
-			                </dt>
-                      <dt class="item">x 1</dt>
-			            </dl>
-			        </div>
-			    </div>
-			    <div class="clearfix">
-			    	<div class="orderTime">下单时间：<span>2020-08-01</span></div>
-			    	<div class="settlement">共2件商品，实付<i>￥40.00</i></div>
-			    </div>
-			    <span class="lookMore">查看详情</span>
-				</div>
-		  </van-tab>
-		  <van-tab title="未支付（0）">
-		  	<div class="order-item">
-		  		<div>
-		  			<span class="shopName">店铺名称</span>
-		  			<van-tag plain type="danger">未支付</van-tag>
-		  		</div>
-		  		<van-divider />
-			    <div class="order">
-			        <div class="left"><div class="img-ctn"><img class="deal-avatar" src=""></div></div>
-			        <div class="right">
-			            <dl>
-			                <dt class="title">
-			                  <div>新辣道鱼火锅2人餐</div>
-			                  <span class="unitCost">20.50</span>
-			                </dt>
-                      <dt class="item">x 1</dt>
-			            </dl>
-			        </div>
-			    </div>
-			    <div class="order">
-			        <div class="left"><div class="img-ctn"><img class="deal-avatar" src=""></div></div>
-			        <div class="right">
-			            <dl>
-			                <dt class="title">
-			                  <div>新辣道鱼火锅2人餐</div>
-			                  <span class="unitCost">20.50</span>
-			                </dt>
-                      <dt class="item">x 1</dt>
-			            </dl>
-			        </div>
-			    </div>
-			    <div class="clearfix">
-			    	<div class="orderTime">下单时间：<span>2020-08-01</span></div>
-			    	<div class="settlement">共2件商品，实付<i>￥40.00</i></div>
-			    </div>
-			    <span class="lookMore">查看详情</span>
-				</div>
-		  </van-tab>
-		  <van-tab title="已支付">
-		  	<div class="order-item">
-		  		<div>
-		  			<span class="shopName">店铺名称</span>
-		  			<van-tag plain type="warning">已支付</van-tag>
-		  		</div>
-		  		<van-divider />
-			    <div class="order">
-			        <div class="left"><div class="img-ctn"><img class="deal-avatar" src=""></div></div>
-			        <div class="right">
-			            <dl>
-			                <dt class="title">
-			                  <div>新辣道鱼火锅2人餐</div>
-			                  <span class="unitCost">20.50</span>
-			                </dt>
-                      <dt class="item">x 1</dt>
-			            </dl>
-			        </div>
-			    </div>
-			    <div class="order">
-			        <div class="left"><div class="img-ctn"><img class="deal-avatar" src=""></div></div>
-			        <div class="right">
-			            <dl>
-			                <dt class="title">
-			                  <div>新辣道鱼火锅2人餐</div>
-			                  <span class="unitCost">20.50</span>
-			                </dt>
-                      <dt class="item">x 1</dt>
-			            </dl>
-			        </div>
-			    </div>
-			    <div class="clearfix">
-			    	<div class="orderTime">下单时间：<span>2020-08-01</span></div>
-			    	<div class="settlement">共2件商品，实付<i>￥40.00</i></div>
-			    </div>
-			    <span class="lookMore">查看详情</span>
-				</div>
-		  </van-tab> -->
-		  <van-tab title="支付成功">
-			  <div class="tab-title" slot="title" @click="orderSuccess">支付成功</div>
+		<van-tabs v-model="activeName" @click="changeActive">
+		  <van-tab title="支付成功" name="succeed">
+			  <div class="tab-title" slot="title">支付成功</div>
 	    	<div class="tab-content" v-for='item in shopList'>
 		  		<div class="order-item">
 			  		<div>
@@ -132,14 +18,23 @@
 			  			<van-tag plain type="success">已完成</van-tag>
 			  		</div>
 				    <div class="order">
-				        <div class="left"><div class="img-ctn"><img class="deal-avatar" src=""></div></div>
+				        <div class="left">
+				        	<div class="img-ctn">
+				        		<van-image class="deal-avatar" lazy-load fit="fill" :src="item.img">
+						        	<template v-slot:loading>
+						            <van-loading type="spinner" size="20" />
+						          </template>
+						          <template v-slot:error>加载失败</template>
+						        </van-image>
+				        	</div>
+				        </div>
 				        <div class="right">
 				            <dl>
 				                <dt class="title">
-				                  <div>{{item.productName}}</div>
-				                  <span class="unitCost">{{item.productPrice}}</span>
+				                  <div>{{ item.productName }}</div>
+				                  <span class="unitCost">{{ item.productPrice }}</span>
 				                </dt>
-	                      <dt class="item">x {{item.productNum}}</dt>
+	                      <dt class="item">x {{ item.productNum }}</dt>
 				            </dl>
 				        </div>
 				    </div>
@@ -147,12 +42,12 @@
 				    	<div class="orderTime">下单时间：<span>2020-08-01</span></div>
 				    	<div class="settlement">共2件商品，实付<i>￥40.00</i></div>
 				    </div>
-				    <span class="lookMore">查看详情</span>
+				    <span class="lookMore" @click="checkDetail(item)">查看详情</span>
 		    	</div>
 				</div>
 		  </van-tab>
-		  <van-tab title="已取消">
-			  <div class="tab-title" slot="title" @click="orderCancel">已取消</div>
+		  <van-tab title="已取消" name="cancel">
+			  <div class="tab-title" slot="title">已取消</div>
 		    	<div class="tab-content" v-for='item in shopList'>
 			  		<div class="order-item">
 				  		<div>
@@ -202,31 +97,41 @@ export default {
 	data() {
 		return {
 			shopList: [],
-			queryOrder: {
-				userId: '100052331',
-				orderStatu: ''
-			}
+			activeName: 'succeed'
 		}
 	},
 	created() {
-		this.orderSuccess()
+		this.getOrder()
 	},
 	methods: {
-		onClickLeft() {
+		// 返回
+		goback() {
 			this.$router.go(-1)
 		},
-		getAllOrder(state) {	
-			getOrderList({ userId: this.queryOrder.userId, orderStatu: state }).then(resp => {
+		// 导出
+		exportExcel() {
+
+		},
+		// 选项卡切换
+		changeActive() {
+			this.getOrder()
+		},
+		// 获得订单
+		getOrder() {
+			var state = ''
+			if (this.activeName == 'succeed') {
+				state = '02'
+			}	else if (this.activeName == 'cancel') {
+				state = '06'
+			}
+			getOrderList({ userId: this.$store.getters.userId, orderStatu: state }).then(resp => {
 				this.shopList = resp.proList
-				console.log(this.shopList)
 			})
 		},
-		orderSuccess() {
-			this.getAllOrder('02')
-			console.log(1)
-		},
-		orderCancel() {
-			this.getAllOrder('06')
+		// 查询详情
+		checkDetail(item) {
+			console.log(item)
+			this.$router.push({ name: 'orderDetail', params: { orderId: item.orderId } })
 		}
 	}
 }
@@ -288,7 +193,7 @@ export default {
     width: 85px;
     height: 85px
 	}
-	.order-list-container .order-item .left .img-ctn img {
+	.order-list-container .order-item .left .img-ctn .van-image {
     width: 85px;
     height: 85px;
     border-radius: 8px;
