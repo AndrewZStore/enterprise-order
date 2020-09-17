@@ -35,12 +35,12 @@ export default {
 		height: 110px;
 	}
 
-	.van-tabbar {
+	.footer-nav .van-tabbar {
 		width: 100%;
 		height: 110px;
 	}
 
-	.van-tabbar-item__text {
+	.footer-nav .van-tabbar-item__text {
 		font-size: 22px;
 		color: #4b4b4b;
 	}
