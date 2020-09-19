@@ -2,7 +2,7 @@
 	<div class="order-list-container">
 		<van-nav-bar
 		  title="订单"
-		  right-text="导出"
+		  right-text=""
 		  left-arrow
 		  @click-left="goback"
 		  @click-right="exportExcel"
@@ -166,6 +166,8 @@ export default {
 		width: 95%;
 		margin: 0 auto;
 		margin-top: 20px;
+		height: calc(100vh - 220px);
+    	overflow: auto;
 	}
 	.order-list-container .order-item {
     box-sizing: border-box;

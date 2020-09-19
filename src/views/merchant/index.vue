@@ -93,7 +93,7 @@
 					</div>
 				</van-col>
 				<van-col :span="12">
-					<div class="popup-title popup-title-right">
+					<div class="popup-title popup-title-right" @click="clearShopping">
 						<van-icon name="delete" />
 						<span>清空</span>
 					</div>
@@ -159,10 +159,10 @@ export default {
 	      price: 99
 			},
 
-			menusTest: [],
+			menus: [],
 
 			// 菜单列表
-			menus: [
+			menustest: [
 				{
 				  typeName: '甜点',
 				  canPinlList: [
@@ -373,7 +373,7 @@ export default {
 					Notify(err)
 				})
 			} else {
-				Notify('请添加购物车')
+				Notify('请先选购商品')
 			}
 		},
 
@@ -389,7 +389,20 @@ export default {
 					}
 				})
 
-				this.menusTest = resp
+				this.menus = resp
+			})
+		},
+
+		// 清空购物车
+		clearShopping() {
+			this.menus.forEach(e => {
+				if (e.canPinlList) {
+					e.canPinlList.forEach(ee => {
+						if (ee.num) {
+							ee.num = 0
+						}
+					})
+				}
 			})
 		},
 

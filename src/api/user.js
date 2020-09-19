@@ -1,4 +1,4 @@
-import request from "@/utils/request";
+import request from "@/utils/request"
  
 /**
  * 登录
@@ -84,6 +84,7 @@ export function submitOrder(data) {
     data
   })
 }
+
 
 // 查询地址
 export function getAddress(data) {

@@ -60,7 +60,7 @@
 					<span class="info">支付方式：</span>
 				</van-col>
 				<van-col span="12">
-					<span class="info info-value">货到付款</span>
+					<span class="info info-value">企业付款</span>
 				</van-col>
 			</van-row>
 		</div>
@@ -162,7 +162,6 @@ export default {
 		})
 
 		const eatType = this.$store.getters.currentEatType
-		console.log(eatType)
 		if (eatType == 'A') {
 			this.eatTypeCn = '早餐'
 		} else if (eatType == 'B') {

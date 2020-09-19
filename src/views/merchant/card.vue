@@ -36,7 +36,6 @@
 	export default {
 		name: "card",
 		props: ["item"],
-
 		data() {
 			return {
 				
@@ -47,7 +46,7 @@
 				item.num += 1
 			},
 			onChange() {
-				console.log('hh')
+				
 			}
 		}
 	}

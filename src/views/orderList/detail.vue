@@ -53,9 +53,8 @@ export default {
   computed: {
     orderTime: function() {
         if (this.orderDetail.orderTime) {
-            this.orderDetail.orderTime.replace('.0', '')
+            return this.orderDetail.orderTime.replace('.0', '')
         }
-        
     }
   },
   methods: {

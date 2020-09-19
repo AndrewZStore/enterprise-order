@@ -1,5 +1,5 @@
 import axios from "axios";
-import store from '@/store/index'
+import { getToken } from '@/utils/auth'
 import { Notify } from 'vant'
 
 
@@ -9,16 +9,17 @@ import { Notify } from 'vant'
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // 环境变量base接口地址 url = base url + request url
   withCredentials: true, // 跨域请求时发送Cookie
-  timeout: 60000, // 请求超时
+  timeout: 6000, // 请求超时
   headers: {
     'Content-Type': "application/json;charset=utf-8"
   }
 });
 
 
-axios.interceptors.request.use(
+service.interceptors.request.use(
   config => {
-    if (store.getters.token) {
+    const token = getToken()
+    if (token) {
       config.headers['Authorization'] = token
     }
     return config
