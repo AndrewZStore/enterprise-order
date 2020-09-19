@@ -228,7 +228,6 @@ export default {
 					}, 1000)
 				}).catch(err => {
 					Notify('提交失败，请重新提交')
-					this.$router.push({name: 'home'})
 				})
 			}
 		},

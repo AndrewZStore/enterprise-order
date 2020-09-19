@@ -130,7 +130,6 @@ export default {
 		},
 		// 查询详情
 		checkDetail(item) {
-			console.log(item)
 			this.$router.push({ name: 'orderDetail', params: { orderId: item.orderId } })
 		}
 	}
@@ -152,7 +151,7 @@ export default {
 		font-size: 40px;
 	}
 	/**以上可共用**/
-	body{
+	.order-list-container {
 		background-color: #f5f5f5;
 	}
 	.order-list-container .van-tabs--line .van-tabs__wrap {

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
   	<keep-alive :include="cachedViews">
-		<router-view :key="key" />
+  		<router-view :key="key" />
   	</keep-alive>
   </div>
 </template>

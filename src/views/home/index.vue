@@ -74,12 +74,12 @@
 								{{ item.shopName }}
 								<van-icon name="arrow" />
 							</div>
-							<div class="title text-block">
+							<!-- <div class="title text-block">
 								<van-icon class="store" name="shop-o" size='20px'/>{{item.address}}
 							</div>
 							<div class="price">
 								<span class="strong">麻辣翠香买三斤送半斤，让你吃够</span>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</router-link>

@@ -1,7 +1,7 @@
 import { login } from '@/api/user'
 import { Notify } from 'vant'
 import { setToken } from '@/utils/auth'
-
+import { encrypt } from '@/utils/encrypt'
 
 const state = {
   token: "",
@@ -48,7 +48,7 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ userName: username.trim(), password: password }).then(response => {
+      login({ userName: username.trim(), password: encrypt(password) }).then(response => {
         const { sysId, userName, userId, orgId, token, deptName } = response
         if (token) {
           commit('SET_TOKEN', response.token)

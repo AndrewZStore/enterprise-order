@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="order-detail">
 		<van-nav-bar
 		  title="订单详情"
 		  left-arrow
@@ -27,7 +27,7 @@
 			<div class="delivery-block mb-10">
 				<div class="deliverytime"><span class="label">下单人</span><span class="time-desc">{{ orderDetail.userName }}</span></div>
 				<div class="deliverytime"><span class="label">订单号</span><span class="time-desc">{{ orderDetail.orderId }}</span></div>
-				<div class="deliverytime"><span class="label">下单时间</span><span class="time-desc">{{ orderDetail.orderTime }}</span></div>
+				<div class="deliverytime"><span class="label">下单时间</span><span class="time-desc">{{ orderTime }}</span></div>
 				<div class="deliverytime"><span class="label">支付方式</span><span class="time-desc">{{ orderDetail.payType }}</span></div>
 				<div class="deliverytime"><span class="label">收货地址</span><span class="time-desc">{{ orderDetail.address }}</span></div>
 			</div>
@@ -50,41 +50,47 @@ export default {
   created() {
     this.getOrder()
   },
+  computed: {
+    orderTime: function() {
+        if (this.orderDetail.orderTime) {
+            this.orderDetail.orderTime.replace('.0', '')
+        }
+        
+    }
+  },
   methods: {
     // 返回上一级
     goback() {
         this.$router.go(-1)
     },
     getOrder() {
-      getOrderDetail({ orderId: 100052331 }).then(resp => {
-        console.log(resp)
+      getOrderDetail({ orderId: this.$route.params.orderId }).then(resp => {
         this.orderDetail = resp
       })
-      this.orderDetail = {"orderTime":"2020-04-14 21:57:39.0","payType":"企业支付","address":"企业支付","orderId":"100052355","totalPrice":"20","shopName":"农家土菜馆","userName":"测试","productList":[{"productNum":1,"productName":"小炒肉","productPrice":"20"}]}
     }
   }
 }
 </script>
 
 <style>
-	.van-nav-bar {
+	.order-detail .van-nav-bar {
 		height: 100px;
 		line-height: 100px;
 		background: #4b4b4b;
 	}
-	.van-nav-bar__left i.van-icon, .van-nav-bar__text {
+	.order-detail .van-nav-bar__left i.van-icon, .van-nav-bar__text {
 		color: #fff;
 		font-size: 30px;
 	}
-	.van-nav-bar__title {
+	.order-detail .van-nav-bar__title {
 		color: #fff;
 		font-size: 40px;
 	}
 	/**以上可共用**/
-	body {
+	.order-detail {
     background-color: #f5f5f5;
 	}
-	.shopinfo {
+	.order-detail .shopinfo {
     font-size: 34px;
     line-height: 60px;
     display: -webkit-flex;
@@ -98,12 +104,12 @@ export default {
     align-items: center;
     color: #333333;
 	}
-	.proImg {
+	.order-detail .proImg {
 		width: 80px;
 		height: 80px;
 		background-color: #333;
 	}
-	.shopinfo .name {
+	.order-detail .shopinfo .name {
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center;
@@ -112,16 +118,16 @@ export default {
     text-overflow:ellipsis;
     white-space: nowrap;
 	}
-	.shopinfo .cutTime{
+	.order-detail .shopinfo .cutTime{
 		font-size: 12px;
 		float: right;
 		padding-left: 15px;
 		color: #999;
 	}
-	.shopinfo .cutTime i{
+	.order-detail .shopinfo .cutTime i{
 		font-style: normal;
 	}
-	.order-menu-block, .delivery-block {
+	.order-detail .order-menu-block, .delivery-block {
 		width: 95%;
     margin: 0 auto;
     margin-top: 1.25rem;
@@ -129,12 +135,12 @@ export default {
     padding: 0.9375rem 1.25rem;
     background-color: #fff;
 	}
-	.shopinfo .name .name-txt {
+	.order-detail .shopinfo .name .name-txt {
     -webkit-flex: 1;
     -ms-flex: 1;
     flex: 1;
 	}
-	.shopinfo .name:after {
+	.order-detail .shopinfo .name:after {
     content: '';
     width: 10px;
     padding-top: 17.33333333px;
@@ -143,7 +149,7 @@ export default {
     display: inline-block;
     margin-right: 15px;
 	}
-	.dishitem {
+	.order-detail .dishitem {
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -156,25 +162,25 @@ export default {
     background-color: #fff;
     color: #333333;
 	}
-	.dishitem .name {
+	.order-detail .dishitem .name {
     width: 60%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 	}
-	.dishitem .count {
+	.order-detail .dishitem .count {
     width: 12%;
     white-space: nowrap;
     text-align: left;
 	}
-	.dishitem .price {
+	.order-detail .dishitem .price {
     -webkit-flex: 1 1;
     -ms-flex: 1 1;
     flex: 1 1;
     text-align: right;
     white-space: nowrap;
 	}
-	.deliveryfee {
+	.order-detail .deliveryfee {
     line-height: 60px;
     -webkit-align-items: center;
     -ms-flex-align: center;
@@ -187,13 +193,13 @@ export default {
     z-index: 1;
     border-top: 1px solid #f1f0f0;
 	}
-	.deliveryfee .title {
+	.order-detail .deliveryfee .title {
     font-size: 30px;
     -webkit-flex: 1;
     -ms-flex: 1;
     flex: 1;
 	}
-	.deliveryfee .price {
+	.order-detail .deliveryfee .price {
     font-size: 30px;
 		float: right;
 	}
