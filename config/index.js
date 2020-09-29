@@ -54,17 +54,6 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: './',
 
-    proxyTable: {
-         // /api 自定义服务代理名字
-        '/api': {
-            target: "http://139.199.171.89:8900", //代理帮助你请求的具体服务
-            changeOrigin: true, // 开启代理
-            pathRewrite: {  // 格式化path 
-                "^/api": ""
-            }
-        }
-    },
-
     /**
      * Source Maps
      */
