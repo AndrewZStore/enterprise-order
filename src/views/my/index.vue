@@ -4,7 +4,7 @@
 		<div class="header">
 			<van-nav-bar title="我的"/>
 			<div class="my-account">
-        <img class="avater" src=" ">
+        <van-image class="avater" :src="require('@/assets/head.png')" />
         <div class="user-info more">
           <p class="uname">{{ $store.getters.userName }}<i class="department">{{ $store.getters.deptName }}</i></p>
           <p class="unum">{{ $store.getters.userPhone }}</p>
@@ -20,13 +20,13 @@
 			    </div>
 		    </router-link>
 	    </dd>
-	    <dd>
+	    <!-- <dd>
 		    <a class="react">
 			    <div class="more-weak">
 		        <i class="modify-pwd"></i>修改密码
 			    </div>
 		    </a>
-	    </dd>
+	    </dd> -->
 	    <dd>
 		    <a class="react">
 			    <div class="more-weak">
@@ -60,7 +60,7 @@ export default {
 <style>
 	.me-container .header {
 		height: 350px;
-		background: url(../../assets/mine.jpg) no-repeat center;
+		background: url(../../assets/mine-black.jpg) no-repeat center;
 		color: #fff;
 		background-size: 100%; 
 	}

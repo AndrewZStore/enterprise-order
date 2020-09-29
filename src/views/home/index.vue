@@ -191,8 +191,8 @@ export default {
 				eatType: name 
 			}
 			getShop(params).then(resp => {
-				this.dataList = [{'address': '张江', 'shopName': '农家土菜馆', 'shopImg': '', 'shopId': '100052157'}, {'address': '紫薇路', 'shopName': '福瑞轩', 'shopImg': '', 'shopId': '100054052'}, {'address': '上海市南京路', 'shopName': '上海饭店', 'shopImg': '', 'shopId': '100077563'}, {'address': '北京市朝阳区区', 'shopName': '北京饭店', 'shopImg': '', 'shopId': '100077564'}, {'address': '浙江杭州市', 'shopName': '浙江饭店', 'shopImg': '', 'shopId': '100077565'}, {'address': '杭州市', 'shopName': '杭州饭店', 'shopImg': '', 'shopId': '100077566'}]
-				// this.dataList = resp.list
+				// this.dataList = [{'address': '张江', 'shopName': '农家土菜馆', 'shopImg': '', 'shopId': '100052157'}, {'address': '紫薇路', 'shopName': '福瑞轩', 'shopImg': '', 'shopId': '100054052'}, {'address': '上海市南京路', 'shopName': '上海饭店', 'shopImg': '', 'shopId': '100077563'}, {'address': '北京市朝阳区区', 'shopName': '北京饭店', 'shopImg': '', 'shopId': '100077564'}, {'address': '浙江杭州市', 'shopName': '浙江饭店', 'shopImg': '', 'shopId': '100077565'}, {'address': '杭州市', 'shopName': '杭州饭店', 'shopImg': '', 'shopId': '100077566'}]
+				this.dataList = resp.list
 			})
 		},
 		// 生成选择器日期数组
