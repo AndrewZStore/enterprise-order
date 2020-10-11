@@ -1,10 +1,12 @@
 import { login } from '@/api/user'
 import { Notify } from 'vant'
-import { setToken } from '@/utils/auth'
+import { getToken, setToken, removeToken } from '@/utils/auth'
 import { encrypt } from '@/utils/encrypt'
+import router, { resetRouter } from '@/router'
+
 
 const state = {
-  token: "",
+  token: getToken(),
   // 公司id
   orgId: "",
   // 系统编码
@@ -73,6 +75,25 @@ const actions = {
         reject(error)
       })
     })
+  },
+  logout({ commit, state, dispatch }) {
+    return new Promise((resolve, reject) => {
+      commit('SET_TOKEN', '')
+      commit('SET_ORGID', '')
+      commit('SET_SYSID', '')
+      commit('SET_USERID', '')
+      commit('SET_USERNAME', '')
+      commit('SET_DEPTNAME', '')
+      commit('SET_USERPHONE', '')
+
+      removeToken()
+      resetRouter()
+
+      dispatch('cacheViews/delAllCachedViews', null, { root: true })
+
+      resolve()
+    })
+
   }
 }
 

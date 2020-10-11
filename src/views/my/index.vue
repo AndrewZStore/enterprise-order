@@ -20,22 +20,15 @@
 			    </div>
 		    </router-link>
 	    </dd>
-	    <!-- <dd>
-		    <a class="react">
-			    <div class="more-weak">
-		        <i class="modify-pwd"></i>修改密码
-			    </div>
-		    </a>
-	    </dd> -->
 	    <dd>
-		    <a class="react">
+		    <a class="react" @click="onAdvise">
 			    <div class="more-weak">
 		        <i class="complain-icon"></i>投诉 / 建议
 			    </div>
 		    </a>
 	    </dd>
 	    <dd>
-		    <a class="react">
+		    <a class="react" @click="onLogout">
 			    <div class="more-weak">
 		        <i class="exit-icon"></i>退出登录
 			    </div>
@@ -48,11 +41,21 @@
 
 <script>
 import footerNav from '@/views/components/FooterNav/index'
+import { Toast } from 'vant'
 
 export default {
 	name: "me",
 	components: {
 		footerNav
+	},
+	methods: {
+		onAdvise() {
+			Toast.fail('暂未开放')
+		},
+		onLogout() {
+			this.$store.dispatch('user/logout')
+			this.$router.push(`/login`)
+		}
 	}
 }
 </script>
