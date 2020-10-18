@@ -18,7 +18,9 @@ const state = {
   // 用户部门
   deptName: "",
   // 用户手机
-  userPhone: ""
+  userPhone: "",
+  // 用户头像
+  headImg: ""
 }
 
 const mutations = {
@@ -42,6 +44,9 @@ const mutations = {
   },
   SET_USERPHONE: (state, userPhone) => {
     state.userPhone = userPhone
+  },
+  SET_HEADIMG: (state, img) => {
+    state.headImg = img
   }
 }
 
@@ -93,7 +98,6 @@ const actions = {
 
       resolve()
     })
-
   }
 }
 

@@ -96,4 +96,12 @@ export function getAddress(data) {
 }
 
 
+// 获取openid
+export function getOpenId(data) {
+  return request({
+    url: '/manager/app/getOpenid',
+    method: 'post',
+    data
+  })
+}
 
