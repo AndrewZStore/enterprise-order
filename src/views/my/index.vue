@@ -21,6 +21,13 @@
 		    </router-link>
 	    </dd>
 	    <dd>
+		    <router-link :to="{ name: 'password' }" class="react">
+			    <div class="more-weak">
+		        <i class="modify-pwd"></i>修改密码
+			    </div>
+		    </router-link>
+	    </dd>
+	    <dd>
 		    <a class="react" @click="onAdvise">
 			    <div class="more-weak">
 		        <i class="complain-icon"></i>投诉 / 建议
