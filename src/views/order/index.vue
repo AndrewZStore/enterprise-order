@@ -208,6 +208,7 @@ export default {
 					userId: this.$store.getters.userId,
 					address: this.addressNow,
 					openid: '',
+					selectDate: this.$store.getters.orderDate,
 					totalPrice: this.totalPrice,
 					productJSON: this.$store.getters.shoppingCart
 				}

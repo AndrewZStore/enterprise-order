@@ -34,7 +34,7 @@
 				  	<template #title>
 				  		<span class="tab-title-ch">午餐</span>
 				  		<br>
-				  		<span class="tab-title-en">Breakfact</span>
+				  		<span class="tab-title-en">Lunch</span>
 				  	</template>
 				  </van-tab>
 				  <van-tab name="D">
@@ -195,7 +195,6 @@ export default {
 		},
 		// 切换选项卡 
 		onChangeTab(name) {
-			console.log(name)
 			this.eatType = name
 			this.fetchData()
 		},

@@ -39,8 +39,8 @@
 				        </div>
 				    </div>
 				    <div class="clearfix">
-				    	<div class="orderTime">下单时间：<span>2020-08-01</span></div>
-				    	<div class="settlement">共2件商品，实付<i>￥40.00</i></div>
+				    	<div class="orderTime">下单时间：<span>{{ item.createDate }}</span></div>
+				    	<div class="settlement">共{{ item.productNum }}件商品，实付<i>￥{{ item.productPrice }}</i></div>
 				    </div>
 				    <span class="lookMore" @click="checkDetail(item)">查看详情</span>
 		    	</div>
@@ -63,18 +63,6 @@
 					                  <span class="unitCost">{{item.productPrice}}</span>
 					                </dt>
 		                      <dt class="item">x {{item.productNum}}</dt>
-					            </dl>
-					        </div>
-					    </div>
-					    <div class="order">
-					        <div class="left"><div class="img-ctn"><img class="deal-avatar" src=""></div></div>
-					        <div class="right">
-					            <dl>
-					                <dt class="title">
-					                  <div>新辣道鱼火锅2人餐</div>
-					                  <span class="unitCost">20.50</span>
-					                </dt>
-		                      <dt class="item">x 1</dt>
 					            </dl>
 					        </div>
 					    </div>

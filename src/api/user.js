@@ -95,6 +95,14 @@ export function getAddress(data) {
   })
 }
 
+// 修改密码
+export function modifyPwd(data) {
+  return request({
+    url: '/manager/app/resetPassword',
+    method: 'post',
+    data
+  })
+}
 
 // 获取openid
 export function getOpenId(data) {

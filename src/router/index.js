@@ -49,6 +49,14 @@ export const constantRoutes = [
       meta: { requireAuth: true },
       component: () => import('@/views/orderList/index')
     },
+    
+    {
+      path: '/password',
+      name: 'password',
+      meta: { requireAuth: true },
+      component: () => import('@/views/password/index')
+    },
+
     {
       path: '/order-detail',
       name: 'orderDetail',

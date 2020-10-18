@@ -28,7 +28,6 @@ export default {
 	},
 	created() {
 		this.active = this.activePage
-		console.log('herhe')
 	},
 	methods: {
 		onChange() {
