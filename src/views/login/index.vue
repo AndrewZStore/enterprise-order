@@ -24,13 +24,16 @@
         <van-divider />
         <van-field
           v-model="loginForm.password"
-          type="password"
+          :type="showPassword ? 'text' : 'password'"
           :border="false"
           placeholder="请输入密码"
           :rules="[{ required: true }]"
         >
           <template #left-icon>
             <svg-icon icon-class="password" />
+          </template>
+          <template slot="right-icon">
+            <svg-icon :icon-class="showPassword ? 'eye-open' : 'eye'" @click="switchShowPassword" />
           </template>
         </van-field>
         <van-divider />
@@ -45,7 +48,7 @@
 </template>
 
 <script>
-import { login } from '@/api/user'
+import { login, getOpenId } from '@/api/user'
 
 export default {
   name: 'Login',
@@ -53,12 +56,17 @@ export default {
     return {
       loginForm: {
         username: '',
-        password: ''
+        password: '',
+        openId: ''
       },
       loading: false,
-      redirect: undefined
+      redirect: undefined,
+      showPassword: false
     }
   },
+  created() {
+    this.getCode()
+  }, 
   watch: {
     $route: {
       handler: function(route) {
@@ -77,6 +85,36 @@ export default {
         console.log(err)
         this.loading = false
       })
+    },
+    getCode() { // 非静默授权，第一次有弹框
+      var local = window.location.href.split('#/')[0] // 获取页面url
+      var appid = 'wx58871940ee66494f' 
+      var code = this.getUrlCode().code // 截取code
+      if (code == null || code === '') { // 如果没有code，则去请求
+        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${encodeURIComponent(local)}&response_type=code&scope=snsapi_base&state=123#wechat_redirect`
+      } else {
+        getOpenId({ code: code }).then(resp => {
+          data = resp.userDTO
+          this.loginForm.openId = data.openId
+          this.$store.commit('SET_HEADIMG', data.img)
+        })
+      }
+    },
+    getUrlCode() { // 截取url中的code方法
+        var url = location.search
+        this.winUrl = url
+        var theRequest = new Object()
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1)
+            var strs = str.split("&")
+            for(var i = 0; i < strs.length; i ++) {
+                theRequest[strs[i].split("=")[0]]=(strs[i].split("=")[1])
+            }
+        }
+        return theRequest
+    },
+    switchShowPassword() {
+      this.showPassword = !this.showPassword
     }
   }
 }

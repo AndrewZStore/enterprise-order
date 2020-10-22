@@ -13,7 +13,7 @@ const service = axios.create({
   headers: {
     'Content-Type': "application/json;charset=utf-8"
   }
-});
+})
 
 
 service.interceptors.request.use(

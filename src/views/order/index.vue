@@ -161,6 +161,17 @@ export default {
 			this.totalPrice += e.price * e.num
 		})
 
+		if (this.addrs.length == 0) {
+			const params = { orgId: this.$store.getters.orgId }
+			getAddress(params).then(resp => {
+				this.addrs = resp.addressList
+				if (this.addrs.length == 1) {
+					this.addressNow = this.addrs[0].address
+					this.addressSeclect = this.addrs[0].address
+				}
+			})
+		}
+
 		const eatType = this.$store.getters.currentEatType
 		if (eatType == 'A') {
 			this.eatTypeCn = '早餐'
@@ -179,12 +190,6 @@ export default {
 		},
 		// 地址选择
 		addrSelect() {
-			if (this.addrs.length == 0) {
-				const params = { orgId: '100052155' }
-				getAddress(params).then(resp => {
-					this.addrs = resp.addressList
-				})
-			}
 			this.addrSelectVisible = true
 		},
 		// 提交订单
