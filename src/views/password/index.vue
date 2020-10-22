@@ -91,5 +91,7 @@
     line-height: 60px;
     margin-top: 25px;
     width: 150px;
+    background: #434343;
+    border: 0;
 	}
 </style>

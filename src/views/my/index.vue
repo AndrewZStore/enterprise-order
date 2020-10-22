@@ -35,6 +35,13 @@
 		    </a>
 	    </dd>
 	    <dd>
+		    <a class="react" @click="onPhone">
+			    <div class="more-weak">
+		        <i class="phone-icon"></i>联系客服
+			    </div>
+		    </a>
+	    </dd>
+	    <dd>
 		    <a class="react" @click="onLogout">
 			    <div class="more-weak">
 		        <i class="exit-icon"></i>退出登录
@@ -48,7 +55,7 @@
 
 <script>
 import footerNav from '@/views/components/FooterNav/index'
-import { Toast } from 'vant'
+import { Toast, Dialog } from 'vant'
 
 export default {
 	name: "me",
@@ -58,6 +65,14 @@ export default {
 	methods: {
 		onAdvise() {
 			Toast.fail('暂未开放')
+		},
+		onPhone() {
+			Dialog.alert({
+			  title: '客服热线',
+			  message: '客服电话1：16628532627\n客服电话2：18501798775',
+			}).then(() => {
+			  // on close
+			});
 		},
 		onLogout() {
 			this.$store.dispatch('user/logout')
@@ -214,6 +229,34 @@ export default {
 	.exit-icon {
 		background: url(../../assets/icon-exit.png) no-repeat center;
 		background-size: 50px;
+	}
+	.phone-icon {
+		background: url(../../assets/phone.png) no-repeat center;
+		background-size: 48px;
+	}
+	.van-dialog {
+		top: 40%;
+		width: 70%;
+		-webkit-transform: translate(-50%);
+    transform: translate(-50%);
+	}
+	.van-dialog__header {
+    padding-top: 2rem;
+    font-weight: 500;
+    line-height: 4rem;
+    text-align: center;
+    font-size: 40px;
+	}
+	.van-dialog__message--has-title {
+    padding-top: 0.5rem;
+    color: #646566;
+    font-size: 32px;
+    line-height: 50px;
+	}
+	.van-dialog__confirm {
+		font-size: 30px;
+		line-height: 60px;
+		height: 60px;
 	}
 </style>
 
