@@ -260,4 +260,8 @@ export default {
 		margin-bottom: 15px;
 		float: right;
 	}
+
+	.tab-content {
+		margin-bottom: 20px;
+	}
 </style>

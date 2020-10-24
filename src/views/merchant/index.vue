@@ -136,8 +136,8 @@ export default {
 			shopName: "",
 			// 获取菜单查询
 			queryInfo: {
-				shopId: this.$route.params.shopId,
-				eatType: this.$route.params.eatType,
+				shopId: this.$route.query.shopId,
+				eatType: this.$route.query.eatType,
 				orgId: this.$store.getters.orgId
 			},
 			// 当前选项卡名称
@@ -278,7 +278,7 @@ export default {
 	},
 	computed: {
 		// 左边菜单当前索引
-    	currentIndex() {
+    currentIndex() {
 			const { scrollY, rightTops } = this
 			let index = rightTops.findIndex((height, index) => {
 				return scrollY >= rightTops[index] && scrollY < rightTops[index + 1]
@@ -335,9 +335,9 @@ export default {
 	created() {
 		// 添加到缓存视图
 		this.$store.dispatch('cacheViews/addCachedView', this.$route)
-		this.$store.dispatch('order/updateShopId', this.$route.params.shopId)
+		this.$store.dispatch('order/updateShopId', this.$route.query.shopId)
 
-		this.shopName = this.$route.params.shopName
+		this.shopName = this.$route.query.shopName
 		this.$nextTick(() => {
 		  this._calculateHeight()
 		})
@@ -584,5 +584,20 @@ export default {
 	    text-align: center;
 	    padding: 80px;
 	    color: #808080;
+	}
+	.van-stepper__minus::after, .van-stepper__minus::before {
+		background: #1989fa;
+	}
+	.van-stepper__plus::after, .van-stepper__plus::before {
+		background: #fff;
+	}
+	.van-stepper__minus::before, .van-stepper__plus::before {
+		height: 5px;
+	}
+	.van-stepper__minus::after, .van-stepper__plus::after {
+		width: 5px;
+	}
+	.van-button__icon {
+	    font-size: 2.4em;
 	}
 </style>

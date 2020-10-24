@@ -16,9 +16,9 @@ export const constantRoutes = [
     },
 
     {
-      path: '/merchant/:shopId',
+      path: '/merchant',
       name: 'merchant',
-      meta: { requireAuth: true },
+      meta: { requireAuth: true, noCache: true },
       component: () => import('@/views/merchant/index')
     },
 

@@ -59,7 +59,7 @@
 		<!-- 店铺列表 -->
 		<van-list class='shopList'>
 		  <van-cell v-for='item in dataList'>
-		  	<router-link :to="{ name: 'merchant', params: { shopName: item.shopName, shopId: item.shopId, eatType: eatType }}">
+		  	<router-link :to="{ name: 'merchant', query: { shopName: item.shopName, shopId: item.shopId, eatType: eatType }}">
 					<div class="dealcard">
 						<div class="dealcard-img imgbox">
 							<van-image fit="fill" width="100%" height="100%" :src="item.shopImg">
