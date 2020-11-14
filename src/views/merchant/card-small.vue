@@ -16,10 +16,15 @@
 				    </div>
 				</van-col>
 				<van-col :span="16">
-				  	<div class="stepper">
-				  		<van-button v-if="item.num == 0" @click="addNum(item)" round icon="plus" type="info" size="30"></van-button>
-				  		<van-stepper v-else min="0" v-model="item.num" theme="round" button-size="30" input-width="25" disable-input />
-				  	</div>
+					<div class="stepper">
+			  		<van-button v-if="item.num != 0" @click="subNum(item)"  type="info">
+							<svg-icon icon-class="minus2" />
+			  		</van-button>
+			  		<span v-if="item.num != 0" class="value">{{ item.num }}</span>
+			  		<van-button @click="addNum(item)"  type="info">
+							<svg-icon icon-class="plus2" />
+			  		</van-button>
+			  	</div>
 				</van-col>
 			  </van-row>
 			</van-col>
@@ -39,6 +44,9 @@
 			addNum(item) {
 				item.num += 1
 			},
+			subNum(item) {
+				item.num -= 1
+			}
 		}
 	}
 </script>
@@ -69,7 +77,7 @@
 
 	.card-small .stepper {
 		text-align: right;
-		padding-top: 32px;
+		padding-top: 45px;
 	}
 
 	.card-small button.van-button.van-button--info.van-button--30.van-button--round {
@@ -77,17 +85,8 @@
 	    height: 60px;
 	}
 
-	.card-small .van-stepper--round .van-stepper__plus {
-	    color: #fff;
-	    background-color: #1989fa;
-	}
-
-	.card-small .van-stepper--round .van-stepper__minus {
-		color: #1989fa;
-		border-color: #1989fa;
-	}
-
-	.card-small input.van-stepper__input {
-    	font-size: 30px;
+	.card-small .stepper .value {
+		font-size: 30px;
+		padding: 10px;
 	}
 </style>
