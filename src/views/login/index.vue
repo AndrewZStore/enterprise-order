@@ -86,20 +86,20 @@ export default {
         this.loading = false
       })
     },
-    getCode() { // 非静默授权，第一次有弹框
-      var local = window.location.href.split('#/')[0] // 获取页面url
-      var appid = 'wx58871940ee66494f' 
-      var code = this.getUrlCode().code // 截取code
-      if (code == null || code === '') { // 如果没有code，则去请求
-        window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${encodeURIComponent(local)}&response_type=code&scope=snsapi_base&state=123#wechat_redirect`
-      } else {
-        getOpenId({ code: code }).then(resp => {
-          data = resp.userDTO
-          this.loginForm.openId = data.openId
-          this.$store.commit('SET_HEADIMG', data.img)
-        })
-      }
-    },
+    // getCode() { // 非静默授权，第一次有弹框
+    //   var local = window.location.href.split('#/')[0] // 获取页面url
+    //   var appid = 'wx58871940ee66494f' 
+    //   var code = this.getUrlCode().code // 截取code
+    //   if (code == null || code === '') { // 如果没有code，则去请求
+    //     window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${encodeURIComponent(local)}&response_type=code&scope=snsapi_base&state=123#wechat_redirect`
+    //   } else {
+    //     getOpenId({ code: code }).then(resp => {
+    //       data = resp.userDTO
+    //       this.loginForm.openId = data.openId
+    //       this.$store.commit('SET_HEADIMG', data.img)
+    //     })
+    //   }
+    // },
     getUrlCode() { // 截取url中的code方法
         var url = location.search
         this.winUrl = url

@@ -113,3 +113,22 @@ export function getOpenId(data) {
   })
 }
 
+// 投诉建议
+export function submitComplain(data) {
+  return request({
+    url: '/manager/app/addComment',
+    method: 'post',
+    data
+  })
+}
+
+// 投诉类型
+// 投诉建议
+export function ComplainType(data) {
+  return request({
+    url: '/manager/app/queryCommentType',
+    method: 'post',
+    data
+  })
+}
+

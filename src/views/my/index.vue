@@ -28,11 +28,11 @@
 		    </router-link>
 	    </dd>
 	    <dd>
-		    <a class="react" @click="onAdvise">
+		    <router-link :to="{ name: 'complain' }" class="react">
 			    <div class="more-weak">
 		        <i class="complain-icon"></i>投诉 / 建议
 			    </div>
-		    </a>
+		    </router-link>
 	    </dd>
 	    <dd>
 		    <a class="react" @click="onPhone">
@@ -50,6 +50,12 @@
 	    </dd>
 		</dl>
 		<footerNav :activePage="'me'" />
+
+		<!-- 拨打电话 -->
+		<van-dialog v-model="show" title="客服热线">
+		  <p>客服电话1： <a :href="'tel:' + 16628532627">16628532627</a></p>
+		  <p>客服电话2： <a :href="'tel:' + 18501798775">18501798775</a></p>
+		</van-dialog>
 	</div>
 </template>
 
@@ -62,17 +68,14 @@ export default {
 	components: {
 		footerNav
 	},
+	data() {
+		return {
+			show: false
+		}
+	},
 	methods: {
-		onAdvise() {
-			Toast.fail('暂未开放')
-		},
 		onPhone() {
-			Dialog.alert({
-			  title: '客服热线',
-			  message: '客服电话1：16628532627\n客服电话2：18501798775',
-			}).then(() => {
-			  // on close
-			});
+			this.show = true
 		},
 		onLogout() {
 			this.$store.dispatch('user/logout')
@@ -247,16 +250,20 @@ export default {
     text-align: center;
     font-size: 40px;
 	}
-	.van-dialog__message--has-title {
-    padding-top: 0.5rem;
-    color: #646566;
-    font-size: 32px;
-    line-height: 50px;
-	}
-	.van-dialog__confirm {
+	.van-dialog__content {
 		font-size: 30px;
-		line-height: 60px;
-		height: 60px;
+		padding: 0 40px 20px;
+	}
+	.van-dialog__content p {
+		margin: 10px 0;
+	}
+	.van-dialog__content p a {
+		color: #4994df;
+	}
+	.van-dialog__footer button {
+		font-size: 30px;
+		line-height: 80px;
+		height: 80px;
 	}
 </style>
 
