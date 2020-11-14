@@ -37,6 +37,14 @@ export const constantRoutes = [
     },
 
     {
+      path: '/complain',
+      name: 'complain',
+      meta: { requireAuth: true },
+      component: () => import('@/views/complain/complain')
+    },
+
+
+    {
       path: '/order-submit',
       name: 'orderSubmit',
       meta: { requireAuth: true },

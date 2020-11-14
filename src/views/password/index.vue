@@ -52,10 +52,12 @@
 </script>
 
 <style>
-.pwdBg {
-	background: #f5f5f5;
-	min-height: 100vh;
-}
+	.pwdBg {
+		background: #f5f5f5;
+		min-height: 100vh;
+		box-sizing: border-box;
+		padding: 0 10px;
+	}
 	.pwd-bar {
   	padding-top: 20px;
   	padding-bottom: 20px;
@@ -73,6 +75,10 @@
 	}
 	.pwd-bar .nav-title {
 		font-size: 36px;
+	}
+	.modifyCont {
+		box-sizing: border-box;
+		padding: 0 10px;
 	}
 	.modifyCont .van-field__label {
 		width: 180px;
