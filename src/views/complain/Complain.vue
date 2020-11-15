@@ -26,6 +26,7 @@
 			  :value="value"
 			  label="投诉"
 			  placeholder="请选择类型"
+			  :rules="[{ required: true }]"
 			  @click="showPicker = true"
 			/>
 			<van-popup v-model="showPicker" position="bottom">
@@ -43,6 +44,7 @@
 			  autosize
 			  type="textarea"
 			  maxlength="50"
+			  :rules="[{ required: true }]"
 			  placeholder="请输入内容"
 			  show-word-limit
 			/>
@@ -86,7 +88,7 @@
 				})
 				this.showPicker = false;
 
-/*
+				/*
 	      this.value = values
         .filter((item) => !!item)
         .map((item) => item.name)
@@ -106,6 +108,11 @@
 			submit() {
 				submitComplain({ userId: this.$store.getters.userId, sysId: this.$store.getters.sysId, commentType: this.complain, commentInfo: this.advice }).then(resp => {
 					console.log(resp)
+					Toast.success('提交成功');
+					this.goback()
+				}).catch(err => {
+					console.log(err)
+					Toast.fail('提交失败，请重新提交')
 				})
 			}
 		}
@@ -159,4 +166,13 @@
     background: #434343;
     border: 0;
 	}
+.van-toast {
+	width: 220px;
+	min-height: 200px;
+	font-size: 30px;
+}
+
+.van-toast__icon {
+  font-size: 60px;
+}
 </style>

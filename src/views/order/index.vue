@@ -207,32 +207,36 @@ export default {
 					orgId: this.$store.getters.orgId,
 					userId: this.$store.getters.userId,
 					address: this.addressNow,
-					openid: '',
+					openid: this.$store.getters.openid,
 					selectDate: this.$store.getters.orderDate,
 					totalPrice: this.totalPrice,
 					productJSON: this.$store.getters.shoppingCart
 				}
 				submitOrder(params).then(resp => {
-					const toast = Toast.loading({
-					  duration: 0, // 持续展示 toast
-					  forbidClick: true,
-					  message: '提交成功',
-					});
+					if (resp.flag == '0000') {
+						const toast = Toast.loading({
+						  duration: 0, // 持续展示 toast
+						  forbidClick: true,
+						  message: resp.msg
+						})
 
-					let second = 3;
-					const timer = setInterval(() => {
-					  if (second) {
-					    toast.message = `返回首页 ${second} 秒`
-					  } else {
-					    clearInterval(timer)
-					    // 手动清除 Toast
-					    Toast.clear()
-					    this.$router.push({name: 'home'})
-					  }
-					  second--
-					}, 1000)
+						let second = 3;
+						const timer = setInterval(() => {
+						  if (second) {
+						    toast.message = `返回首页 ${second} 秒`
+						  } else {
+						    clearInterval(timer)
+						    // 手动清除 Toast
+						    Toast.clear()
+						    this.$router.push({name: 'home'})
+						  }
+						  second--
+						}, 1000)
+					} else {
+						Toast.fail(resp.msg || "提交失败")
+					}
 				}).catch(err => {
-					Notify('提交失败，请重新提交')
+					Toast.fail('提交失败，请重新提交')
 				})
 			}
 		},

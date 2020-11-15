@@ -1,5 +1,6 @@
 const getters = {
   token: state => state.user.token,
+  openid: state => state.user.openid,
   orgId: state => state.user.orgId,
   sysId: state => state.user.sysId,
   userId: state => state.user.userId,

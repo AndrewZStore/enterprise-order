@@ -20,7 +20,9 @@ const state = {
   // 用户手机
   userPhone: "",
   // 用户头像
-  headImg: ""
+  headImg: "",
+  // 用户微信openid
+  openid: ""
 }
 
 const mutations = {
@@ -47,6 +49,9 @@ const mutations = {
   },
   SET_HEADIMG: (state, img) => {
     state.headImg = img
+  },
+  SET_OPENID: (state, openid) => {
+    state.openid = openid
   }
 }
 
