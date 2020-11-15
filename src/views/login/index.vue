@@ -95,7 +95,7 @@ export default {
       if (code == null || code === '') { // 如果没有code，则去请求
         window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${encodeURIComponent(local)}&response_type=code&scope=snsapi_base&state=123#wechat_redirect`
       } else {
-        getOpenId({ code: code }).then(resp => {
+        getOpenId({ code: code, sysId: 109 }).then(resp => {
           data = resp.userDTO
           this.loginForm.openId = data.openId
           this.$store.commit('user/SET_OPENID', data.openId)
