@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getToken } from '@/utils/auth'
 import { Notify } from 'vant'
-
+import { encrypt, decrypt } from '@/utils/encrypt'
 
 /**
  * 创建 axios 实例
@@ -22,6 +22,13 @@ service.interceptors.request.use(
     if (token) {
       config.headers['Authorization'] = token
     }
+    if (config.data) {
+      config.data = encrypt(JSON.stringify(config.data))
+      console.log(config.data)
+    } else if (config.params) {
+      var rs = encrypt(config.params)
+      config.params = { param: rs.encoded }
+    }
     return config
   },
   (err) => {
@@ -34,7 +41,9 @@ service.interceptors.response.use(
   response => {
     if (response.status === 200) {
       const res = response.data
-      return res
+      const resp = JSON.parse(decrypt(res))
+      console.log(resp)
+      return resp
     } else {
       return Promise.reject(response)
     }

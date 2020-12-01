@@ -6,7 +6,9 @@
 			<div class="my-account">
         <van-image class="avater" :src="require('@/assets/head.png')" />
         <div class="user-info more">
-          <p class="uname">{{ $store.getters.userName }}<i class="department">{{ $store.getters.deptName }}</i></p>
+          <p class="uname">{{ $store.getters.userName }}
+          <i class="department" v-if="$store.getters.deptName">{{ $store.getters.deptName }}</i>
+          </p>
           <p class="unum">{{ $store.getters.userPhone }}</p>
       	</div>
 			</div>

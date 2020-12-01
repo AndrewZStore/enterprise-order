@@ -132,3 +132,11 @@ export function ComplainType(data) {
   })
 }
 
+// 取消订单
+export function cancelOrderApi(data) {
+  return request({
+    url: '/manager/app/cancelOrder',
+    method: 'post',
+    data
+  })
+}

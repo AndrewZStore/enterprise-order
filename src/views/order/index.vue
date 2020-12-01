@@ -195,7 +195,6 @@ export default {
 		// 提交订单
 		onSubmit() {
 			if (this.addressNow == '地址选择') {
-				// Notify('请选择送货地址')
 				Toast.fail({
 					message: '请选择送货地址',
 					duration: 3000

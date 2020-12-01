@@ -7,7 +7,6 @@
 		  @click-left="goback"
 		  @click-right="exportExcel"
 		/>
-
 		<van-tabs v-model="activeName" @click="changeActive">
 		  <van-tab title="支付成功" name="succeed">
 			  <div class="tab-title" slot="title">支付成功</div>
@@ -42,7 +41,10 @@
 				    	<div class="orderTime">下单时间：<span>{{ item.createDate }}</span></div>
 				    	<div class="settlement">共{{ item.productNum }}件商品，实付<i>￥{{ item.productPrice }}</i></div>
 				    </div>
-				    <span class="lookMore" @click="checkDetail(item)">查看详情</span>
+				    <div class="order-bottom">
+					    <span class="lookMore" @click="cancelOrder(item)" v-if="item.isShowCancel">取消订单</span>
+					    <span class="lookMore" @click="checkDetail(item)">查看详情</span>
+					  </div>
 		    	</div>
 				</div>
 		  </van-tab>
@@ -55,22 +57,33 @@
 				  			<van-tag plain type="grey">已取消</van-tag>
 				  		</div>
 					    <div class="order">
-					        <div class="left"><div class="img-ctn"><img class="deal-avatar" src=""></div></div>
-					        <div class="right">
-					            <dl>
-					                <dt class="title">
-					                  <div>{{item.productName}}</div>
-					                  <span class="unitCost">{{item.productPrice}}</span>
-					                </dt>
-		                      <dt class="item">x {{item.productNum}}</dt>
-					            </dl>
-					        </div>
+				        <div class="left">
+				        	<div class="img-ctn">
+				        		<van-image class="deal-avatar" lazy-load fit="fill" :src="item.img">
+						        	<template v-slot:loading>
+						            <van-loading type="spinner" size="20" />
+						          </template>
+						          <template v-slot:error>加载失败</template>
+						        </van-image>
+				        	</div>
+				        </div>
+				        <div class="right">
+			            <dl>
+			                <dt class="title">
+			                  <div>{{item.productName}}</div>
+			                  <span class="unitCost">{{item.productPrice}}</span>
+			                </dt>
+                      <dt class="item">x {{item.productNum}}</dt>
+			            </dl>
+				        </div>
 					    </div>
 					    <div class="clearfix">
 					    	<div class="orderTime">下单时间：<span>2020-08-01</span></div>
 					    	<div class="settlement">共2件商品，实付<i>￥40.00</i></div>
 					    </div>
-					    <span class="lookMore">查看详情</span>
+					    <div class="order-bottom">
+					    	<span class="lookMore" @click="checkDetail(item)">查看详情</span>
+					    </div>
 						</div>
 					</div>
 		  </van-tab>
@@ -79,7 +92,8 @@
 </template>
 
 <script>
-import { getOrderList } from '@/api/user'
+import { getOrderList, cancelOrderApi } from '@/api/user'
+import { Dialog, Notify } from 'vant'
 
 export default {
 	data() {
@@ -89,6 +103,7 @@ export default {
 		}
 	},
 	created() {
+		this.$store.dispatch('cacheViews/addCachedView', this.$route)
 		this.getOrder()
 	},
 	methods: {
@@ -119,6 +134,22 @@ export default {
 		// 查询详情
 		checkDetail(item) {
 			this.$router.push({ name: 'orderDetail', params: { orderId: item.orderId } })
+		},
+		// 取消订单
+		cancelOrder(item) {
+			Dialog.confirm({
+			  title: '取消订单',
+			  message: '请确认是否取消该订单'
+			}).then(() => {
+				cancelOrderApi({orderId: item.orderId }).then(resp => {
+					Notify({ type: 'success', message: '取消成功' })
+					this.getOrder()
+				}).catch(() => {
+					Notify({ type: 'danger', message: '取消失败' })
+				})
+		  }).catch(() => {
+		    // on cancel
+		  })
 		}
 	}
 }
@@ -258,10 +289,18 @@ export default {
 		border: 1px solid #4b4b4b;
 		padding: 15px 30px;
 		margin-bottom: 15px;
-		float: right;
 	}
 
-	.tab-content {
+	.order-list-container .order-bottom {
+		float: right;
+		margin-top: 10px;
+	}
+
+	.order-list-container .tab-content {
 		margin-bottom: 20px;
+	}
+
+	.van-dialog__header {
+    padding-bottom: 10px;
 	}
 </style>

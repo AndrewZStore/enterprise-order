@@ -1,7 +1,7 @@
 import { login } from '@/api/user'
 import { Notify } from 'vant'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { encrypt } from '@/utils/encrypt'
+import { encrypt, decrypt } from '@/utils/encrypt'
 import router, { resetRouter } from '@/router'
 
 
@@ -60,16 +60,16 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password, openId } = userInfo
     return new Promise((resolve, reject) => {
-      login({ userName: username.trim(), password: encrypt(password), openId: openId }).then(response => {
-        const { sysId, userName, userId, orgId, token, deptName } = response
-        if (token) {
+      const params = { userName: username.trim(), password: encrypt(password), openId: openId }
+      login(params).then(response => {
+        if (response.token) {
           commit('SET_TOKEN', response.token)
-          commit('SET_ORGID', orgId)
-          commit('SET_SYSID', sysId)
-          commit('SET_USERID', userId)
-          commit('SET_USERNAME', userName)
-          commit('SET_DEPTNAME', deptName)
-          commit('SET_USERPHONE', username)
+          commit('SET_ORGID', response.orgId)
+          commit('SET_SYSID', response.sysId)
+          commit('SET_USERID', response.userId)
+          commit('SET_USERNAME', response.userName)
+          commit('SET_DEPTNAME', response.deptName)
+          commit('SET_USERPHONE', response.phone)
 
           setToken(response.token)
           resolve()
