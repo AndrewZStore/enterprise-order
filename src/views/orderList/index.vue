@@ -41,6 +41,9 @@
 				    	<div class="orderTime">下单时间：<span>{{ item.createDate }}</span></div>
 				    	<div class="settlement">共{{ item.productNum }}件商品，实付<i>￥{{ item.productPrice }}</i></div>
 				    </div>
+				    <div class="clearfix">
+					    <span>送餐时间：{{ item.sendDate }}</span>
+					  </div>
 				    <div class="order-bottom">
 					    <span class="lookMore" @click="cancelOrder(item)" v-if="item.isShowCancel">取消订单</span>
 					    <span class="lookMore" @click="checkDetail(item)">查看详情</span>
@@ -78,8 +81,11 @@
 				        </div>
 					    </div>
 					    <div class="clearfix">
-					    	<div class="orderTime">下单时间：<span>2020-08-01</span></div>
-					    	<div class="settlement">共2件商品，实付<i>￥40.00</i></div>
+					    	<div class="orderTime">下单时间：<span>{{ item.createDate }}</span></div>
+					    	<div class="settlement">共{{ item.productNum }}件商品，实付<i>￥{{ item.productPrice }}</i></div>
+					    </div>
+					    <div class="clearfix">
+					    	<span>送餐时间：{{ item.sendDate }}</span>
 					    </div>
 					    <div class="order-bottom">
 					    	<span class="lookMore" @click="checkDetail(item)">查看详情</span>
